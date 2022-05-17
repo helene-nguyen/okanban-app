@@ -2,6 +2,7 @@
 var app = {
   listIdCount: 0,
   inputCount: 0,
+  cardIdCount: 0,
   // fonction d'initialisation, lancée au chargement de la page
   //^------------------ INIT
   init: function () {
@@ -31,7 +32,7 @@ var app = {
 
     //~show modal card
     const buttonsAddCard = document.querySelectorAll('.addCardButton');
- 
+
     for (let btnAddCard of buttonsAddCard) {
       btnAddCard.addEventListener('click', app.showAddCardModal);
     };
@@ -45,10 +46,6 @@ var app = {
 
     //~valid form card
     document.querySelector('#form-card').addEventListener('submit', app.handleAddCardForm);
-
-    //~action remove card
-    const btnRemoveElement = document.querySelectorAll('.remove-card');
-console.log(btnRemoveElement);
 
   },
   //*SHOW LIST MODAL
@@ -92,8 +89,6 @@ console.log(btnRemoveElement);
     const inputTemplate = document.querySelector('.input-template');
     inputTemplate.setAttribute('value', `${app.inputCount++}`);
 
-    console.log(inputTemplate);
-
     app.hideModals();
   },
   //*SHOW CARD MODAL
@@ -103,7 +98,6 @@ console.log(btnRemoveElement);
 
     const inputCard = document.querySelector('.list-id');
     inputCard.value = listId;
-    console.log(inputCard);
 
     const modalElement = document.getElementById('addCardModal');
     modalElement.classList.add('is-active');
@@ -122,7 +116,6 @@ console.log(btnRemoveElement);
     let formData = new FormData(event.target);
     let cardInfo = formData.get('card');
     let listId = formData.get('list_id');
-    console.log(listId);
 
     app.makeCardInDOM(cardInfo, listId);
 
@@ -139,6 +132,25 @@ console.log(btnRemoveElement);
     goodListElement.lastElementChild.insertAdjacentElement('afterbegin', card);
     const cardInfoValue = goodListElement.lastElementChild.querySelector('.card-info');
     cardInfoValue.textContent = cardInfo;
+
+    const dataCardId = goodListElement.lastElementChild.querySelector('.myCard');
+    dataCardId.setAttribute('data-card-id', `${app.cardIdCount++}`);
+
+    console.log(dataCardId);
+
+    app.buttonRemoveCard();
+
+  },
+
+  //*DO REMOVE CARD
+  buttonRemoveCard() {
+    
+
+  },
+
+  removeCard(event) {
+
+
   }
 };
 
