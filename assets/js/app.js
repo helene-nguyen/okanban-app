@@ -1,6 +1,7 @@
 // on objet qui contient des fonctions
 var app = {
-  listIdCount: 0,
+  listIdCount: 3,
+  inputCount: 3,
   // fonction d'initialisation, lancée au chargement de la page
   //^------------------ INIT
   init: function () {
@@ -25,11 +26,12 @@ var app = {
 
     //~valid form list
     document.querySelector('#form-list').addEventListener('submit', app.handleAddListForm);
+
     //^----------------------------------------------------------------
+
     //~show modal card
     const buttonsAddCard = document.querySelectorAll('.addCardButton');
-    console.log(buttonsAddCard);
-
+ 
     for (let btnAddCard of buttonsAddCard) {
       btnAddCard.addEventListener('click', app.showAddCardModal);
     };
@@ -80,6 +82,14 @@ var app = {
     const listNameElement = document.querySelector('.list-name');
     listNameElement.textContent = name;
 
+    const dataListId = document.querySelector('.maListe');
+    dataListId.setAttribute('data-list-id', `${app.listIdCount++}`);
+
+    const inputTemplate = document.querySelector('.input-template');
+    inputTemplate.setAttribute('value', `${app.inputCount++}`);
+
+    console.log(inputTemplate);
+
     app.hideModals();
   },
   //*SHOW CARD MODAL
@@ -89,6 +99,7 @@ var app = {
 
     const inputCard = document.querySelector('.list-id');
     inputCard.value = listId;
+    console.log(inputCard);
 
     const modalElement = document.getElementById('addCardModal');
     modalElement.classList.add('is-active');
@@ -99,7 +110,7 @@ var app = {
     const modalElement = document.getElementById('addCardModal');
     modalElement.classList.remove('is-active');
   },
-  //todo create card + template todo
+
   //*HANDLE CARD FORM
   handleAddCardForm(event) {
     event.preventDefault();
@@ -110,22 +121,21 @@ var app = {
     console.log(listId);
 
     app.makeCardInDOM(cardInfo, listId);
+
     app.hideModalCard();
   },
   //*MAKE NEW CARD
   makeCardInDOM(cardInfo, listId) {
     const template = document.querySelector('#template-card');
 
-    const panelElement = document.querySelector('.panel-block');
     let clone = document.importNode(template.content, true);
     const card = clone.querySelector('.myCard');
 
-    const goodListElement = document.querySelector(`[data-list-id=${listId}]`);
-    goodListElement.lastElementChild.insertAdjacentElement('afterbegin', card)
-
-    const cardInfoElement = document.querySelector('.card-info');
-    cardInfoElement.textContent = cardInfo;
-
+    const goodListElement = document.querySelector(`[data-list-id="${listId}"]`);
+    goodListElement.lastElementChild.insertAdjacentElement('afterbegin', card);
+    const cardInfoValue = goodListElement.lastElementChild.querySelector('.card-info');
+    cardInfoValue.textContent = cardInfo;
+    
   }
 };
 
