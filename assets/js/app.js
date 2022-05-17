@@ -1,7 +1,7 @@
 // on objet qui contient des fonctions
 var app = {
-  listIdCount: 3,
-  inputCount: 3,
+  listIdCount: 0,
+  inputCount: 0,
   // fonction d'initialisation, lancée au chargement de la page
   //^------------------ INIT
   init: function () {
@@ -45,6 +45,10 @@ var app = {
 
     //~valid form card
     document.querySelector('#form-card').addEventListener('submit', app.handleAddCardForm);
+
+    //~action remove card
+    const btnRemoveElement = document.querySelectorAll('.remove-card');
+console.log(btnRemoveElement);
 
   },
   //*SHOW LIST MODAL
@@ -135,7 +139,6 @@ var app = {
     goodListElement.lastElementChild.insertAdjacentElement('afterbegin', card);
     const cardInfoValue = goodListElement.lastElementChild.querySelector('.card-info');
     cardInfoValue.textContent = cardInfo;
-    
   }
 };
 
