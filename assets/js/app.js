@@ -1,17 +1,21 @@
 // on objet qui contient des fonctions
 var app = {
+  //^------------------ VARIABLES
   listIdCount: 0,
   inputCount: 0,
   cardIdCount: 0,
-  // fonction d'initialisation, lancée au chargement de la page
+
   //^------------------ INIT
   init: function () {
-    console.log('app.init !');
+
     app.addListenerToAction();
   },
 
   //^------------------ METHODS
   //*LISTENER TO ACTION
+  /**
+   * Initialize event of app
+   */
   addListenerToAction() {
     //&--------------- LIST
 
@@ -47,10 +51,14 @@ var app = {
 
     //~valid form card
     document.querySelector('#form-card').addEventListener('submit', app.handleAddCardForm);
-
   },
+  /**
+   * All about list
+   */
   //*SHOW LIST MODAL
   showAddListModal() {
+    document.querySelector(`#addListModal input[name="name"]`).value = '';
+
     const modalElement = document.getElementById('addListModal');
     modalElement.classList.add('is-active');
   },
@@ -73,8 +81,11 @@ var app = {
 
     //~button remove list
     app.buttonRemoveList();
-
   },
+  /**
+   * 
+   * @param {string} name name of list
+   */
   //*MAKE NEW LIST
   makeListInDOM(name) {
     const template = document.querySelector('#template-list');
@@ -111,7 +122,10 @@ var app = {
 
     listToRemove.remove();
   },
-
+  /**
+   * 
+   * All about card
+   */
   //*SHOW CARD MODAL
   showAddCardModal(event) {
     const listElement = event.target.closest('.panel');
@@ -120,16 +134,20 @@ var app = {
     const inputCardListId = document.querySelector('.list-id');
     inputCardListId.value = listId;
 
+    document.querySelector(`#addCardModal input[name="card"]`).value = '';
+
     const modalElement = document.getElementById('addCardModal');
     modalElement.classList.add('is-active');
-
   },
   //*HIDE CARD MODAL
   hideModalCard() {
     const modalElement = document.getElementById('addCardModal');
     modalElement.classList.remove('is-active');
   },
-
+  /**
+   * 
+   * @param {*} event valid form
+   */
   //*HANDLE CARD FORM
   handleAddCardForm(event) {
     event.preventDefault();
@@ -147,10 +165,16 @@ var app = {
 
     app.makeCardInDOM(cardInfo, listId);
 
-    app.buttonEditCard();
+    app.buttonEditCard(cardId);
     app.buttonRemoveCard();
     app.hideModalCard();
+
   },
+  /**
+   * 
+   * @param {string} cardInfo card name
+   * @param {int} listId id of list
+   */
   //*MAKE NEW CARD
   makeCardInDOM(cardInfo, listId) {
     const template = document.querySelector('#template-card');
@@ -158,7 +182,8 @@ var app = {
     let clone = document.importNode(template.content, true);
     const card = clone.querySelector('.myCard');
 
-    const goodListElement = document.querySelector(`[data-list-id="${listId}"]`);
+    const goodListElement = document.querySelector(`[data-list-id="${listId}"]`); //comme un querySelectorAll mais sur l'attribut
+    //Pour trouver les éléments enfants qu'on veut, on peut faire [data-list-id="" .classWeWant]
     goodListElement.lastElementChild.insertAdjacentElement('afterbegin', card);
     const cardInfoValue = goodListElement.lastElementChild.querySelector('.card-info');
     cardInfoValue.textContent = cardInfo;
@@ -175,11 +200,15 @@ var app = {
       buttonRemove.addEventListener('click', app.removeCard);
     }
   },
+
   //*DO REMOVE CARD
   removeCard(event) {
     let cardToRemove = event.target.closest('.myCard');
     cardToRemove.remove()
   },
+  /**
+   * Editing cards
+   */
   //*BUTTON EDIT CARD
   buttonEditCard() {
     const buttonsEditCard = document.querySelectorAll('.edit-card');
@@ -195,28 +224,33 @@ var app = {
     //~valid form card
     document.querySelector('#form-edit-card').addEventListener('submit', app.handleEditCardForm);
 
-    
   },
+  //*SHOW EDIT CARD MODAL
   showEditCardModal() {
     const editModalElement = document.getElementById('editCardModal');
     editModalElement.classList.add('is-active');
   },
+  //*HIDE EDIT CARD MODAL
   hideEditModalCard() {
     const modalElement = document.getElementById('editCardModal');
     modalElement.classList.remove('is-active');
   },
+  //*HANDLE EDIT CARD MODAL
   handleEditCardForm(event) {
     event.preventDefault();
 
     let formData = new FormData(event.target);
     let cardInfo = formData.get('card');
 
-    console.log(cardInfo);
+    console.log(event.path);
+    // const goodCardElement = document.querySelector(`[data-card-id="${cardId}"]`);
+    // goodCardElement.querySelector('.card-info').textContent = "test";
 
+    console.log(cardInfo);
 
     app.hideEditModalCard();
   }
 };
 
-// on accroche un écouteur d'évènement sur le document : quand le chargement est terminé, on lance app.init
+
 document.addEventListener('DOMContentLoaded', app.init);
