@@ -24,12 +24,6 @@
                     </span>
                     &nbsp; Ajouter une liste
                 </button>
-                <button class="button is-danger" id="deleteListButton">
-                    <span class="icon is-small">
-                        <i class="fas fa-minus"></i>
-                    </span>
-                    &nbsp; Supprimer une liste
-                </button>
             </div>
 
             <div class="columns">
@@ -40,7 +34,7 @@
                         <!--! TEMPLATE LIST -->
                         <template id="template-list">
 
-                            <div class="column is-one-quarter panel maListe" data-list-id="3">
+                            <div class="column is-one-third panel maListe" data-list-id="3">
                                 <div class="panel-heading has-background-info">
                                     <div class="columns">
 
@@ -62,11 +56,24 @@
                                         </div>
 
                                         <div class="column is-narrow">
-                                            <a href="#" class="is-pulled-right addCardButton">
-                                                <span class="icon is-small has-text-white">
-                                                    <i class="fas fa-plus"></i>
-                                                </span>
-                                            </a>
+                                            <button class="button is-link addCardButton">
+                                                <a href="#">
+                                                    <span class="icon is-small has-text-white">
+                                                        <i class="fas fa-plus"></i>
+                                                    </span>
+                                                </a>
+                                            </button>
+                                        </div>
+
+                                        <div class="column is-narrow">
+                                            <button class="button is-danger deleteListButton">
+                                                <a href="#" class="is-pulled-right addCardButton">
+                                                    <span class="icon is-small has-text-white">
+                                                        <i class="fas fa-minus"></i>
+                                                    </span>
+                                                </a>
+                                            </button>
+
                                         </div>
                                     </div>
                                 </div>
@@ -85,7 +92,7 @@
                             <div class="box myCard" data-card-id="I">
                                 <div class="columns">
                                     <div class="column card-info">
-                                        
+
                                     </div>
                                     <div class="column is-narrow">
                                         <a href="#">
@@ -105,67 +112,6 @@
 
                         </template>
                         <!--! TEMPLATE CARD -->
-
-
-  <!--                       <div class="column is-one-quarter panel maListe" data-list-id="3">
-                            <div class="panel-heading has-background-info">
-                                <div class="columns">
-
-                                    <div class="column">
-                                        <h2 class="has-text-white list-name">
-                                            Start to add something
-                                        </h2>
-
-                                        <form action="" method="POST" class="is-hidden">
-                                            <input type="hidden" name="list-id" value="3" class="input-template">
-                                            <div class="field has-addons">
-                                                <div class="control">
-                                                    <input type="text" class="input is-small" name="list-name"
-                                                        value="" placeholder="Nom de la liste">
-                                                </div>
-                                                <div class="control">
-                                                    <button class="button is-small is-success">Valider</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                    <div class="column is-narrow">
-                                        <a href="#" class="is-pulled-right addCardButton">
-                                            <span class="icon is-small has-text-white">
-                                                <i class="fas fa-plus"></i>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-block is-block has-background-light"> -->
-                                   <!-- card -->
-                         <!--    <div class="box myCard" data-card-id="I">
-                                <div class="columns">
-                                    <div class="column card-info">
-                                        First card
-                                    </div>
-                                    <div class="column is-narrow">
-                                        <a href="#">
-                                            <span class="icon is-small has-text-primary">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </span>
-                                        </a>
-                                        <a href="#" class="remove-card">
-                                            <span class="icon is-small has-text-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!--/ card -->
-
-                            </div>
-
-                        </div>
-
 
                     </div>
                 </div>

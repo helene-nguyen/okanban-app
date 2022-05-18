@@ -69,6 +69,10 @@ var app = {
 
     const buttonAddCard = document.querySelector('.addCardButton');
     buttonAddCard.addEventListener('click', app.showAddCardModal);
+
+    //~button remove list
+    app.buttonRemoveList();
+
   },
   //*MAKE NEW LIST
   makeListInDOM(name) {
@@ -91,7 +95,23 @@ var app = {
 
     app.hideModals();
   },
+  //*BUTTON REMOVE LIST
+  buttonRemoveList() {
+    const buttonsRemoveList = document.querySelectorAll('.deleteListButton');
+    console.log(buttonsRemoveList);
+    for (const buttonRemove of buttonsRemoveList) {
+      buttonRemove.addEventListener('click', app.removeList);
+      console.log(buttonRemove);
+    }
+  },
+
   //*DO REMOVE LIST
+  removeList(event) {
+    let listToRemove = event.target.closest('.maListe');
+
+    listToRemove.remove();
+  },
+
 
   //*SHOW CARD MODAL
   showAddCardModal(event) {
@@ -159,8 +179,8 @@ var app = {
   },
   //*DO REMOVE CARD
   removeCard(event) {
-    let cardPaths = event.target.closest('.myCard');
-    cardPaths.remove()
+    let cardToRemove = event.target.closest('.myCard');
+    cardToRemove.remove()
   }
 };
 
