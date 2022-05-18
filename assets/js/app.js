@@ -8,8 +8,7 @@ const app = {
 
   //^------------------ INIT
   init: function () {
-    app.fetchListsFromAPI();
-    app.fetchAllCards();
+    
     app.addListenerToAction();
   },
 
@@ -54,6 +53,8 @@ const app = {
     //~valid form card
     document.querySelector('#form-card').addEventListener('submit', app.handleAddCardForm);
 
+    //~fetch all list
+    app.fetchListsFromAPI();
   },
   /**
    * All about list
@@ -174,13 +175,14 @@ const app = {
     app.hideModalCard();
 
   },
+
   /**
    * 
    * @param {string} cardInfo card name
    * @param {int} listId id of list
    */
   //*MAKE NEW CARD
-  makeCardInDOM(cardInfo, listId) {
+  makeCardInDOM(cardInfo, listId, color, cardId) {
     const template = document.querySelector('#template-card');
 
     let clone = document.importNode(template.content, true);
@@ -188,16 +190,22 @@ const app = {
 
     const goodListElement = document.querySelector(`[data-list-id="${listId}"]`); //comme un querySelectorAll mais sur l'attribut
     //Pour trouver les éléments enfants qu'on veut, on peut faire [data-list-id="" .classWeWant]
-    goodListElement.lastElementChild.insertAdjacentElement('afterbegin', card);
-    const cardInfoValue = goodListElement.lastElementChild.querySelector('.card-info');
-    cardInfoValue.textContent = cardInfo;
+    // console.log(goodListElement);
 
+    goodListElement.querySelector('.panel-block').insertAdjacentElement('afterbegin', card);
+    const cardInfoValue = goodListElement.querySelector('.card-info');
+    cardInfoValue.textContent = cardInfo;
+    // console.log(cardInfoValue);
+    
     const dataCardId = document.querySelector('.myCard');
-    dataCardId.setAttribute('data-card-id', `${app.cardIdCount++}`);
+    dataCardId.style.borderTop = `4px solid ${color}`;
+    dataCardId.setAttribute('data-card-id', `${cardId}`);
+
+    // console.log(dataCardId);
   },
 
   //*BUTTON REMOVE CARD
-  buttonRemoveCard() {
+  buttonRemoveCard(event) {
     const buttonsRemoveCard = document.querySelectorAll('.remove-card');
 
     for (const buttonRemove of buttonsRemoveCard) {
@@ -262,14 +270,16 @@ const app = {
       for (const list of lists) {
         app.makeListInDOM(list.title, list.id);
       }
-      
+
       const buttonsAddCard = document.querySelectorAll('.addCardButton');
 
       for (const button of buttonsAddCard) {
         button.addEventListener('click', app.showAddCardModal);
       }
       //~button remove list
-      app.buttonRemoveList();     
+      app.buttonRemoveList();
+
+      app.fetchAllCards();
     }
   },
 
@@ -282,9 +292,12 @@ const app = {
       const cards = await response.json();
 
       for (const card of cards) {
-        app.makeCardInDOM(card.title, card.list_id - 1)
+        app.makeCardInDOM(card.title, (card.list_id - 1), card.color, card.id);
+        // console.log(card);
       }
-}
+
+      app.buttonRemoveCard();
+    }
   }
 };
 
