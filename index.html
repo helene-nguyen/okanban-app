@@ -34,7 +34,7 @@
                         <!--! TEMPLATE LIST -->
                         <template id="template-list">
 
-                            <div class="column is-one-third panel maListe" data-list-id="3">
+                            <div class="column is-one-third panel maListe" data-list-id="">
                                 <div class="panel-heading has-background-info">
                                     <div class="columns">
 
@@ -42,7 +42,7 @@
                                             <h2 class="has-text-white list-name"></h2>
 
                                             <form action="" method="POST" class="is-hidden">
-                                                <input type="hidden" name="list-id" value="3" class="input-template">
+                                                <input type="hidden" name="list-id" value="" class="input-template">
                                                 <div class="field has-addons">
                                                     <div class="control">
                                                         <input type="text" class="input is-small" name="list-name"
@@ -89,7 +89,7 @@
                         <!--! TEMPLATE CARD -->
                         <template id="template-card">
                             <!-- card -->
-                            <div class="box myCard" data-card-id="I">
+                            <div class="box myCard" data-card-id="">
                                 <div class="columns">
                                     <div class="column card-info">
 
@@ -119,6 +119,7 @@
             </div>
         </div>
     </section>
+
 
     <!--~ LIST MODAL -->
     <div class="modal" id="addListModal">
@@ -174,8 +175,8 @@
                         <div class="control">
 
                             <input type="text" class="input" name="card" value="" placeholder="Nom de la carte">
-                            <input type="hidden" class="input list-id" name="list_id" value="test">
-                            <input type="hidden" class="input card-id" name="card_id" value="test">
+                            <input type="hidden" class="input list-id" name="list_id" value="">
+                            <input type="hidden" class="input card-id" name="card_id" value="">
 
                         </div>
                     </div>
@@ -190,8 +191,8 @@
         </div>
     </div>
 
-       <!--~ EDIT CARD MODAL -->
-       <div class="modal" id="editCardModal">
+    <!--~ EDIT CARD MODAL -->
+    <div class="modal" id="editCardModal">
         <div class="modal-background"></div>
         <div class="modal-card">
 
@@ -227,6 +228,7 @@
         </div>
     </div>
 
+    
     <!-- Chargement de mon fichier JS -->
     <script src="./assets/js/app.js"></script>
 </body>

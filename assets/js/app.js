@@ -1,9 +1,10 @@
 // on objet qui contient des fonctions
-var app = {
+const app = {
   //^------------------ VARIABLES
   listIdCount: 0,
   inputCount: 0,
   cardIdCount: 0,
+  base_url: 'http://localhost:4100',
 
   //^------------------ INIT
   init: function () {
@@ -101,9 +102,11 @@ var app = {
 
     const dataListId = document.querySelector('.maListe');
     dataListId.setAttribute('data-list-id', `${app.listIdCount++}`);
+    console.log(dataListId);
 
     const inputTemplate = document.querySelector('.input-template');
     inputTemplate.setAttribute('value', `${app.inputCount++}`);
+    console.log(`Value input = ${inputTemplate.value}`);
 
     app.hideModals();
   },
@@ -227,6 +230,8 @@ var app = {
   },
   //*SHOW EDIT CARD MODAL
   showEditCardModal() {
+    //todo -> get button edit + get data-car-id
+    // document.querySelector(`#addCardModal input[name="card"]`).value = '';
     const editModalElement = document.getElementById('editCardModal');
     editModalElement.classList.add('is-active');
   },
@@ -235,16 +240,16 @@ var app = {
     const modalElement = document.getElementById('editCardModal');
     modalElement.classList.remove('is-active');
   },
-  //*HANDLE EDIT CARD MODAL
+  //*HANDLE EDIT CARD FORM MODAL
   handleEditCardForm(event) {
     event.preventDefault();
 
     let formData = new FormData(event.target);
     let cardInfo = formData.get('card');
 
-    console.log(event.path);
     // const goodCardElement = document.querySelector(`[data-card-id="${cardId}"]`);
     // goodCardElement.querySelector('.card-info').textContent = "test";
+    //todo => 
 
     console.log(cardInfo);
 
