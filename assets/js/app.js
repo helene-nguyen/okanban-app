@@ -91,13 +91,15 @@ var app = {
 
     app.hideModals();
   },
+  //*DO REMOVE LIST
+
   //*SHOW CARD MODAL
   showAddCardModal(event) {
     const listElement = event.target.closest('.panel');
     const listId = listElement.dataset.listId;
 
-    const inputCard = document.querySelector('.list-id');
-    inputCard.value = listId;
+    const inputCardListId = document.querySelector('.list-id');
+    inputCardListId.value = listId;
 
     const modalElement = document.getElementById('addCardModal');
     modalElement.classList.add('is-active');
@@ -113,12 +115,21 @@ var app = {
   handleAddCardForm(event) {
     event.preventDefault();
 
+    const cardInput = document.querySelector('.card-id');
+    cardInput.value = app.cardIdCount;
+    console.log(cardInput);
+
     let formData = new FormData(event.target);
     let cardInfo = formData.get('card');
     let listId = formData.get('list_id');
+    let cardId = formData.get('card_id');
+
+    console.log(`List id = ${listId}`);
+    console.log(`Card id = ${cardId}`);
 
     app.makeCardInDOM(cardInfo, listId);
 
+    app.buttonRemoveCard();
     app.hideModalCard();
   },
   //*MAKE NEW CARD
@@ -133,24 +144,23 @@ var app = {
     const cardInfoValue = goodListElement.lastElementChild.querySelector('.card-info');
     cardInfoValue.textContent = cardInfo;
 
-    const dataCardId = goodListElement.lastElementChild.querySelector('.myCard');
+    const dataCardId = document.querySelector('.myCard');
     dataCardId.setAttribute('data-card-id', `${app.cardIdCount++}`);
-
-    console.log(dataCardId);
-
-    app.buttonRemoveCard();
-
   },
 
-  //*DO REMOVE CARD
+  //*BUTTON REMOVE CARD
   buttonRemoveCard() {
-    
+    const buttonsRemoveCard = document.querySelectorAll('.remove-card');
 
+    for (const buttonRemove of buttonsRemoveCard) {
+      buttonRemove.addEventListener('click', app.removeCard);
+      console.log(buttonRemove);
+    }
   },
-
+  //*DO REMOVE CARD
   removeCard(event) {
-
-
+    let cardPaths = event.target.closest('.myCard');
+    cardPaths.remove()
   }
 };
 
