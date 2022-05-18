@@ -7,13 +7,13 @@ var app = {
   //^------------------ INIT
   init: function () {
     console.log('app.init !');
-
     app.addListenerToAction();
   },
 
   //^------------------ METHODS
   //*LISTENER TO ACTION
   addListenerToAction() {
+    //&--------------- LIST
 
     //~show modal list
     document.getElementById('addListButton').addEventListener('click', app.showAddListModal);
@@ -22,26 +22,27 @@ var app = {
     const buttonsClose = document.querySelectorAll('.close');
 
     for (let btnClose of buttonsClose) {
-      btnClose.addEventListener('click', app.hideModals)
+      btnClose.addEventListener('click', app.hideModals);
     };
 
     //~valid form list
     document.querySelector('#form-list').addEventListener('submit', app.handleAddListForm);
 
-    //^----------------------------------------------------------------
+    //&--------------- CARD
 
     //~show modal card
     const buttonsAddCard = document.querySelectorAll('.addCardButton');
 
     for (let btnAddCard of buttonsAddCard) {
-      btnAddCard.addEventListener('click', app.showAddCardModal);
+      btnAddCard.addEventListener('click', app.showAddCardModal());
     };
 
     //~hide modal card
     const buttonsCloseCard = document.querySelectorAll('.closeCard');
 
     for (let btnClose of buttonsCloseCard) {
-      btnClose.addEventListener('click', app.hideModalCard)
+      btnClose.addEventListener('click', app.hideModalCard);
+      btnClose.addEventListener('click', app.hideEditModalCard);
     };
 
     //~valid form card
@@ -98,10 +99,9 @@ var app = {
   //*BUTTON REMOVE LIST
   buttonRemoveList() {
     const buttonsRemoveList = document.querySelectorAll('.deleteListButton');
-    console.log(buttonsRemoveList);
+
     for (const buttonRemove of buttonsRemoveList) {
       buttonRemove.addEventListener('click', app.removeList);
-      console.log(buttonRemove);
     }
   },
 
@@ -111,7 +111,6 @@ var app = {
 
     listToRemove.remove();
   },
-
 
   //*SHOW CARD MODAL
   showAddCardModal(event) {
@@ -137,7 +136,6 @@ var app = {
 
     const cardInput = document.querySelector('.card-id');
     cardInput.value = app.cardIdCount;
-    console.log(cardInput);
 
     let formData = new FormData(event.target);
     let cardInfo = formData.get('card');
@@ -149,6 +147,7 @@ var app = {
 
     app.makeCardInDOM(cardInfo, listId);
 
+    app.buttonEditCard();
     app.buttonRemoveCard();
     app.hideModalCard();
   },
@@ -174,13 +173,48 @@ var app = {
 
     for (const buttonRemove of buttonsRemoveCard) {
       buttonRemove.addEventListener('click', app.removeCard);
-      console.log(buttonRemove);
     }
   },
   //*DO REMOVE CARD
   removeCard(event) {
     let cardToRemove = event.target.closest('.myCard');
     cardToRemove.remove()
+  },
+  //*BUTTON EDIT CARD
+  buttonEditCard() {
+    const buttonsEditCard = document.querySelectorAll('.edit-card');
+
+    for (const buttonEdit of buttonsEditCard) {
+      buttonEdit.addEventListener('click', app.editCard);
+    }
+  },
+  //*DO EDIT CARD
+  editCard() {
+    app.showEditCardModal();
+
+    //~valid form card
+    document.querySelector('#form-edit-card').addEventListener('submit', app.handleEditCardForm);
+
+    
+  },
+  showEditCardModal() {
+    const editModalElement = document.getElementById('editCardModal');
+    editModalElement.classList.add('is-active');
+  },
+  hideEditModalCard() {
+    const modalElement = document.getElementById('editCardModal');
+    modalElement.classList.remove('is-active');
+  },
+  handleEditCardForm(event) {
+    event.preventDefault();
+
+    let formData = new FormData(event.target);
+    let cardInfo = formData.get('card');
+
+    console.log(cardInfo);
+
+
+    app.hideEditModalCard();
   }
 };
 

@@ -4,6 +4,8 @@ Front App Kanban
 
 Vanilla JS + Bulma libraries
 
+Conception of app over [here](./__docs/application.md).
+
 See the result here :
 
-![Kanban Project](./images/kanban.gif)
+![Kanban Project](./__docs/images/kanban.gif)

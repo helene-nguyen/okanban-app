@@ -95,7 +95,7 @@
 
                                     </div>
                                     <div class="column is-narrow">
-                                        <a href="#">
+                                        <a href="#" class="edit-card">
                                             <span class="icon is-small has-text-primary">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </span>
@@ -154,7 +154,7 @@
         </div>
     </div>
 
-    <!--~ CARD MODAL -->
+    <!--~ ADD CARD MODAL -->
     <div class="modal" id="addCardModal">
         <div class="modal-background"></div>
         <div class="modal-card">
@@ -182,6 +182,42 @@
                 </section>
                 <footer class="modal-card-foot">
                     <button id="save-card" class="button is-success">Save changes</button>
+
+                    <button class="button closeCard" type="button">Cancel</button>
+
+                </footer>
+            </form>
+        </div>
+    </div>
+
+       <!--~ EDIT CARD MODAL -->
+       <div class="modal" id="editCardModal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+
+            <form action="" id="form-edit-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Editer une carte</p>
+
+
+                    <button class="delete closeCard" type="button" aria-label="close"></button>
+
+
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Nom</label>
+                        <div class="control">
+
+                            <input type="text" class="input" name="card" value="" placeholder="Nom de la carte">
+                            <input type="hidden" class="input list-id" name="list_id" value="test">
+                            <input type="hidden" class="input card-id" name="card_id" value="test">
+
+                        </div>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button id="save-edit-card" class="button is-success">Save changes</button>
 
                     <button class="button closeCard" type="button">Cancel</button>
 
