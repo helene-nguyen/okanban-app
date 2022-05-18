@@ -9,10 +9,8 @@ const app = {
   //^------------------ INIT
   init: function () {
     app.fetchListsFromAPI();
-    app.fetchAllCardsByListId();
+    app.fetchAllCards();
     app.addListenerToAction();
-
-
   },
 
   //^------------------ METHODS
@@ -250,10 +248,6 @@ const app = {
     let formData = new FormData(event.target);
     let cardInfo = formData.get('card');
 
-    // const goodCardElement = document.querySelector(`[data-card-id="${cardId}"]`);
-    // goodCardElement.querySelector('.card-info').textContent = "test";
-    //todo => 
-
     console.log(cardInfo);
 
     app.hideEditModalCard();
@@ -280,7 +274,7 @@ const app = {
   },
 
   //*FETCH ALL CARDS BY LIST ID
-  async fetchAllCardsByListId() {
+  async fetchAllCards() {
 
     const response = await fetch((`${app.base_url}/cards`));
 
@@ -288,7 +282,7 @@ const app = {
       const cards = await response.json();
 
       for (const card of cards) {
-        app.makeCardInDOM(card.title, card.list_id)
+        app.makeCardInDOM(card.title, card.list_id - 1)
       }
 }
   }
