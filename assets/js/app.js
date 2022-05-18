@@ -8,8 +8,11 @@ const app = {
 
   //^------------------ INIT
   init: function () {
-
+    app.fetchListsFromAPI();
+    app.fetchAllCardsByListId();
     app.addListenerToAction();
+
+
   },
 
   //^------------------ METHODS
@@ -52,6 +55,7 @@ const app = {
 
     //~valid form card
     document.querySelector('#form-card').addEventListener('submit', app.handleAddCardForm);
+
   },
   /**
    * All about list
@@ -88,7 +92,8 @@ const app = {
    * @param {string} name name of list
    */
   //*MAKE NEW LIST
-  makeListInDOM(name) {
+  makeListInDOM(name, id) {
+
     const template = document.querySelector('#template-list');
 
     const cardLists = document.querySelector('.card-lists');
@@ -102,11 +107,9 @@ const app = {
 
     const dataListId = document.querySelector('.maListe');
     dataListId.setAttribute('data-list-id', `${app.listIdCount++}`);
-    console.log(dataListId);
 
     const inputTemplate = document.querySelector('.input-template');
     inputTemplate.setAttribute('value', `${app.inputCount++}`);
-    console.log(`Value input = ${inputTemplate.value}`);
 
     app.hideModals();
   },
@@ -254,6 +257,40 @@ const app = {
     console.log(cardInfo);
 
     app.hideEditModalCard();
+  },
+  //*FETCH ALL LISTS
+  async fetchListsFromAPI() {
+    const response = await fetch(`${app.base_url}/lists`);
+
+    if (response.ok) {
+      const lists = await response.json();
+
+      for (const list of lists) {
+        app.makeListInDOM(list.title, list.id);
+      }
+      
+      const buttonsAddCard = document.querySelectorAll('.addCardButton');
+
+      for (const button of buttonsAddCard) {
+        button.addEventListener('click', app.showAddCardModal);
+      }
+      //~button remove list
+      app.buttonRemoveList();     
+    }
+  },
+
+  //*FETCH ALL CARDS BY LIST ID
+  async fetchAllCardsByListId() {
+
+    const response = await fetch((`${app.base_url}/cards`));
+
+    if (response.ok) {
+      const cards = await response.json();
+
+      for (const card of cards) {
+        app.makeCardInDOM(card.title, card.list_id)
+      }
+}
   }
 };
 
