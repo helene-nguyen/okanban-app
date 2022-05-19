@@ -10,4 +10,16 @@ body {
 .columns {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.card-info {
+  font-weight: 600;
+  text-align: center;
+}
+
+.card-description {
+  padding: 0.5em;
+  font-size: 0.75em;
+  border: 1px solid rgb(190, 184, 184);
 }
