@@ -8,7 +8,7 @@ const app = {
 
   //^------------------ INIT
   init: function () {
-    
+
     app.addListenerToAction();
   },
 
@@ -183,36 +183,36 @@ const app = {
    */
   //*MAKE NEW CARD
   makeCardInDOM(cardInfo, listId, color, cardId) {
+    //~Cloning template
     const template = document.querySelector('#template-card');
 
     let clone = document.importNode(template.content, true);
     const card = clone.querySelector('.myCard');
 
-    const goodListElement = document.querySelector(`[data-list-id="${listId}"]`); //comme un querySelectorAll mais sur l'attribut
-    //Pour trouver les éléments enfants qu'on veut, on peut faire [data-list-id="" .classWeWant]
-    // console.log(goodListElement);
-
+    //~get data attributes, another way to use is dataset.listId(turns into camelcase)
+    const goodListElement = document.querySelector(`[data-list-id="${listId}"]`);
     goodListElement.querySelector('.panel-block').insertAdjacentElement('afterbegin', card);
     const cardInfoValue = goodListElement.querySelector('.card-info');
     cardInfoValue.textContent = cardInfo;
-    // console.log(cardInfoValue);
-    
+    //~set data cards id
     const dataCardId = document.querySelector('.myCard');
     dataCardId.style.borderTop = `4px solid ${color}`;
     dataCardId.setAttribute('data-card-id', `${cardId}`);
 
-    // console.log(dataCardId);
   },
 
   //*BUTTON REMOVE CARD
-  buttonRemoveCard(event) {
+  buttonRemoveCard() {
     const buttonsRemoveCard = document.querySelectorAll('.remove-card');
 
     for (const buttonRemove of buttonsRemoveCard) {
       buttonRemove.addEventListener('click', app.removeCard);
     }
   },
-
+/**
+ * 
+ * @param {string} event target closest element
+ */
   //*DO REMOVE CARD
   removeCard(event) {
     let cardToRemove = event.target.closest('.myCard');
@@ -293,7 +293,6 @@ const app = {
 
       for (const card of cards) {
         app.makeCardInDOM(card.title, (card.list_id - 1), card.color, card.id);
-        // console.log(card);
       }
 
       app.buttonRemoveCard();
