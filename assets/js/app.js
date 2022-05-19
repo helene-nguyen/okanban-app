@@ -55,14 +55,13 @@ const app = {
 
     //~fetch all list
     app.fetchListsFromAPI();
-
   },
   /**
    * All about list
    */
   //*SHOW LIST MODAL
   showAddListModal() {
-    document.querySelector(`#addListModal input[name="name"]`).value = '';
+    document.querySelector(`#addListModal input[name="list_name"]`).value = '';
 
     const modalElement = document.getElementById('addListModal');
     modalElement.classList.add('is-active');
@@ -76,11 +75,15 @@ const app = {
   handleAddListForm(event) {
     event.preventDefault();
 
-    let formData = new FormData(event.target);
-    formData = formData.get('name');
-    console.log(formData);
+    let data = new FormData(event.target);
+    const listName = data.get('list_name');
+    const listId = data.get('list_id');
+    const listOrder = data.get('list_order');
+    console.log(`List name = ${listName}`);
+    console.log(`List id = ${listId}`);
+    console.log(`List order = ${listOrder}`);
 
-    app.makeListInDOM(formData);
+    app.makeListInDOM(listName);
 
     const buttonAddCard = document.querySelector('.addCardButton');
     buttonAddCard.addEventListener('click', app.showAddCardModal);
@@ -103,7 +106,7 @@ const app = {
     //~append to list board
     const cardLists = document.querySelector('.card-lists');
     cardLists.insertAdjacentElement('afterbegin', list);
-    cardLists.querySelector('.list-name').textContent = name;
+    cardLists.querySelector('.list-title').textContent = name;
     cardLists.querySelector('.input-template').setAttribute('value', `${id}`);
 
     app.hideModals();
@@ -135,7 +138,7 @@ const app = {
     const inputCardListId = document.querySelector('.list-id');
     inputCardListId.value = listId;
 
-    document.querySelector(`#addCardModal input[name="card"]`).value = '';
+    document.querySelector(`#addCardModal input[name="card_name"]`).value = '';
 
     const modalElement = document.getElementById('addCardModal');
     modalElement.classList.add('is-active');
@@ -157,14 +160,14 @@ const app = {
     cardInput.value = app.cardIdCount;
 
     let formData = new FormData(event.target);
-    let cardInfo = formData.get('card');
+    let cardInfo = formData.get('card_name');
     let listId = formData.get('list_id');
     let cardId = formData.get('card_id');
 
     console.log(`List id = ${listId}`);
     console.log(`Card id = ${cardId}`);
 
-    app.makeCardInDOM(cardInfo, listId);
+    app.makeCardInDOM(cardInfo);
 
     app.buttonEditCard(cardId);
     app.buttonRemoveCard();

@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 
-      <!-- Chargement de mon fichier JS -->
-      <script src="./assets/js/app.js" defer type="module"></script>
+    <!-- Chargement de mon fichier JS -->
+    <script src="./assets/js/app.js" defer type="module"></script>
 </head>
 
 <body>
@@ -43,14 +43,19 @@
                                     <div class="columns">
 
                                         <div class="column">
-                                            <h2 class="has-text-white list-name"></h2>
+                                            <h2 class="has-text-white list-title"></h2>
 
                                             <form action="" method="POST" class="is-hidden">
+                                                <!-- TODO CHECK ALL INPUTS -->
                                                 <input type="hidden" name="list-id" value="" class="input-template">
+
                                                 <div class="field has-addons">
                                                     <div class="control">
-                                                        <input type="text" class="input is-small" name="list-name"
+
+                                                        <!-- TODO CHECK ALL INPUTS  -->
+                                                        <input type="text" class="input is-small" name="title-id"
                                                             value="" placeholder="Nom de la liste">
+
                                                     </div>
                                                     <div class="control">
                                                         <button class="button is-small is-success">Valider</button>
@@ -149,7 +154,13 @@
                         <label class="label">Nom</label>
                         <div class="control">
 
-                            <input type="text" class="input" name="name" value="" placeholder="Nom de la liste">
+                            <!-- TODO CHECK ALL INPUTS  -->
+                            <input type="text" class="input list-id" name="list_name" value=""
+                                placeholder="Nom de la liste">
+                            <input type="hidden" class="input list-id" name="list_id" value=""
+                                placeholder="Id de la liste">
+                            <input type="hidden" class="input list-id" name="list_order" value=""
+                                placeholder="Nom de la liste">
 
                         </div>
                     </div>
@@ -183,7 +194,8 @@
                         <label class="label">Nom</label>
                         <div class="control">
 
-                            <input type="text" class="input" name="card" value="" placeholder="Nom de la carte">
+                            <!-- TODO CHECK ALL INPUTS  -->
+                            <input type="text" class="input" name="card_name" value="" placeholder="Nom de la carte">
                             <input type="hidden" class="input list-id" name="list_id" value="">
                             <input type="hidden" class="input card-id" name="card_id" value="">
 
@@ -219,10 +231,10 @@
                         <label class="label">Nom</label>
                         <div class="control">
 
+                            <!-- TODO CHECK ALL INPUTS  -->
                             <input type="text" class="input" name="card" value="" placeholder="Nom de la carte">
-                            <!--^ Permet de faire passer les informations -->
-                            <input type="hidden" class="input list-id" name="list_id" value="test">
-                            <input type="hidden" class="input card-id" name="card_id" value="test">
+                            <input type="hidden" class="input list-id" name="list_id" value="">
+                            <input type="hidden" class="input card-id" name="card_id" value="">
 
                         </div>
                     </div>
@@ -237,8 +249,8 @@
         </div>
     </div>
 
-    
-  
+
+
 </body>
 
 </html>
