@@ -46,13 +46,15 @@
                                             <h2 class="has-text-white list-title"></h2>
 
                                             <form action="" method="POST" class="is-hidden">
-                                                <!-- TODO CHECK ALL INPUTS -->
-                                                <input type="hidden" name="list_id" value="" class="input-template">
+
+                                                <!--~ INPUTS to get user id and order id-->
+                                                <input type="hidden" name="list_user" value="" class="list-user">
+                                                <input type="hidden" name="list_order" value="" class="list-order">
 
                                                 <div class="field has-addons">
                                                     <div class="control">
 
-                                                        <!-- TODO CHECK ALL INPUTS  -->
+                                                        <!--~ INPUTS to fetch name of list -->
                                                         <input type="text" class="input is-small" name="list_name"
                                                             value="" placeholder="Nom de la liste">
 
@@ -100,9 +102,8 @@
                             <!-- card -->
                             <div class="box myCard" data-card-id="">
                                 <div class="columns">
-                                    <div class="column card-info">
-
-                                    </div>
+                                    <!--~ HERE the card name -->
+                                    <div class="column card-info"></div>
 
                                     <div class="column is-narrow">
                                         <a href="#" class="edit-card">
@@ -118,9 +119,8 @@
                                     </div>
                                 </div>
 
-                                <p class="column card-description">
-
-                                </p>
+                                <!--~ HERE the card name -->
+                                <p class="column card-description"></p>
                             </div>
                             <!--/ card -->
 
@@ -151,15 +151,15 @@
                 </header>
                 <section class="modal-card-body">
                     <div class="field">
-                        <label class="label">Nom</label>
+                        <label class="label">Nom de la liste</label>
                         <div class="control">
 
-                            <!-- TODO CHECK ALL INPUTS  -->
-                            <input type="text" class="input list-id" name="list_name" value=""
-                                placeholder="Nom de la liste">
-                            <input type="hidden" class="input list-id" name="list_id" value=""
-                                placeholder="Id de la liste">
-                            <input type="hidden" class="input list-id" name="list_order" value=""
+                            <!--~ INPUTS fetch info to create list-->
+                            <input type="text" class="input list-id" name="list_name" value="" placeholder="Nom de la liste">
+                            <!-- TODO replace correct value of user -->
+                            <input type="number" max="1" min="1" class="input list-id" name="list_user" value="1" placeholder="Id de la liste">
+                            <!-- TODO replace correct value of position -->
+                            <input type="hidden" class="input list-id" name="list_order" value="1"
                                 placeholder="Nom de la liste">
 
                         </div>
@@ -191,15 +191,22 @@
                 </header>
                 <section class="modal-card-body">
                     <div class="field">
-                        <label class="label">Nom</label>
+
                         <div class="control">
 
-                            <!-- TODO CHECK ALL INPUTS  -->
+                            <!--~INPUTS create a card -->
+                            <label class="label">Nom de la carte</label>
                             <input type="text" class="input" name="card_name" value="" placeholder="Nom de la carte">
-                            <input type="text" class="input" name="card_info" value="" placeholder="Description de la carte">
-                            <input type="text" class="input" name="card_color" value="" placeholder="Couleur de la carte (optionnelle)">
-                            <input type="hidden" class="input list-id" name="list_id" value="">
-                            <input type="hidden" class="input card-id" name="card_id" value="">
+
+                            <label class="label">Description</label>
+                            <input type="text" class="input" name="card_info" value=""
+                                placeholder="Description de la carte">
+
+                            <label for="card-color" class="label">Color (option)</label>
+                            <input type="color" id="card-color" class="input card-color" name="card_color"
+                                value="#7FB5FF">
+
+                            <input type="hidden" class="input card-list-id" name="list_id" value="">
 
                         </div>
                     </div>
@@ -235,8 +242,8 @@
 
                             <!-- TODO CHECK ALL INPUTS  -->
                             <input type="text" class="input" name="card" value="" placeholder="Nom de la carte">
-                            <input type="hidden" class="input list-id" name="list_id" value="">
                             <input type="hidden" class="input card-id" name="card_id" value="">
+                            <input type="hidden" class="input list-id" name="list_id" value="">
 
                         </div>
                     </div>

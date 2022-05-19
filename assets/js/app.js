@@ -77,15 +77,14 @@ const app = {
 
     let data = new FormData(event.target);
     const listName = data.get('list_name');
-    const listId = data.get('list_id');
+    const listUser = data.get('list_user');
     const listOrder = data.get('list_order');
     console.log(`List name = ${listName}`);
-    console.log(`List id = ${listId}`);
+    console.log(`List user = ${listUser}`);
     console.log(`List order = ${listOrder}`);
 
     //todo post list
-
-    app.makeListInDOM(listName);
+    app.makeListInDOM(1, listName, listUser, listOrder);
 
     const buttonAddCard = document.querySelector('.addCardButton');
     buttonAddCard.addEventListener('click', app.showAddCardModal);
@@ -95,10 +94,12 @@ const app = {
   },
   /**
    * 
-   * @param {string} name name of list
+   * @param {string} name 
+   * @param {int} user 
+   * @param {int} order 
    */
   //*MAKE NEW LIST
-  makeListInDOM(name, id) {
+  makeListInDOM(id, title, user, order) {
 
     //~clone our list template
     const template = document.querySelector('#template-list');
@@ -108,8 +109,9 @@ const app = {
     //~append to list board
     const cardLists = document.querySelector('.card-lists');
     cardLists.insertAdjacentElement('afterbegin', list);
-    cardLists.querySelector('.list-title').textContent = name;
-    cardLists.querySelector('.input-template').setAttribute('value', `${id}`);
+    cardLists.querySelector('.list-title').textContent = title;
+    cardLists.querySelector('.list-user').setAttribute('value', `${user}`);
+    cardLists.querySelector('.list-order').setAttribute('value', `${order}`);
 
     app.hideModals();
   },
@@ -134,11 +136,11 @@ const app = {
    */
   //*SHOW CARD MODAL
   showAddCardModal(event) {
-    const listElement = event.target.closest('.maListe');
-    const listId = listElement.dataset.listId;
-
-    const inputCardListId = document.querySelector('.list-id');
-    inputCardListId.value = listId;
+    const listId = event.target.closest('.maListe').dataset.listId;
+    //todo get id 
+    console.log(`Liste choisie = ${listId}`);
+    const inputCardListId = document.querySelector('.card-list-id').value = listId;
+    console.log(`Id de la liste dans input carte choisie = ${inputCardListId}`);
 
     document.querySelector(`#addCardModal input[name="card_name"]`).value = '';
 
@@ -159,18 +161,19 @@ const app = {
     event.preventDefault();
 
     let data = new FormData(event.target);
-    let cardInfo = data.get('card_name');
+    let cardTitle = data.get('card_name');
     let cardDescription = data.get('card_info');
     let cardColor = data.get('card_color');
     let listId = data.get('list_id');
-    let cardId = data.get('card_id');
 
-    console.log(`List id = ${listId}`);
-    console.log(`Card id = ${cardId}`);
+    console.log(`Titre de la nouvelle carte = ${cardTitle}`);
+    console.log(`Description = ${cardDescription}`);
+    console.log(`Couleur = ${cardColor}`);
+    console.log(`List id récupérée = ${listId}`);
 
-    app.makeCardInDOM(cardInfo, 1, '#000', 10, cardDescription);
+    app.makeCardInDOM(cardTitle, cardDescription, cardColor, listId);
 
-    app.buttonEditCard(cardId);
+    // app.buttonEditCard();
     app.buttonRemoveCard();
     app.hideModalCard();
 
@@ -178,25 +181,24 @@ const app = {
   /**
    * 
    * @param {string} cardInfo info card
-   * @param {int} listId id of list
+   * @param {string} cardDescription 
    * @param {string} color 
    * @param {int} cardId 
-   * @param {string} cardDescription 
+   * @param {int} listId id of list
    */
   //*MAKE NEW CARD
-  makeCardInDOM(cardInfo, listId, color, cardId, cardDescription) {
+  makeCardInDOM(cardInfo, cardDescription, color, listId ) {
     //~Cloning template
     const template = document.querySelector('#template-card');
 
     let clone = document.importNode(template.content, true);
     const card = clone.querySelector('.myCard');
     //~set data cards id
-    card.setAttribute('data-card-id', `${cardId}`);
-    card.style.borderTop = `4px solid ${color}`;
     card.querySelector('.card-info').textContent = cardInfo;
     card.querySelector('.card-description').textContent = cardDescription;
+    card.style.borderTop = `4px solid ${color}`;
 
-    document.querySelector(`[data-list-id="${listId}"]`).querySelector('.panel-block').append(card)
+    document.querySelector(`[data-list-id="${listId}"]`).querySelector('.panel-block').append(card);
 
   },
 
@@ -267,7 +269,7 @@ const app = {
       const lists = await response.json();
 
       for (const list of lists) {
-        app.makeListInDOM(list.title, list.id);
+        app.makeListInDOM(list.id, list.title, list.user_id, list.order);
       }
 
       const buttonsAddCard = document.querySelectorAll('.addCardButton');
@@ -291,7 +293,7 @@ const app = {
       const cards = await response.json();
 
       for (const card of cards) {
-        app.makeCardInDOM(card.title, card.list_id, card.color, card.id, card.description);
+        app.makeCardInDOM(card.title, card.description, card.color, card.list_id );
       }
 
       app.buttonRemoveCard();

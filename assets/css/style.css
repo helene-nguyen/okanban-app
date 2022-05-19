@@ -23,3 +23,17 @@ body {
   font-size: 0.75em;
   border: 1px solid rgb(190, 184, 184);
 }
+
+.input {
+  width: 20em;
+  margin: 0.75em;
+}
+
+.input.card-color {
+  width: 5em;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+}
