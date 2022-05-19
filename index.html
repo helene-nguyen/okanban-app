@@ -39,7 +39,7 @@
                         <template id="template-list">
 
                             <div class="column is-one-quarter panel maListe" data-list-id="">
-                                <div class="panel-heading has-background-info">
+                                <div class="panel-heading">
                                     <div class="columns">
 
                                         <div class="column">
@@ -144,18 +144,19 @@
                 <header class="modal-card-head">
                     <p class="modal-card-title">Ajouter une liste</p>
 
-
                     <button class="delete close" type="button" aria-label="close"></button>
-
 
                 </header>
                 <section class="modal-card-body">
                     <div class="field">
-                        <label class="label">Nom de la liste</label>
                         <div class="control">
-
+                            
                             <!--~ INPUTS fetch info to create list-->
+                            <label class="label">Nom de la liste</label>
                             <input type="text" class="input list-id" name="list_name" value="" placeholder="Nom de la liste">
+                            <label class="label">Description (option)</label>
+                            <input type="text" class="input list-id" name="list_description" value="" placeholder="Description de la liste">
+                            <label class="label">Ordre</label>
                             <!-- TODO replace correct value of user -->
                             <input type="number" max="1" min="1" class="input list-id" name="list_user" value="1" placeholder="Id de la liste">
                             <!-- TODO replace correct value of position -->
@@ -196,10 +197,10 @@
 
                             <!--~INPUTS create a card -->
                             <label class="label">Nom de la carte</label>
-                            <input type="text" class="input" name="card_name" value="" placeholder="Nom de la carte">
+                            <input type="text" class="input" name="card_title" value="" placeholder="Nom de la carte">
 
                             <label class="label">Description</label>
-                            <input type="text" class="input" name="card_info" value=""
+                            <input type="text" class="input" name="card_description" value=""
                                 placeholder="Description de la carte">
 
                             <label for="card-color" class="label">Color (option)</label>

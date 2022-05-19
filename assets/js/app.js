@@ -1,9 +1,13 @@
-// on objet qui contient des fonctions
+//~import api
+import {
+  url,
+  allLists,
+  allCards
+} from './services/api.okanban.js'
+
+
 const app = {
   //^------------------ VARIABLES
-  listIdCount: 0,
-  inputCount: 0,
-  cardIdCount: 0,
   base_url: 'http://localhost:4100',
 
   //^------------------ INIT
@@ -14,9 +18,6 @@ const app = {
 
   //^------------------ METHODS
   //*LISTENER TO ACTION
-  /**
-   * Initialize event of app
-   */
   addListenerToAction() {
     //&--------------- LIST
 
@@ -62,6 +63,7 @@ const app = {
   //*SHOW LIST MODAL
   showAddListModal() {
     document.querySelector(`#addListModal input[name="list_name"]`).value = '';
+    document.querySelector(`#addListModal input[name="list_description"]`).value = '';
 
     const modalElement = document.getElementById('addListModal');
     modalElement.classList.add('is-active');
@@ -72,19 +74,42 @@ const app = {
     modalElement.classList.remove('is-active');
   },
   //*HANDLE LIST FORM
-  handleAddListForm(event) {
+  async handleAddListForm(event) {
     event.preventDefault();
 
     let data = new FormData(event.target);
     const listName = data.get('list_name');
+    const listDescription = data.get('list_description');
     const listUser = data.get('list_user');
     const listOrder = data.get('list_order');
+    //REMOVE TEST
     console.log(`List name = ${listName}`);
+    console.log(`List description = ${listDescription}`);
     console.log(`List user = ${listUser}`);
     console.log(`List order = ${listOrder}`);
 
+    console.log(data.values());
     //todo post list
-    app.makeListInDOM(1, listName, listUser, listOrder);
+
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ 
+        "title": listName, 
+        "order": listOrder, 
+        "description" : listDescription , 
+        "user_id": listUser 
+    })
+    };
+
+    const response = await fetch(`${url}${allLists}`, options);
+
+    if (response.ok) {
+      const list = await response.json();
+      console.log(list);
+      alert(list)
+      app.makeListInDOM(listName, listDescription, listUser, listOrder);
+    }
 
     const buttonAddCard = document.querySelector('.addCardButton');
     buttonAddCard.addEventListener('click', app.showAddCardModal);
@@ -99,13 +124,15 @@ const app = {
    * @param {int} order 
    */
   //*MAKE NEW LIST
-  makeListInDOM(id, title, user, order) {
+  makeListInDOM(id, title, description, user, order) {
 
     //~clone our list template
     const template = document.querySelector('#template-list');
     let clone = document.importNode(template.content, true);
     const list = clone.querySelector('.maListe');
+
     list.setAttribute('data-list-id', `${id}`);
+
     //~append to list board
     const cardLists = document.querySelector('.card-lists');
     cardLists.insertAdjacentElement('afterbegin', list);
@@ -132,17 +159,19 @@ const app = {
   },
   /**
    * 
-   * All about card
+   * @param {*} event 
    */
   //*SHOW CARD MODAL
   showAddCardModal(event) {
     const listId = event.target.closest('.maListe').dataset.listId;
-    //todo get id 
+    //todo remove
     console.log(`Liste choisie = ${listId}`);
     const inputCardListId = document.querySelector('.card-list-id').value = listId;
+    //todo remove
     console.log(`Id de la liste dans input carte choisie = ${inputCardListId}`);
 
-    document.querySelector(`#addCardModal input[name="card_name"]`).value = '';
+    document.querySelector(`#addCardModal input[name="card_title"]`).value = '';
+    document.querySelector(`#addCardModal input[name="card_description"]`).value = '';
 
     const modalElement = document.getElementById('addCardModal');
     modalElement.classList.add('is-active');
@@ -161,15 +190,23 @@ const app = {
     event.preventDefault();
 
     let data = new FormData(event.target);
-    let cardTitle = data.get('card_name');
-    let cardDescription = data.get('card_info');
+    let cardTitle = data.get('card_title');
+    let cardDescription = data.get('card_description');
     let cardColor = data.get('card_color');
     let listId = data.get('list_id');
-
+    //todo remove
     console.log(`Titre de la nouvelle carte = ${cardTitle}`);
     console.log(`Description = ${cardDescription}`);
     console.log(`Couleur = ${cardColor}`);
     console.log(`List id récupérée = ${listId}`);
+
+    /*  const options = {
+      method: 'POST',
+      // headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        
+      })
+    } */
 
     app.makeCardInDOM(cardTitle, cardDescription, cardColor, listId);
 
@@ -183,11 +220,10 @@ const app = {
    * @param {string} cardInfo info card
    * @param {string} cardDescription 
    * @param {string} color 
-   * @param {int} cardId 
    * @param {int} listId id of list
    */
   //*MAKE NEW CARD
-  makeCardInDOM(cardInfo, cardDescription, color, listId ) {
+  makeCardInDOM(cardInfo, cardDescription, color, listId, cardOrder, cardUser) {
     //~Cloning template
     const template = document.querySelector('#template-card');
 
@@ -256,20 +292,20 @@ const app = {
 
     let formData = new FormData(event.target);
     let cardInfo = formData.get('card');
-
+    //todo remove
     console.log(cardInfo);
 
     app.hideEditModalCard();
   },
   //*FETCH ALL LISTS
   async fetchListsFromAPI() {
-    const response = await fetch(`${app.base_url}/lists`);
+    const response = await fetch(`${url}${allLists}`);
 
     if (response.ok) {
       const lists = await response.json();
 
       for (const list of lists) {
-        app.makeListInDOM(list.id, list.title, list.user_id, list.order);
+        app.makeListInDOM(list.id, list.title);
       }
 
       const buttonsAddCard = document.querySelectorAll('.addCardButton');
@@ -279,7 +315,6 @@ const app = {
       }
       //~button remove list
       app.buttonRemoveList();
-
       app.fetchAllCards();
     }
   },
@@ -287,13 +322,13 @@ const app = {
   //*FETCH ALL CARDS BY LIST ID
   async fetchAllCards() {
 
-    const response = await fetch((`${app.base_url}/cards`));
+    const response = await fetch((`${url}${allCards}`));
 
     if (response.ok) {
       const cards = await response.json();
 
       for (const card of cards) {
-        app.makeCardInDOM(card.title, card.description, card.color, card.list_id );
+        app.makeCardInDOM(card.title, card.description, card.color, card.list_id);
       }
 
       app.buttonRemoveCard();

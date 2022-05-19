@@ -1,6 +1,5 @@
 body {
-  background-color: #ccc;
-  height: 100vh;
+  background-color: #FEFBE7;
 }
 
 .card-lists {
@@ -12,6 +11,7 @@ body {
   flex-wrap: wrap;
   margin-bottom: 0.5rem;
 }
+
 
 .card-info {
   font-weight: 600;
@@ -36,4 +36,8 @@ body {
 .control {
   display: flex;
   flex-direction: column;
+}
+
+.panel-heading {
+  background-color: #9772FB;
 }
