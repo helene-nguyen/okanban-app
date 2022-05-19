@@ -83,6 +83,8 @@ const app = {
     console.log(`List id = ${listId}`);
     console.log(`List order = ${listOrder}`);
 
+    //todo post list
+
     app.makeListInDOM(listName);
 
     const buttonAddCard = document.querySelector('.addCardButton');
@@ -132,7 +134,7 @@ const app = {
    */
   //*SHOW CARD MODAL
   showAddCardModal(event) {
-    const listElement = event.target.closest('.panel');
+    const listElement = event.target.closest('.maListe');
     const listId = listElement.dataset.listId;
 
     const inputCardListId = document.querySelector('.list-id');
@@ -156,25 +158,23 @@ const app = {
   handleAddCardForm(event) {
     event.preventDefault();
 
-    const cardInput = document.querySelector('.card-id');
-    cardInput.value = app.cardIdCount;
-
-    let formData = new FormData(event.target);
-    let cardInfo = formData.get('card_name');
-    let listId = formData.get('list_id');
-    let cardId = formData.get('card_id');
+    let data = new FormData(event.target);
+    let cardInfo = data.get('card_name');
+    let cardDescription = data.get('card_info');
+    let cardColor = data.get('card_color');
+    let listId = data.get('list_id');
+    let cardId = data.get('card_id');
 
     console.log(`List id = ${listId}`);
     console.log(`Card id = ${cardId}`);
 
-    app.makeCardInDOM(cardInfo);
+    app.makeCardInDOM(cardInfo, 1, '#000', 10, cardDescription);
 
     app.buttonEditCard(cardId);
     app.buttonRemoveCard();
     app.hideModalCard();
 
   },
-
   /**
    * 
    * @param {string} cardInfo info card
@@ -193,12 +193,10 @@ const app = {
     //~set data cards id
     card.setAttribute('data-card-id', `${cardId}`);
     card.style.borderTop = `4px solid ${color}`;
+    card.querySelector('.card-info').textContent = cardInfo;
+    card.querySelector('.card-description').textContent = cardDescription;
 
-    //~get data attributes, another way to use is dataset.listId(turns into camelcase)
-    const goodListElement = document.querySelector(`[data-list-id="${listId}"]`);
-    goodListElement.querySelector('.panel-block').insertAdjacentElement('afterbegin', card);
-    goodListElement.querySelector('.card-info').textContent = cardInfo;
-    goodListElement.querySelector('.card-description').textContent = cardDescription;
+    document.querySelector(`[data-list-id="${listId}"]`).querySelector('.panel-block').append(card)
 
   },
 
