@@ -20,12 +20,12 @@
                 oKanban
             </h1>
 
-            <div class="column">
-                <button class="button is-success" id="addListButton">
+            <div class="column button-add-list">
+                <h2 class="add-button">Ajouter une liste</h2>
+                <button class="button is-primary" id="addListButton">
                     <span class="icon is-small">
                         <i class="fas fa-plus"></i>
                     </span>
-                    &nbsp; Ajouter une liste
                 </button>
             </div>
 
@@ -38,12 +38,13 @@
                         <!--! TEMPLATE LIST -->
                         <template id="template-list">
 
-                            <div class="column is-one-quarter panel maListe" data-list-id="">
+                            <div class="column is-one-third panel maListe" data-list-id="">
                                 <div class="panel-heading">
                                     <div class="columns">
 
                                         <div class="column">
-                                            <h2 class="has-text-white list-title"></h2>
+                                            <h2 class="has-text list-title"></h2>
+                                            <p class="list-description"></p>
 
                                             <form action="" method="POST" class="is-hidden edit-list-form">
 
@@ -55,12 +56,15 @@
                                                     <div class="control">
 
                                                         <!--~ INPUTS to fetch name of list -->
-                                                        <input type="text" class="input is-small new-list" name="list_name"
-                                                            value="" placeholder="Nom de la liste">
+                                                        <input type="text" class="input is-small new-list"
+                                                            name="list_name" value="" placeholder="Nouveau titre">
+                                                        <input type="text" class="input is-small new-description"
+                                                            name="list_description" value="" placeholder="Description">
 
                                                     </div>
                                                     <div class="control">
-                                                        <button class="new-list-btn button is-small is-success">Valider</button>
+                                                        <button
+                                                            class="new-list-btn button is-small is-success">Valider</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -105,9 +109,13 @@
                                     <!--~ HERE the card name -->
                                     <div class="column card-info"></div>
 
+                                    <!--~ INPUTS to get user id and order id-->
+                                    <input type="hidden" name="card_user" value="" class="card-user">
+                                    <input type="hidden" name="card_order" value="" class="card-order">
+
                                     <div class="column is-narrow">
                                         <a href="#" class="edit-card">
-                                            <span class="icon is-small has-text-primary">
+                                            <span class="icon is-small has-text-link">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </span>
                                         </a>
@@ -121,6 +129,10 @@
 
                                 <!--~ HERE the card name -->
                                 <p class="column card-description"></p>
+
+
+
+
                             </div>
                             <!--/ card -->
 
@@ -150,18 +162,21 @@
                 <section class="modal-card-body">
                     <div class="field">
                         <div class="control">
-                            
+
                             <!--~ INPUTS fetch info to create list-->
                             <label class="label">Nom de la liste</label>
-                            <input type="text" class="input list-id" name="list_name" value="" placeholder="Nom de la liste">
+                            <input type="text" class="input list-id" name="list_name" value=""
+                                placeholder="Nom de la liste">
                             <label class="label">Description (option)</label>
-                            <input type="text" class="input list-id" name="list_description" value="" placeholder="Description de la liste">
+                            <input type="text" class="input list-id" name="list_description" value=""
+                                placeholder="Description de la liste">
                             <label class="label">Ordre</label>
                             <!-- TODO replace correct value of user -->
-                            <input type="number" max="1" min="1" class="input list-id" name="list_user" value="1" placeholder="Id de la liste">
+                            <input type="number" max="1" min="1" class="input list-id" name="list_user" value="1"
+                                placeholder="Id de la liste">
                             <!-- TODO replace correct value of position -->
-                            <input type="hidden" class="input list-id" name="list_order" value="1"
-                                placeholder="Nom de la liste">
+                            <input type="hidden" class="input list-id" name="list_order" value="1">
+                            <input type="hidden" class="input card-id" name="card_id" value="">
 
                         </div>
                     </div>
@@ -171,6 +186,34 @@
 
                     <button class="button close" type="button">Cancel</button>
 
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <!--~ DELETE LIST MODAL -->
+
+    <div class="modal" id="removeModal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <form action="" method="POST" class="form-delete">
+                <header class="modal-card-head column">
+
+
+
+                    <p class="modal-card-title">
+                        Etes-vous sur de vouloir supprimer la liste ? <button class="delete close" type="button"
+                            aria-label="close"></button></p>
+                    <main>
+                        <p class="modal-card-title">Tout suppression est définitive ! </p>
+                    </main>
+
+                    <input type="hidden" class="input list-id" name="list_id" value="">
+                    <input type="hidden" class="input card-id" name="card_id" value="">
+                </header>
+                <footer class="modal-card-foot">
+                    <button class="button is-success confirm-delete">Valider</button>
+                    <button class="button close" type="button">Annuler</button>
                 </footer>
             </form>
         </div>
@@ -195,7 +238,7 @@
 
                         <div class="control">
 
-                            <!--~INPUTS create a card -->
+                            <!--~INPUTS CREATE CARD -->
                             <label class="label">Nom de la carte</label>
                             <input type="text" class="input" name="card_title" value="" placeholder="Nom de la carte">
 
@@ -242,7 +285,7 @@
                         <div class="control">
 
                             <!-- TODO CHECK ALL INPUTS  -->
-                            <input type="text" class="input" name="card" value="" placeholder="Nom de la carte">
+                            <input type="text" class="input card-edit" name="card_edit" value="" placeholder="Nom de la carte">
                             <input type="hidden" class="input card-id" name="card_id" value="">
                             <input type="hidden" class="input list-id" name="list_id" value="">
 

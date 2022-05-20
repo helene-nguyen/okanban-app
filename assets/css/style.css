@@ -2,6 +2,27 @@ body {
   background-color: #FEFBE7;
 }
 
+.title {
+  font-size: 3em;
+  padding-bottom: 0.75em;
+  border-bottom: 1px solid #240c64;
+}
+
+.button-add-list {
+  margin: 1em 0;
+  display: flex;
+  align-items: center;
+  padding-bottom: 2.25em;
+  border-bottom: 1px solid #240c64;
+
+
+}
+
+.add-button {
+  font-size: 1.5em;
+  margin-right: 1em;
+}
+
 .card-lists {
   overflow-x: auto;
 }
@@ -21,7 +42,11 @@ body {
 .card-description {
   padding: 0.5em;
   font-size: 0.75em;
-  border: 1px solid rgb(190, 184, 184);
+  border-top: 1px solid rgb(190, 184, 184)
+}
+
+.myCard {
+  cursor: grabbing;
 }
 
 .input {
@@ -39,18 +64,40 @@ body {
 }
 
 .panel-heading {
-  background-color: #a386f1;
+  background-color: #343434;
 }
 
-.new-list {
+.new-list,
+.new-description {
   width: 10em;
+  margin: 0.1em;
 }
 
 button.new-list-btn {
-  margin: 0.75em 0;
+  margin: 0.1em 0 0 0;
 }
 
 .list-title {
   cursor: pointer;
   user-select: none;
+  margin-bottom: 0.5em;
+  color: white;
+  transition: 0.25s;
+}
+
+h2.list-title:hover {
+  color: #240c64;
+}
+
+.list-description {
+  font-size: 0.75em;
+  color: #FFF;
+  border-top: 1px solid #FFF;
+  padding-top: 0.5em;
+}
+
+.modal-card-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
 }

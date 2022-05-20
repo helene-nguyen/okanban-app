@@ -57,9 +57,27 @@ const app = {
     //~fetch all list
     app.fetchListsFromAPI();
   },
-  /**
-   * All about list
-   */
+  //*FETCH ALL LISTS
+  async fetchListsFromAPI() {
+    const response = await fetch(`${url}${allLists}`);
+
+    if (response.ok) {
+      const lists = await response.json();
+
+      for (const list of lists) {
+        app.makeListInDOM(list.id, list.title, list.description, list.user_id, list.order);
+      }
+
+      const buttonsAddCard = document.querySelectorAll('.addCardButton');
+
+      for (const button of buttonsAddCard) {
+        button.addEventListener('click', app.showAddCardModal);
+      }
+      //~button remove list
+      app.buttonRemoveList();
+      app.fetchAllCards();
+    }
+  },
   //*SHOW LIST MODAL
   showAddListModal() {
     document.querySelector(`#addListModal input[name="list_name"]`).value = '';
@@ -104,9 +122,11 @@ const app = {
     const response = await fetch(`${url}${allLists}`, options);
 
     if (response.ok) {
-      const list = await response.json();
-      console.log(list);
-      app.makeListInDOM('', listName, listDescription, listUser, listOrder);
+      const listMessage = await response.json();
+      console.log(listMessage);
+      app.hideModals();
+
+      location.reload();
     }
 
     const buttonAddCard = document.querySelector('.addCardButton');
@@ -128,16 +148,15 @@ const app = {
     const template = document.querySelector('#template-list');
     let clone = document.importNode(template.content, true);
     const list = clone.querySelector('.maListe');
-
     list.setAttribute('data-list-id', `${id}`);
 
     //~append to list board
     const cardLists = document.querySelector('.card-lists');
     cardLists.insertAdjacentElement('afterbegin', list);
     cardLists.querySelector('.list-title').textContent = title;
+    cardLists.querySelector('.list-description').textContent = description;
     cardLists.querySelector('.list-user').setAttribute('value', `${user}`);
     cardLists.querySelector('.list-order').setAttribute('value', `${order}`);
-    //todo add description
 
     app.hideModals();
     app.editListForm();
@@ -148,36 +167,82 @@ const app = {
     for (const element of editListFormElements) {
       element.addEventListener('submit', app.handleAddNewListTitle);
     }
+
+    //~button remove list
+    app.buttonRemoveList();
   },
   //*BUTTON REMOVE LIST
   buttonRemoveList() {
     const buttonsRemoveList = document.querySelectorAll('.deleteListButton');
 
     for (const buttonRemove of buttonsRemoveList) {
-      buttonRemove.addEventListener('click', app.removeList);
+      buttonRemove.addEventListener('click', app.confirmModalDeleteList);
     }
   },
+  //*BUTTON SHOW MODAL REMOVE LIST
+  confirmModalDeleteList(event) {
+    const listToRemove = event.target.closest('.maListe');
+    const listId = listToRemove.dataset.listId;
 
-  //*DO REMOVE LIST
-  removeList(event) {
-    let listToRemove = event.target.closest('.maListe');
+    const confirmDeleteBtnElement = document.querySelector('#removeModal');
+    confirmDeleteBtnElement.classList.add('is-active');
+    confirmDeleteBtnElement.querySelector('.list-id').value = listId;
+    confirmDeleteBtnElement.querySelector('.form-delete').addEventListener('submit', app.buttonConfirmDeleteList);
 
-    listToRemove.remove();
+    app.closeModalDeleteBtn();
   },
-  //*DISPLAY EDIT FORM LIST
+  //*BUTTON CONFIRM DELETE
+  async buttonConfirmDeleteList(event) {
+    event.preventDefault();
+
+    const listIdToRemove = document.querySelector('#removeModal').querySelector('.list-id').value;
+    const listToRemove = document.querySelector(`[data-list-id="${listIdToRemove}"]`);
+
+    const options = {
+      method: 'DELETE'
+    };
+
+    const response = await fetch(`${url}${allLists}/${listIdToRemove}`, options);
+
+    if (response.ok) {
+      const deleteList = await response.json();
+      console.log(deleteList);
+
+      listToRemove.remove();
+      app.hideModalDeleteList();
+    }
+
+  },
+  //*BUTTON CLOSE MODAL REMOVE LIST
+  closeModalDeleteBtn() {
+    const confirmDeleteBtnElement = document.querySelector('#removeModal');
+    const closeButtons = confirmDeleteBtnElement.querySelectorAll('.close');
+
+    for (const button of closeButtons) {
+      button.addEventListener('click', app.hideModalDeleteList)
+    }
+  },
+  //*HIDE MODAL REMOVE LIST
+  hideModalDeleteList() {
+    const confirmDeleteBtnElement = document.querySelector('#removeModal');
+    confirmDeleteBtnElement.classList.remove('is-active');
+  },
+
+  //*EDIT FORM LIST
   editListForm() {
     const listsTitleElement = document.querySelectorAll('.list-title');
 
     for (const listsTitle of listsTitleElement) {
-      listsTitle.addEventListener('dblclick', app.displayEditListForm);
+      listsTitle.addEventListener('click', app.displayEditListForm);
     }
   },
-
+  //*DISPLAY EDIT FORM LIST
   displayEditListForm(event) {
-    
-    const editListFormElement = event.target.closest(`[data-list-id]`).querySelector('.edit-list-form');    
+
+    const editListFormElement = event.target.closest(`[data-list-id]`).querySelector('.edit-list-form');
     editListFormElement.classList.toggle('is-hidden');
     editListFormElement.querySelector('.new-list').value = '';
+    editListFormElement.querySelector('.new-description').value = '';
 
   },
   //*HANDLE EDIT FORM LIST
@@ -185,19 +250,12 @@ const app = {
     event.preventDefault();
     const listTitleElement = event.target.closest('.maListe');
     const listId = listTitleElement.dataset.listId;
-    //todo remove
-    console.log(`Liste choisie = ${listId}`);
-
 
     const data = new FormData(event.target);
     const listName = data.get('list_name');
+    const listDescription = data.get('list_description');
     const listOrder = data.get('list_order');
     const listUser = data.get('list_user');
-    //todo remove after test
-    console.log(`List name = ${listName}`);
-    console.log(`List order = ${listOrder}`);
-    console.log(`List user = ${listUser}`);
-
 
     const options = {
       method: 'PATCH',
@@ -206,8 +264,8 @@ const app = {
       },
       body: JSON.stringify({
         "title": listName,
+        "description": listDescription,
         "order": listOrder,
-        // "description": listDescription,
         "user_id": listUser
       })
     };
@@ -219,6 +277,7 @@ const app = {
       console.log(updateList);
 
       listTitleElement.querySelector('.list-title').textContent = listName;
+      listTitleElement.querySelector('.list-description').textContent = listDescription;
       listTitleElement.querySelector('.edit-list-form').classList.add('is-hidden');
     }
 
@@ -254,12 +313,19 @@ const app = {
   //*HANDLE CARD FORM
   handleAddCardForm(event) {
     event.preventDefault();
+    const cardElement = event.target.closest('.myCard');
+    const cardId = cardElement.dataset.cardId;
+    
+    console.log("cardElement: ", cardElement);
+    
+    //todo remove
+    console.log(`Carte choisie = ${cardId}`);
 
-    let data = new FormData(event.target);
-    let cardTitle = data.get('card_title');
-    let cardDescription = data.get('card_description');
-    let cardColor = data.get('card_color');
-    let listId = data.get('list_id');
+    const data = new FormData(event.target);
+    const cardTitle = data.get('card_title');
+    const cardDescription = data.get('card_description');
+    const cardColor = data.get('card_color');
+    const listId = data.get('list_id');
     //todo remove
     console.log(`Titre de la nouvelle carte = ${cardTitle}`);
     console.log(`Description = ${cardDescription}`);
@@ -273,13 +339,11 @@ const app = {
         
       })
     } */
-
+    //todo reload so can remove this
     app.makeCardInDOM(cardTitle, cardDescription, cardColor, listId);
 
-    // app.buttonEditCard();
     app.buttonRemoveCard();
     app.hideModalCard();
-
   },
   /**
    * 
@@ -289,18 +353,23 @@ const app = {
    * @param {int} listId id of list
    */
   //*MAKE NEW CARD
-  makeCardInDOM(cardInfo, cardDescription, color, listId, cardOrder, cardUser) {
+  makeCardInDOM(cardId, cardInfo, cardDescription, color, listId, cardOrder, cardUser) {
     //~Cloning template
     const template = document.querySelector('#template-card');
 
     let clone = document.importNode(template.content, true);
     const card = clone.querySelector('.myCard');
+    card.setAttribute('data-card-id', `${cardId}`);
     //~set data cards id
     card.querySelector('.card-info').textContent = cardInfo;
     card.querySelector('.card-description').textContent = cardDescription;
+    card.querySelector('.card-order').textContent = cardOrder;
+    card.querySelector('.card-user').textContent = cardUser;
     card.style.borderTop = `4px solid ${color}`;
 
     document.querySelector(`[data-list-id="${listId}"]`).querySelector('.panel-block').append(card);
+    //todo put cardId
+    app.buttonEditCard();
 
   },
 
@@ -321,9 +390,7 @@ const app = {
     let cardToRemove = event.target.closest('.myCard');
     cardToRemove.remove()
   },
-  /**
-   * Editing cards
-   */
+
   //*BUTTON EDIT CARD
   buttonEditCard() {
     const buttonsEditCard = document.querySelectorAll('.edit-card');
@@ -333,7 +400,11 @@ const app = {
     }
   },
   //*DO EDIT CARD
-  editCard() {
+  editCard(event) {
+    const cardElement = event.target.closest('.myCard');
+    const cardId = cardElement.dataset.cardId;
+    console.log("cardId chosen: ", cardId);
+
     app.showEditCardModal();
 
     //~valid form card
@@ -342,8 +413,7 @@ const app = {
   },
   //*SHOW EDIT CARD MODAL
   showEditCardModal() {
-    //todo -> get button edit + get data-car-id
-    // document.querySelector(`#addCardModal input[name="card"]`).value = '';
+    document.querySelector(`#editCardModal input[name="card_edit"]`).value = '';
     const editModalElement = document.getElementById('editCardModal');
     editModalElement.classList.add('is-active');
   },
@@ -357,32 +427,11 @@ const app = {
     event.preventDefault();
 
     let formData = new FormData(event.target);
-    let cardInfo = formData.get('card');
+    let cardInfo = formData.get('card_edit');
     //todo remove
     console.log(cardInfo);
 
     app.hideEditModalCard();
-  },
-  //*FETCH ALL LISTS
-  async fetchListsFromAPI() {
-    const response = await fetch(`${url}${allLists}`);
-
-    if (response.ok) {
-      const lists = await response.json();
-
-      for (const list of lists) {
-        app.makeListInDOM(list.id, list.title, list.description, list.user_id, list.order);
-      }
-
-      const buttonsAddCard = document.querySelectorAll('.addCardButton');
-
-      for (const button of buttonsAddCard) {
-        button.addEventListener('click', app.showAddCardModal);
-      }
-      //~button remove list
-      app.buttonRemoveList();
-      app.fetchAllCards();
-    }
   },
 
   //*FETCH ALL CARDS BY LIST ID
@@ -394,7 +443,7 @@ const app = {
       const cards = await response.json();
 
       for (const card of cards) {
-        app.makeCardInDOM(card.title, card.description, card.color, card.list_id);
+        app.makeCardInDOM(card.id, card.title, card.description, card.color, card.list_id);
       }
 
       app.buttonRemoveCard();
