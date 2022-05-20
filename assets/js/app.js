@@ -88,18 +88,17 @@ const app = {
     console.log(`List user = ${listUser}`);
     console.log(`List order = ${listOrder}`);
 
-    console.log(data.values());
-    //todo post list
-
     const options = {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ 
-        "title": listName, 
-        "order": listOrder, 
-        "description" : listDescription , 
-        "user_id": listUser 
-    })
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "title": listName,
+        "order": listOrder,
+        "description": listDescription,
+        "user_id": listUser
+      })
     };
 
     const response = await fetch(`${url}${allLists}`, options);
@@ -107,8 +106,7 @@ const app = {
     if (response.ok) {
       const list = await response.json();
       console.log(list);
-      alert(list)
-      app.makeListInDOM(listName, listDescription, listUser, listOrder);
+      app.makeListInDOM('', listName, listDescription, listUser, listOrder);
     }
 
     const buttonAddCard = document.querySelector('.addCardButton');
@@ -139,8 +137,17 @@ const app = {
     cardLists.querySelector('.list-title').textContent = title;
     cardLists.querySelector('.list-user').setAttribute('value', `${user}`);
     cardLists.querySelector('.list-order').setAttribute('value', `${order}`);
+    //todo add description
 
     app.hideModals();
+    app.editListForm();
+
+    //~form edit
+    const editListFormElements = document.querySelectorAll('.edit-list-form');
+
+    for (const element of editListFormElements) {
+      element.addEventListener('submit', app.handleAddNewListTitle);
+    }
   },
   //*BUTTON REMOVE LIST
   buttonRemoveList() {
@@ -156,6 +163,65 @@ const app = {
     let listToRemove = event.target.closest('.maListe');
 
     listToRemove.remove();
+  },
+  //*DISPLAY EDIT FORM LIST
+  editListForm() {
+    const listsTitleElement = document.querySelectorAll('.list-title');
+
+    for (const listsTitle of listsTitleElement) {
+      listsTitle.addEventListener('dblclick', app.displayEditListForm);
+    }
+  },
+
+  displayEditListForm(event) {
+    
+    const editListFormElement = event.target.closest(`[data-list-id]`).querySelector('.edit-list-form');    
+    editListFormElement.classList.toggle('is-hidden');
+    editListFormElement.querySelector('.new-list').value = '';
+
+  },
+  //*HANDLE EDIT FORM LIST
+  async handleAddNewListTitle(event) {
+    event.preventDefault();
+    const listTitleElement = event.target.closest('.maListe');
+    const listId = listTitleElement.dataset.listId;
+    //todo remove
+    console.log(`Liste choisie = ${listId}`);
+
+
+    const data = new FormData(event.target);
+    const listName = data.get('list_name');
+    const listOrder = data.get('list_order');
+    const listUser = data.get('list_user');
+    //todo remove after test
+    console.log(`List name = ${listName}`);
+    console.log(`List order = ${listOrder}`);
+    console.log(`List user = ${listUser}`);
+
+
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "title": listName,
+        "order": listOrder,
+        // "description": listDescription,
+        "user_id": listUser
+      })
+    };
+
+    const response = await fetch(`${url}${allLists}/${listId}`, options);
+
+    if (response.ok) {
+      const updateList = await response.json();
+      console.log(updateList);
+
+      listTitleElement.querySelector('.list-title').textContent = listName;
+      listTitleElement.querySelector('.edit-list-form').classList.add('is-hidden');
+    }
+
   },
   /**
    * 
@@ -305,7 +371,7 @@ const app = {
       const lists = await response.json();
 
       for (const list of lists) {
-        app.makeListInDOM(list.id, list.title);
+        app.makeListInDOM(list.id, list.title, list.description, list.user_id, list.order);
       }
 
       const buttonsAddCard = document.querySelectorAll('.addCardButton');
@@ -333,7 +399,9 @@ const app = {
 
       app.buttonRemoveCard();
     }
-  }
+  },
+
+
 };
 
 document.addEventListener('DOMContentLoaded', app.init);
