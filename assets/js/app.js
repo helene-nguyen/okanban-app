@@ -5,10 +5,8 @@ import {
   allCards
 } from './services/api.okanban.js'
 
-
 const app = {
   //^------------------ VARIABLES
-  base_url: 'http://localhost:4100',
 
   //^------------------ INIT
   init: function () {
@@ -19,7 +17,7 @@ const app = {
   //^------------------ METHODS
   //*LISTENER TO ACTION
   addListenerToAction() {
-    //&--------------- LIST
+    //&--------------------------------------  LIST
 
     //~show modal list
     document.getElementById('addListButton').addEventListener('click', app.showAddListModal);
@@ -34,7 +32,7 @@ const app = {
     //~valid form list
     document.querySelector('#form-list').addEventListener('submit', app.handleAddListForm);
 
-    //&--------------- CARD
+    //&-------------------------------------- CARD
 
     //~show modal card
     const buttonsAddCard = document.querySelectorAll('.addCardButton');
@@ -57,6 +55,7 @@ const app = {
     //~fetch all list
     app.fetchListsFromAPI();
   },
+  //?-----------------------------LIST------------------------------//
   //*FETCH ALL LISTS
   async fetchListsFromAPI() {
     const response = await fetch(`${url}${allLists}`);
@@ -113,8 +112,8 @@ const app = {
       },
       body: JSON.stringify({
         "title": listName,
-        "order": listOrder,
         "description": listDescription,
+        "order": listOrder,
         "user_id": listUser
       })
     };
@@ -122,16 +121,16 @@ const app = {
     const response = await fetch(`${url}${allLists}`, options);
 
     if (response.ok) {
-      const listMessage = await response.json();
-      console.log(listMessage);
-      app.hideModals();
 
+      const listMessage = await response.json();
+      alert(listMessage);
       location.reload();
-    }
+    };
 
     const buttonAddCard = document.querySelector('.addCardButton');
     buttonAddCard.addEventListener('click', app.showAddCardModal);
 
+    app.hideModals();
     //~button remove list
     app.buttonRemoveList();
   },
@@ -171,6 +170,7 @@ const app = {
     //~button remove list
     app.buttonRemoveList();
   },
+
   //*BUTTON REMOVE LIST
   buttonRemoveList() {
     const buttonsRemoveList = document.querySelectorAll('.deleteListButton');
@@ -228,6 +228,9 @@ const app = {
     confirmDeleteBtnElement.classList.remove('is-active');
   },
 
+
+  //&===============================================================
+
   //*EDIT FORM LIST
   editListForm() {
     const listsTitleElement = document.querySelectorAll('.list-title');
@@ -282,6 +285,7 @@ const app = {
     }
 
   },
+  //?-----------------------------CARD------------------------------//
   /**
    * 
    * @param {*} event 
@@ -311,39 +315,47 @@ const app = {
    * @param {*} event valid form
    */
   //*HANDLE CARD FORM
-  handleAddCardForm(event) {
+  async handleAddCardForm(event) {
     event.preventDefault();
-    const cardElement = event.target.closest('.myCard');
-    const cardId = cardElement.dataset.cardId;
-    
-    console.log("cardElement: ", cardElement);
-    
-    //todo remove
-    console.log(`Carte choisie = ${cardId}`);
 
     const data = new FormData(event.target);
+
     const cardTitle = data.get('card_title');
     const cardDescription = data.get('card_description');
     const cardColor = data.get('card_color');
     const listId = data.get('list_id');
+    const cardOrder = data.get('card_order');
+    const cardUser = data.get('card_user');
     //todo remove
     console.log(`Titre de la nouvelle carte = ${cardTitle}`);
     console.log(`Description = ${cardDescription}`);
     console.log(`Couleur = ${cardColor}`);
     console.log(`List id récupérée = ${listId}`);
+    console.log(`Position de la carte = ${cardOrder}`);
+    console.log(`Utilisateur = ${cardUser}`);
 
-    /*  const options = {
+    const options = {
       method: 'POST',
-      // headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
-        
+        "title": cardTitle,
+        "description": cardDescription,
+        "color": cardColor,
+        "order": cardOrder,
+        "user_id": cardUser,
+        "list_id": listId
       })
-    } */
-    //todo reload so can remove this
-    app.makeCardInDOM(cardTitle, cardDescription, cardColor, listId);
+    };
 
-    app.buttonRemoveCard();
-    app.hideModalCard();
+    const response = await fetch(`${url}${allCards}`, options);
+
+    if (response.ok) {
+      const cardMessage = await response.json();
+      alert(cardMessage);
+      location.reload();
+    };
   },
   /**
    * 
@@ -369,8 +381,9 @@ const app = {
 
     document.querySelector(`[data-list-id="${listId}"]`).querySelector('.panel-block').append(card);
     //todo put cardId
+    app.hideModalCard();
     app.buttonEditCard();
-
+    app.buttonRemoveCard();
   },
 
   //*BUTTON REMOVE CARD
@@ -378,17 +391,43 @@ const app = {
     const buttonsRemoveCard = document.querySelectorAll('.remove-card');
 
     for (const buttonRemove of buttonsRemoveCard) {
-      buttonRemove.addEventListener('click', app.removeCard);
+      buttonRemove.addEventListener('click', app.confirmModalDeleteCard);
     }
   },
-  /**
-   * 
-   * @param {string} event target closest element
-   */
-  //*DO REMOVE CARD
-  removeCard(event) {
-    let cardToRemove = event.target.closest('.myCard');
-    cardToRemove.remove()
+  //*BUTTON SHOW MODAL REMOVE CARD
+  confirmModalDeleteCard(event) {
+    const cardToRemove = event.target.closest('.myCard');
+    const cardId = cardToRemove.dataset.cardId;
+
+    const confirmDeleteBtnElement = document.querySelector('#removeModal');
+    confirmDeleteBtnElement.classList.add('is-active');
+    confirmDeleteBtnElement.querySelector('.card-id').value = cardId;
+    confirmDeleteBtnElement.querySelector('.form-delete').addEventListener('submit', app.buttonConfirmDeleteCard);
+
+    app.closeModalDeleteBtn();
+  },
+  //*BUTTON CONFIRM DELETE
+  async buttonConfirmDeleteCard(event) {
+    event.preventDefault();
+
+    const cardIdToRemove = document.querySelector('#removeModal').querySelector('.card-id').value;
+    console.log("cardIdToRemove: ", cardIdToRemove);
+    const cardToRemove = document.querySelector(`[data-card-id="${cardIdToRemove}"]`);
+
+    const options = {
+      method: 'DELETE'
+    };
+
+    const response = await fetch(`${url}${allCards}/${cardIdToRemove}`, options);
+
+    if (response.ok) {
+      const deleteCard = await response.json();
+      console.log(deleteCard);
+      cardToRemove.remove();
+      app.hideModalDeleteList();
+      alert(deleteCard);
+      location.reload();
+    }
   },
 
   //*BUTTON EDIT CARD
@@ -403,19 +442,22 @@ const app = {
   editCard(event) {
     const cardElement = event.target.closest('.myCard');
     const cardId = cardElement.dataset.cardId;
-    console.log("cardId chosen: ", cardId);
+    console.log("cardId choisie pour modif: ", cardId);
 
-    app.showEditCardModal();
+    app.showEditCardModal(cardId);
 
     //~valid form card
     document.querySelector('#form-edit-card').addEventListener('submit', app.handleEditCardForm);
 
   },
   //*SHOW EDIT CARD MODAL
-  showEditCardModal() {
+  showEditCardModal(cardId) {
+
     document.querySelector(`#editCardModal input[name="card_edit"]`).value = '';
+
     const editModalElement = document.getElementById('editCardModal');
     editModalElement.classList.add('is-active');
+    editModalElement.querySelector('.card-id').value = cardId;
   },
   //*HIDE EDIT CARD MODAL
   hideEditModalCard() {
@@ -425,13 +467,20 @@ const app = {
   //*HANDLE EDIT CARD FORM MODAL
   handleEditCardForm(event) {
     event.preventDefault();
+    const cardId = event.target.querySelector('.card-id').value;
+    console.log("cardId modifiée: ", cardId);
 
-    let formData = new FormData(event.target);
-    let cardInfo = formData.get('card_edit');
+    let data = new FormData(event.target);
+    const cardEdit = data.get('card_edit');
+    const cardDescription = data.get('card_description');
+    const cardColor = data.get('card_color');
     //todo remove
-    console.log(cardInfo);
+    console.log(`Titre de la nouvelle carte = ${cardEdit}`);
+    console.log(`Description = ${cardDescription}`);
+    console.log(`Couleur = ${cardColor}`);
 
     app.hideEditModalCard();
+    // location.reload()
   },
 
   //*FETCH ALL CARDS BY LIST ID
@@ -449,8 +498,6 @@ const app = {
       app.buttonRemoveCard();
     }
   },
-
-
 };
 
-document.addEventListener('DOMContentLoaded', app.init);
+app.init();
