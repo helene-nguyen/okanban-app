@@ -319,9 +319,7 @@ const app = {
   //*HANDLE CARD FORM
   async handleAddCardForm(event) {
     event.preventDefault();
-
-   
-  
+    
     const data = new FormData(event.target);
 
     const cardTitle = data.get('card_title');
@@ -467,6 +465,7 @@ const app = {
     document.querySelector(`#editCardModal input[name="card_edit"]`).value = '';
 
     const editModalElement = document.getElementById('editCardModal');
+
     editModalElement.classList.add('is-active');
     editModalElement.querySelector('.card-id').value = cardId;
     editModalElement.querySelector('.card-order').value = cardOrder;
@@ -486,8 +485,7 @@ const app = {
     const targetCardElement = document.querySelector(`[data-card-id="${cardId}"]`);
     console.log("Carte visée: ", targetCardElement);
 
-
-    let data = new FormData(event.target);
+    const data = new FormData(event.target);
     const cardEdit = data.get('card_edit');
     const cardDescription = data.get('card_description');
     const cardColor = data.get('card_color');
@@ -523,7 +521,6 @@ const app = {
       targetCardElement.querySelector('.card-info').textContent = cardEdit;
       targetCardElement.querySelector('.card-description').textContent = cardDescription;
       targetCardElement.style.borderTop = `4px solid ${cardColor}`;
-
 
       app.hideEditModalCard();
     }

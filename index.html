@@ -16,11 +16,43 @@
 <body>
     <section class="section ">
         <div class="container">
+
             <h1 class="title">
                 oKanban
             </h1>
 
-            <div class="column button-add-list">
+            <nav class="navbar-end" role="navigation" aria-label="main navigation">
+
+                <div id="navbarBasicExample">
+                    <div class="navbar">
+                        <div class="navbar-item">
+                            <a class="navbar-item" href="#">
+                                Home
+                            </a>
+
+                            <a class="navbar-item" href="#">
+                                Profil
+                            </a>
+                        </div>
+
+
+                        <div class="navbar-item nav-connexion">
+                            <div class="buttons">
+                                <a class="button is-primary">
+                                    <strong>Sign up</strong>
+                                </a>
+                                <a class="button is-light">
+                                    Log in
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </nav>
+
+            <div class="column add-list">
                 <h2 class="add-button">Ajouter une liste</h2>
                 <button class="button is-primary" id="addListButton">
                     <span class="icon is-small">
@@ -186,8 +218,8 @@
                             <!--~ INPUTS fetch info to create list-->
                             <label class="label">Nom de la liste</label>
                             <input type="text" class="input list-id" name="list_name" value=""
-                                placeholder="Nom de la liste">
-                            <label class="label">Description (option)</label>
+                                placeholder="Nom de la liste" required>
+                            <label class="label">Description (facultatif)</label>
                             <input type="text" class="input list-id" name="list_description" value=""
                                 placeholder="Description de la liste">
                             <!-- TODO replace correct value of user -->
@@ -258,13 +290,13 @@
 
                             <!--~INPUTS CREATE CARD -->
                             <label class="label">Nom de la carte</label>
-                            <input type="text" class="input" name="card_title" value="" placeholder="Nom de la carte">
+                            <input type="text" class="input" name="card_title" value="" placeholder="Nom de la carte" required>
 
                             <label class="label">Description</label>
                             <input type="text" class="input" name="card_description" value=""
-                                placeholder="Description de la carte">
+                                placeholder="Description de la carte" required>
 
-                            <label for="card-color" class="label">Color (option)</label>
+                            <label for="card-color" class="label">Couleur (facultatif)</label>
                             <input type="color" id="card-color" class="input card-color" name="card_color"
                                 value="#7FB5FF">
 
