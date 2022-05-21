@@ -6,3 +6,7 @@ export const allLists = '/lists';
 
 //~ -------------- All data cards
 export const allCards = '/cards';
+
+//~ -------------- All data tags
+export const allTags = '/tags';
+//~ 

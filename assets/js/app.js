@@ -2,7 +2,8 @@
 import {
   url,
   allLists,
-  allCards
+  allCards,
+  allTags
 } from './services/api.okanban.js'
 
 const app = {
@@ -146,7 +147,7 @@ const app = {
     //~clone our list template
     const template = document.querySelector('#template-list');
     let clone = document.importNode(template.content, true);
-    const list = clone.querySelector('.maListe');
+    const list = clone.querySelector('.my-list');
     list.setAttribute('data-list-id', `${id}`);
 
     //~append to list board
@@ -181,7 +182,7 @@ const app = {
   },
   //*BUTTON SHOW MODAL REMOVE LIST
   confirmModalDeleteList(event) {
-    const listToRemove = event.target.closest('.maListe');
+    const listToRemove = event.target.closest('.my-list');
     const listId = listToRemove.dataset.listId;
 
     const confirmDeleteBtnElement = document.querySelector('#removeModal');
@@ -251,7 +252,7 @@ const app = {
   //*HANDLE EDIT FORM LIST
   async handleAddNewListTitle(event) {
     event.preventDefault();
-    const listTitleElement = event.target.closest('.maListe');
+    const listTitleElement = event.target.closest('.my-list');
     const listId = listTitleElement.dataset.listId;
 
     const data = new FormData(event.target);
@@ -292,7 +293,7 @@ const app = {
    */
   //*SHOW CARD MODAL
   showAddCardModal(event) {
-    const listId = event.target.closest('.maListe').dataset.listId;
+    const listId = event.target.closest('.my-list').dataset.listId;
     //todo remove
     console.log(`Liste choisie = ${listId}`);
     const inputCardListId = document.querySelector('.card-list-id').value = listId;
@@ -319,7 +320,7 @@ const app = {
   //*HANDLE CARD FORM
   async handleAddCardForm(event) {
     event.preventDefault();
-    
+
     const data = new FormData(event.target);
 
     const cardTitle = data.get('card_title');
@@ -387,6 +388,8 @@ const app = {
     app.hideModalCard();
     app.buttonEditCard();
     app.buttonRemoveCard();
+
+    
   },
 
   //*BUTTON REMOVE CARD
@@ -531,19 +534,54 @@ const app = {
 
   //*FETCH ALL CARDS BY LIST ID
   async fetchAllCards() {
-
+    
     const response = await fetch((`${url}${allCards}`));
-
+    
     if (response.ok) {
       const cards = await response.json();
-
+      
       for (const card of cards) {
         app.makeCardInDOM(card.id, card.title, card.description, card.color, card.list_id, card.order, card.user_id);
+        app.fetchAllTagsByCardId(card.id)
       }
 
+      
       app.buttonRemoveCard();
     }
   },
+
+  //^-------------------------------TAGS
+  
+  //*FETCH ALL TAGS BY CARD ID
+  async fetchAllTagsByCardId(cardId) {
+
+    const response = await fetch((`${url}${allCards}/${cardId}/tags`));
+
+    if (response.ok) {
+      const tags = await response.json();
+
+      for (const tag of tags) {
+        console.log(tag);
+        app.makeTagInDOM(tag.id, tag.name, tag.color, cardId);
+      }
+    }
+  },
+
+  async makeTagInDOM(tagId, tagName, tagColor, cardId) {
+    //~Cloning template
+    const template = document.querySelector('#template-tag');
+
+    let clone = document.importNode(template.content, true);
+    const tag = clone.querySelector('.tag');
+    
+    //~set data tags id
+    tag.querySelector('.tag-name').textContent = tagName;
+    tag.style.backgroundColor = tagColor;
+    
+    document.querySelector(`[data-card-id="${cardId}"]`).querySelector('.tag-box').append(tag);
+  
+  },
+
 };
 
 app.init();

@@ -17,24 +17,22 @@
     <section class="section ">
         <div class="container">
 
-            <h1 class="title">
-                oKanban
+            <h1 class="title focus-in-contract">
+                O'Kanban
             </h1>
 
             <nav class="navbar-end" role="navigation" aria-label="main navigation">
 
                 <div id="navbarBasicExample">
                     <div class="navbar">
-                        <div class="navbar-item">
-                            <a class="navbar-item" href="#">
-                                Home
-                            </a>
 
-                            <a class="navbar-item" href="#">
-                                Profil
-                            </a>
-                        </div>
+                        <a class="navbar-item" href="#">
+                            Home
+                        </a>
 
+                        <a class="navbar-item" href="#">
+                            Profil
+                        </a>
 
                         <div class="navbar-item nav-connexion">
                             <div class="buttons">
@@ -70,7 +68,7 @@
                         <!--! TEMPLATE LIST -->
                         <template id="template-list">
 
-                            <div class="column is-one-third panel maListe" data-list-id="">
+                            <div class="column is-one-third panel my-list" data-list-id="">
                                 <div class="panel-heading">
                                     <div class="columns">
 
@@ -166,17 +164,18 @@
                                 <!--~ HERE the card tag -->
                                 <div class="tag-box">
 
-                                    <span class="tag">
-                                        <p class="tag-name">Tag</p>
-                                        <button class="delete is-small"></button>
-                                    </span>
 
                                     <!--! TEMPLATE TAG -->
                                     <template id="template-tag">
+
                                         <span class="tag">
-                                            <p class="tag-name">Tag</p>
+                                            <p class="tag-name"></p>
                                             <button class="delete is-small"></button>
                                         </span>
+
+                                        <input type="hidden" name="tag_id" value="" class="tag-id">
+                                        <input type="hidden" name="card_id" value="" class="card-id">
+
                                     </template>
 
                                     <!--! TEMPLATE TAG -->
@@ -290,7 +289,8 @@
 
                             <!--~INPUTS CREATE CARD -->
                             <label class="label">Nom de la carte</label>
-                            <input type="text" class="input" name="card_title" value="" placeholder="Nom de la carte" required>
+                            <input type="text" class="input" name="card_title" value="" placeholder="Nom de la carte"
+                                required>
 
                             <label class="label">Description</label>
                             <input type="text" class="input" name="card_description" value=""
