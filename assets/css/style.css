@@ -55,7 +55,6 @@ body {
   text-align: center;
   user-select: none;
   padding-bottom: 0.75em;
-  border-bottom: 1px solid #696969;
   text-shadow: var(--primary-color05) 1px 10px 10px;
 }
 
@@ -106,6 +105,7 @@ body {
 
 .panel-heading {
   background-color: #343434;
+  height: 6em;
 }
 
 .new-list,
@@ -130,7 +130,7 @@ h2.list-title:hover {
 }
 
 .list-description {
-  font-size: 0.75em;
+  font-size: 0.60em;
   color: #FFF;
   border-top: 1px solid #FFF;
   padding-top: 0.5em;
@@ -141,13 +141,13 @@ h2.list-title:hover {
   display: flex;
   align-items: center;
   padding-bottom: 2.25em;
+  padding-top: 2.25em;
   border-top: 1px solid #696969;
 }
 
 #addListButton {
   margin-left: 1.5rem;
 }
-
 
 /* CARD */
 
@@ -204,6 +204,10 @@ h2.list-title:hover {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
+.modal-card-foot {
+  justify-content: flex-end;
+}
+
 /* TAG */
 .tag-box {
   border-top: 1px solid rgb(190, 184, 184);
@@ -229,6 +233,7 @@ h2.list-title:hover {
   font-size: 10px;
   transition: all 0.25s ease;
   padding: 0 0 0.2rem 0;
+  margin-bottom: 0.6em;
   text-align: start;
   flex-direction: column;
 
@@ -252,7 +257,7 @@ h2.list-title:hover {
   border: none;
   cursor: pointer;
   width: 1.5em;
-  height: 1.5em;
+  height: 1.75em;
   padding: 0;
   background-color: transparent;
   transition: all 0.25s ease;
@@ -279,9 +284,14 @@ h2.list-title:hover {
 
 .navbar {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+.navbar-item {
+  margin: 0 1.5em;
 }
 
 

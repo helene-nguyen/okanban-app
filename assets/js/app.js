@@ -11,7 +11,6 @@ const app = {
 
   //^------------------ INIT
   init: function () {
-
     app.addListenerToAction();
   },
 
@@ -26,7 +25,7 @@ const app = {
     //~close modal list
     const buttonsClose = document.querySelectorAll('.close');
 
-    for (let btnClose of buttonsClose) {
+    for (const btnClose of buttonsClose) {
       btnClose.addEventListener('click', app.hideModals);
     };
 
@@ -38,14 +37,14 @@ const app = {
     //~show modal card
     const buttonsAddCard = document.querySelectorAll('.addCardButton');
 
-    for (let btnAddCard of buttonsAddCard) {
+    for (const btnAddCard of buttonsAddCard) {
       btnAddCard.addEventListener('click', app.showAddCardModal());
     };
 
     //~hide modal card
     const buttonsCloseCard = document.querySelectorAll('.closeCard');
 
-    for (let btnClose of buttonsCloseCard) {
+    for (const btnClose of buttonsCloseCard) {
       btnClose.addEventListener('click', app.hideModalCard);
       btnClose.addEventListener('click', app.hideEditModalCard);
     };
@@ -76,6 +75,7 @@ const app = {
       //~button remove list
       app.buttonRemoveList();
       app.fetchAllCards();
+
     }
   },
   //*SHOW LIST MODAL
@@ -95,7 +95,7 @@ const app = {
   async handleAddListForm(event) {
     event.preventDefault();
 
-    let data = new FormData(event.target);
+    const data = new FormData(event.target);
     const listName = data.get('list_name');
     const listDescription = data.get('list_description');
     const listUser = data.get('list_user');
@@ -124,8 +124,8 @@ const app = {
     if (response.ok) {
 
       const listMessage = await response.json();
-      alert(listMessage);
-      location.reload();
+      console.log("listMessage: ", listMessage);
+      app.makeListInDOM('', listName, listDescription, listUser, listOrder);
     };
 
     const buttonAddCard = document.querySelector('.addCardButton');
@@ -146,7 +146,7 @@ const app = {
 
     //~clone our list template
     const template = document.querySelector('#template-list');
-    let clone = document.importNode(template.content, true);
+    const clone = document.importNode(template.content, true);
     const list = clone.querySelector('.my-list');
     list.setAttribute('data-list-id', `${id}`);
 
@@ -356,8 +356,8 @@ const app = {
 
     if (response.ok) {
       const cardMessage = await response.json();
-      alert(cardMessage);
-      location.reload();
+      console.log("cardMessage: ", cardMessage);
+      app.makeCardInDOM('', cardTitle, cardDescription, cardColor,listId,cardOrder,cardUser)
     };
   },
   /**
@@ -372,7 +372,7 @@ const app = {
     //~Cloning template
     const template = document.querySelector('#template-card');
 
-    let clone = document.importNode(template.content, true);
+    const clone = document.importNode(template.content, true);
     const card = clone.querySelector('.myCard');
     card.setAttribute('data-card-id', `${cardId}`);
     //~set data cards id
@@ -383,13 +383,12 @@ const app = {
     card.querySelector('.card-list-id').value = listId;
     card.style.borderTop = `4px solid ${color}`;
 
-    document.querySelector(`[data-list-id="${listId}"]`).querySelector('.panel-block').append(card);
+    document.querySelector(`[data-list-id="${listId}"]`).querySelector('.panel-block').insertAdjacentElement('afterbegin', card);
     //todo put cardId
     app.hideModalCard();
     app.buttonEditCard();
     app.buttonRemoveCard();
 
-    
   },
 
   //*BUTTON REMOVE CARD
@@ -526,32 +525,30 @@ const app = {
       targetCardElement.style.borderTop = `4px solid ${cardColor}`;
 
       app.hideEditModalCard();
-    }
-
-    // location.reload()
+    };
 
   },
 
   //*FETCH ALL CARDS BY LIST ID
   async fetchAllCards() {
-    
+
     const response = await fetch((`${url}${allCards}`));
-    
+
     if (response.ok) {
       const cards = await response.json();
-      
+
       for (const card of cards) {
         app.makeCardInDOM(card.id, card.title, card.description, card.color, card.list_id, card.order, card.user_id);
-        app.fetchAllTagsByCardId(card.id)
+        app.fetchAllTagsByCardId(card.id);
       }
 
-      
+
       app.buttonRemoveCard();
     }
   },
 
   //^-------------------------------TAGS
-  
+
   //*FETCH ALL TAGS BY CARD ID
   async fetchAllTagsByCardId(cardId) {
 
@@ -561,26 +558,31 @@ const app = {
       const tags = await response.json();
 
       for (const tag of tags) {
-        console.log(tag);
         app.makeTagInDOM(tag.id, tag.name, tag.color, cardId);
       }
     }
   },
-
+  //* MAKE TAGS
   async makeTagInDOM(tagId, tagName, tagColor, cardId) {
     //~Cloning template
     const template = document.querySelector('#template-tag');
 
-    let clone = document.importNode(template.content, true);
+    const clone = document.importNode(template.content, true);
     const tag = clone.querySelector('.tag');
-    
+    //todo remove
+    tag.querySelector('.tag-id').value = tagId;
+    tag.querySelector('.card-id').value = cardId;
+    // console.log("La valeur de mes tags: ", tag.querySelector('.tag-id'));
+    // console.log("La valeur de mes cards: ", tag.querySelector('.card-id'));
+
     //~set data tags id
     tag.querySelector('.tag-name').textContent = tagName;
     tag.style.backgroundColor = tagColor;
-    
+
     document.querySelector(`[data-card-id="${cardId}"]`).querySelector('.tag-box').append(tag);
-  
+
   },
+
 
 };
 

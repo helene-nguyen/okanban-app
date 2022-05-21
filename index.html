@@ -72,29 +72,29 @@
                                 <div class="panel-heading">
                                     <div class="columns">
 
-                                        <div class="column">
+                                        <div class="column heading-list">
+                                            <!-- LIST NAME -->
                                             <h2 class="has-text list-title"></h2>
-                                            <p class="list-description"></p>
-
+                                            
                                             <form action="" method="POST" class="is-hidden edit-list-form">
-
+                                                
                                                 <!--~ INPUTS to get user id and order id-->
                                                 <input type="hidden" name="list_user" value="" class="list-user">
                                                 <input type="hidden" name="list_order" value="" class="list-order">
-
+                                                
                                                 <div class="field has-addons">
                                                     <div class="control">
-
+                                                        
                                                         <!--~ INPUTS to fetch name of list -->
                                                         <input type="text" class="input is-small new-list"
-                                                            name="list_name" value="" placeholder="Nouveau titre">
+                                                        name="list_name" value="" placeholder="Nouveau titre">
                                                         <input type="text" class="input is-small new-description"
-                                                            name="list_description" value="" placeholder="Description">
-
+                                                        name="list_description" value="" placeholder="Description">
+                                                        
                                                     </div>
                                                     <div class="control">
                                                         <button
-                                                            class="new-list-btn button is-small is-success">Valider</button>
+                                                        class="new-list-btn button is-small is-success">Valider</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -118,9 +118,11 @@
                                                     </span>
                                                 </a>
                                             </button>
-
+                                            
                                         </div>
                                     </div>
+                                    <!-- LIST DESCRIPTION -->
+                                    <p class="list-description"></p>
                                 </div>
                                 <div class="panel-block is-block has-background-light">
 
@@ -171,10 +173,12 @@
                                         <span class="tag">
                                             <p class="tag-name"></p>
                                             <button class="delete is-small"></button>
+
+                                            <input type="hidden" name="tag_id" value="" class="tag-id">
+                                            <input type="hidden" name="card_id" value="" class="card-id">
+
                                         </span>
 
-                                        <input type="hidden" name="tag_id" value="" class="tag-id">
-                                        <input type="hidden" name="card_id" value="" class="card-id">
 
                                     </template>
 
