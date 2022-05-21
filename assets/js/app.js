@@ -297,13 +297,15 @@ const app = {
     console.log(`Liste choisie = ${listId}`);
     const inputCardListId = document.querySelector('.card-list-id').value = listId;
     //todo remove
-    console.log(`Id de la liste dans input carte choisie = ${inputCardListId}`);
+    console.log(`Carte choisie avec la liste suivante = ${inputCardListId}`);
 
     document.querySelector(`#addCardModal input[name="card_title"]`).value = '';
     document.querySelector(`#addCardModal input[name="card_description"]`).value = '';
 
     const modalElement = document.getElementById('addCardModal');
     modalElement.classList.add('is-active');
+    modalElement.querySelector('.card-list-id').value = listId;
+
   },
   //*HIDE CARD MODAL
   hideModalCard() {
@@ -318,21 +320,23 @@ const app = {
   async handleAddCardForm(event) {
     event.preventDefault();
 
+   
+  
     const data = new FormData(event.target);
 
     const cardTitle = data.get('card_title');
     const cardDescription = data.get('card_description');
     const cardColor = data.get('card_color');
-    const listId = data.get('list_id');
     const cardOrder = data.get('card_order');
     const cardUser = data.get('card_user');
+    const listId = data.get('list_id');
     //todo remove
     console.log(`Titre de la nouvelle carte = ${cardTitle}`);
     console.log(`Description = ${cardDescription}`);
     console.log(`Couleur = ${cardColor}`);
-    console.log(`List id récupérée = ${listId}`);
     console.log(`Position de la carte = ${cardOrder}`);
     console.log(`Utilisateur = ${cardUser}`);
+    console.log(`List id récupérée = ${listId}`);
 
     const options = {
       method: 'POST',
@@ -375,8 +379,9 @@ const app = {
     //~set data cards id
     card.querySelector('.card-info').textContent = cardInfo;
     card.querySelector('.card-description').textContent = cardDescription;
-    card.querySelector('.card-order').textContent = cardOrder;
-    card.querySelector('.card-user').textContent = cardUser;
+    card.querySelector('.card-order').value = cardOrder;
+    card.querySelector('.card-user').value = cardUser;
+    card.querySelector('.card-list-id').value = listId;
     card.style.borderTop = `4px solid ${color}`;
 
     document.querySelector(`[data-list-id="${listId}"]`).querySelector('.panel-block').append(card);
@@ -442,22 +447,31 @@ const app = {
   editCard(event) {
     const cardElement = event.target.closest('.myCard');
     const cardId = cardElement.dataset.cardId;
+    const listId = cardElement.querySelector('.card-list-id').value;
+    const cardOrder = cardElement.querySelector('.card-order').value;
+    const cardUser = cardElement.querySelector('.card-user').value;
+    //todo remove
     console.log("cardId choisie pour modif: ", cardId);
+    console.log("listId choisie pour modif: ", listId);
+    console.log("cardOrder choisie pour modif: ", cardOrder);
+    console.log("cardUser choisie pour modif: ", cardUser);
 
-    app.showEditCardModal(cardId);
+    app.showEditCardModal(cardId, listId, cardOrder, cardUser);
 
     //~valid form card
     document.querySelector('#form-edit-card').addEventListener('submit', app.handleEditCardForm);
 
   },
   //*SHOW EDIT CARD MODAL
-  showEditCardModal(cardId) {
-
+  showEditCardModal(cardId, listId, cardOrder, cardUser) {
     document.querySelector(`#editCardModal input[name="card_edit"]`).value = '';
 
     const editModalElement = document.getElementById('editCardModal');
     editModalElement.classList.add('is-active');
     editModalElement.querySelector('.card-id').value = cardId;
+    editModalElement.querySelector('.card-order').value = cardOrder;
+    editModalElement.querySelector('.card-user').value = cardUser;
+    editModalElement.querySelector('.list-id').value = listId;
   },
   //*HIDE EDIT CARD MODAL
   hideEditModalCard() {
@@ -465,22 +479,57 @@ const app = {
     modalElement.classList.remove('is-active');
   },
   //*HANDLE EDIT CARD FORM MODAL
-  handleEditCardForm(event) {
+  async handleEditCardForm(event) {
     event.preventDefault();
     const cardId = event.target.querySelector('.card-id').value;
     console.log("cardId modifiée: ", cardId);
+    const targetCardElement = document.querySelector(`[data-card-id="${cardId}"]`);
+    console.log("Carte visée: ", targetCardElement);
+
 
     let data = new FormData(event.target);
     const cardEdit = data.get('card_edit');
     const cardDescription = data.get('card_description');
     const cardColor = data.get('card_color');
+    const cardOrder = data.get('card_order');
+    const listId = data.get('list_id');
     //todo remove
     console.log(`Titre de la nouvelle carte = ${cardEdit}`);
     console.log(`Description = ${cardDescription}`);
     console.log(`Couleur = ${cardColor}`);
+    console.log(`Ordre = ${cardOrder}`);
+    console.log(`La liste = ${listId}`);
 
-    app.hideEditModalCard();
+
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "title": cardEdit,
+        "description": cardDescription,
+        "color": cardColor,
+        "order": cardOrder
+      })
+    };
+
+    const response = await fetch(`${url}${allCards}/${cardId}`, options);
+
+    if (response.ok) {
+      const updateCard = await response.json();
+      console.log(updateCard);
+
+      targetCardElement.querySelector('.card-info').textContent = cardEdit;
+      targetCardElement.querySelector('.card-description').textContent = cardDescription;
+      targetCardElement.style.borderTop = `4px solid ${cardColor}`;
+
+
+      app.hideEditModalCard();
+    }
+
     // location.reload()
+
   },
 
   //*FETCH ALL CARDS BY LIST ID
@@ -492,7 +541,7 @@ const app = {
       const cards = await response.json();
 
       for (const card of cards) {
-        app.makeCardInDOM(card.id, card.title, card.description, card.color, card.list_id);
+        app.makeCardInDOM(card.id, card.title, card.description, card.color, card.list_id, card.order, card.user_id);
       }
 
       app.buttonRemoveCard();

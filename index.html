@@ -112,6 +112,7 @@
                                     <!--~ INPUTS to get user id and order id-->
                                     <input type="hidden" name="card_user" value="" class="card-user">
                                     <input type="hidden" name="card_order" value="" class="card-order">
+                                    <input type="hidden" name="list_id" value="" class="card-list-id">
 
                                     <div class="column is-narrow">
                                         <a href="#" class="edit-card">
@@ -148,10 +149,8 @@
 
                                     <!--! TEMPLATE TAG -->
                                     <form id="container-new-tag">
-                                        <input type="text" name="new-tag" id="new-tag" placeholder="New Tag"
-                                            required>
-                                        <input type="color" name="color-tag" id="new-tag-color"
-                                            value="#B4FF9F">
+                                        <input type="text" name="new-tag" id="new-tag" placeholder="New Tag" required>
+                                        <input type="color" name="color-tag" id="new-tag-color" value="#B4FF9F">
                                     </form>
                                 </div>
                             </div>
@@ -316,8 +315,10 @@
                             <input type="color" id="card-color-edit" class="input card-color" name="card_color"
                                 value="#7FB5FF">
 
-
+                            <!-- HIDDEN INPUTS -->
                             <input type="hidden" class="input card-id" name="card_id" value="">
+                            <input type="hidden" class="input card-order" name="card_order" value="">
+                            <input type="hidden" class="input card-user" name="card_user" value="">
                             <input type="hidden" class="input list-id" name="list_id" value="">
 
                         </div>
