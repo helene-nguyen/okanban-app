@@ -125,7 +125,7 @@ const app = {
 
       const listMessage = await response.json();
       console.log("listMessage: ", listMessage);
-      app.makeListInDOM('', listName, listDescription, listUser, listOrder);
+      app.makeListInDOM('', listName, listDescription, listUser, listOrder)
     };
 
     const buttonAddCard = document.querySelector('.addCardButton');
@@ -357,7 +357,7 @@ const app = {
     if (response.ok) {
       const cardMessage = await response.json();
       console.log("cardMessage: ", cardMessage);
-      app.makeCardInDOM('', cardTitle, cardDescription, cardColor,listId,cardOrder,cardUser)
+      app.makeCardInDOM('', cardTitle, cardDescription, cardColor, listId, cardOrder, cardUser)
     };
   },
   /**
@@ -388,6 +388,17 @@ const app = {
     app.hideModalCard();
     app.buttonEditCard();
     app.buttonRemoveCard();
+    //todo draggable
+
+    const cardsElement = document.querySelectorAll(`[data-card-id="${cardId}"]`);
+
+    for (const card of cardsElement) {
+      //todo get all form tags for handle add tags
+      card.querySelector('#container-new-tag').addEventListener('submit', (event) => {
+        event.preventDefault();
+        app.handleAddTagsForm(cardId, event);
+      });
+    };
 
   },
 
@@ -547,8 +558,42 @@ const app = {
     }
   },
 
-  //^-------------------------------TAGS
+  //^-----------------------------------------------TAGS
+  //*HANDLE TAG FORM
+  async handleAddTagsForm(cardId, event) {
+    console.log(event.target);
 
+    const data = new FormData(event.target);
+    const tagName = data.get('new_tag');
+    const tagColor = data.get('color_tag');
+
+    //todo remove
+    console.log("La couleur de mon tag: ", tagColor);
+    console.log("Le nom de mon tag: ", tagName);
+    console.log("La carte que j'ai choisi pour modifier le tag", cardId);
+
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "name": tagName,
+        "color": tagColor
+      })
+    };
+
+    const response = await fetch(`${url}${allCards}/${cardId}${allTags}/${tagName}`, options);
+
+    if (response.ok) {
+      const tagMessage = await response.json();
+      console.log("tagMessage: ", tagMessage);
+
+      location.reload();
+    };
+
+
+  },
   //*FETCH ALL TAGS BY CARD ID
   async fetchAllTagsByCardId(cardId) {
 
@@ -569,20 +614,41 @@ const app = {
 
     const clone = document.importNode(template.content, true);
     const tag = clone.querySelector('.tag');
-    //todo remove
-    tag.querySelector('.tag-id').value = tagId;
-    tag.querySelector('.card-id').value = cardId;
-    // console.log("La valeur de mes tags: ", tag.querySelector('.tag-id'));
-    // console.log("La valeur de mes cards: ", tag.querySelector('.card-id'));
-
     //~set data tags id
+    tag.dataset.tagId = tagId;
     tag.querySelector('.tag-name').textContent = tagName;
     tag.style.backgroundColor = tagColor;
-
+    //~apply event listener on delete tag button
+    tag.querySelector('.btn-delete-tag').addEventListener('click', app.doRemoveTag);
+    
     document.querySelector(`[data-card-id="${cardId}"]`).querySelector('.tag-box').append(tag);
 
   },
+  //*DO DELETE TAGS
+  async doRemoveTag(event) {
+    const tagToRemove = event.target.closest('[data-tag-id]');
+    const tagIdToRemove = tagToRemove.dataset.tagId;
+    const cardId = event.target.closest('[data-card-id]').dataset.cardId;
+    
+    //todo remove
+    console.log(tagToRemove);
+    console.log("Id du tag sélectionné: ", tagIdToRemove);
 
+    const options = {
+      method: 'DELETE'
+    };
+
+    const response = await fetch(`${url}${allCards}/${cardId}${allTags}/${tagIdToRemove}`, options);
+
+    if (response.ok) {
+      const deleteTag = await response.json();
+      //todo remove
+      console.log(deleteTag);
+      tagToRemove.remove();
+    }
+  },
+
+  //^----------------------DRAG AND DROP -------------------------------
 
 };
 

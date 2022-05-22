@@ -60,7 +60,7 @@
             </div>
 
 
-            <div class="columns">
+            <div class="columns" id="zone-list">
 
                 <div class="column is-full">
                     <div class="card-lists columns">
@@ -68,33 +68,33 @@
                         <!--! TEMPLATE LIST -->
                         <template id="template-list">
 
-                            <div class="column is-one-third panel my-list" data-list-id="">
+                            <div class="column is-one-third panel my-list" data-list-id="" draggable="true">
                                 <div class="panel-heading">
                                     <div class="columns">
 
                                         <div class="column heading-list">
                                             <!-- LIST NAME -->
                                             <h2 class="has-text list-title"></h2>
-                                            
+
                                             <form action="" method="POST" class="is-hidden edit-list-form">
-                                                
+
                                                 <!--~ INPUTS to get user id and order id-->
                                                 <input type="hidden" name="list_user" value="" class="list-user">
                                                 <input type="hidden" name="list_order" value="" class="list-order">
-                                                
+
                                                 <div class="field has-addons">
                                                     <div class="control">
-                                                        
+
                                                         <!--~ INPUTS to fetch name of list -->
                                                         <input type="text" class="input is-small new-list"
-                                                        name="list_name" value="" placeholder="Nouveau titre">
+                                                            name="list_name" value="" placeholder="Nouveau titre">
                                                         <input type="text" class="input is-small new-description"
-                                                        name="list_description" value="" placeholder="Description">
-                                                        
+                                                            name="list_description" value="" placeholder="Description">
+
                                                     </div>
                                                     <div class="control">
                                                         <button
-                                                        class="new-list-btn button is-small is-success">Valider</button>
+                                                            class="new-list-btn button is-small is-success">Valider</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -118,7 +118,7 @@
                                                     </span>
                                                 </a>
                                             </button>
-                                            
+
                                         </div>
                                     </div>
                                     <!-- LIST DESCRIPTION -->
@@ -136,13 +136,14 @@
                         <!--! TEMPLATE CARD -->
                         <template id="template-card">
                             <!-- card -->
-                            <div class="box myCard" data-card-id="">
+                            <div class="box myCard" data-card-id="" draggable="true">
                                 <div class="columns">
                                     <!--~ HERE the card name -->
                                     <div class="column card-info"></div>
 
                                     <!--~ INPUTS to get user id and order id-->
                                     <input type="hidden" name="card_user" value="" class="card-user">
+
                                     <input type="hidden" name="card_order" value="" class="card-order">
                                     <input type="hidden" name="list_id" value="" class="card-list-id">
 
@@ -166,27 +167,25 @@
                                 <!--~ HERE the card tag -->
                                 <div class="tag-box">
 
+                                    <form id="container-new-tag">
+                                        <input type="text" name="new_tag" id="new-tag" placeholder="New Tag">
+                                        <input type="color" name="color_tag" id="new-tag-color" value="#B4FF9F">
+
+                                        <input type="hidden" name="tag_id" value="" class="tag-id">
+
+                                    </form>
 
                                     <!--! TEMPLATE TAG -->
                                     <template id="template-tag">
 
-                                        <span class="tag">
+                                        <span class="tag" data-tag-id="">
                                             <p class="tag-name"></p>
-                                            <button class="delete is-small"></button>
-
-                                            <input type="hidden" name="tag_id" value="" class="tag-id">
-                                            <input type="hidden" name="card_id" value="" class="card-id">
-
+                                            <button class="delete btn-delete-tag is-small"></button>
                                         </span>
-
-
                                     </template>
 
+
                                     <!--! TEMPLATE TAG -->
-                                    <form id="container-new-tag">
-                                        <input type="text" name="new-tag" id="new-tag" placeholder="New Tag" required>
-                                        <input type="color" name="color-tag" id="new-tag-color" value="#B4FF9F">
-                                    </form>
                                 </div>
                             </div>
                             <!--/ card -->
@@ -198,6 +197,7 @@
                 </div>
 
             </div>
+
         </div>
     </section>
 
