@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="./assets/css/style.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 
+    <!--favicon.ico error remove-->
+    <link rel="icon" href="data:,">
+
     <!-- Chargement de mon fichier JS -->
-    <script src="./assets/js/app.js" defer type="module"></script>
+    <script src="./assets/js/index.js" defer type="module"></script>
 </head>
 
 <body>
@@ -136,7 +139,7 @@
                         <!--! TEMPLATE CARD -->
                         <template id="template-card">
                             <!-- card -->
-                            <div class="box myCard" data-card-id="" draggable="true">
+                            <div class="box myCard" data-card-id="" draggable="false">
                                 <div class="columns">
                                     <!--~ HERE the card name -->
                                     <div class="column card-info"></div>
@@ -225,10 +228,9 @@
                             <label class="label">Description (facultatif)</label>
                             <input type="text" class="input list-id" name="list_description" value=""
                                 placeholder="Description de la liste">
-                            <!-- TODO replace correct value of user -->
+
                             <input type="hidden" class="input list-id" name="list_user" value="1">
-                            <!-- TODO replace correct value of position -->
-                            <input type="hidden" class="input list-id" name="list_order" value="1">
+                            <input type="hidden" class="input list-id" name="list_order" value="">
                             <input type="hidden" class="input card-id" name="card_id" value="">
 
                         </div>

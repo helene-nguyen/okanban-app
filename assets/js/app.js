@@ -1,5 +1,9 @@
 //~import api
 import {
+  dragList
+} from './dragList.js';
+
+import {
   url,
   allLists,
   allCards,
@@ -7,11 +11,11 @@ import {
 } from './services/api.okanban.js'
 
 const app = {
-  //^------------------ VARIABLES
-
   //^------------------ INIT
   init: function () {
+
     app.addListenerToAction();
+
   },
 
   //^------------------ METHODS
@@ -99,12 +103,10 @@ const app = {
     const listName = data.get('list_name');
     const listDescription = data.get('list_description');
     const listUser = data.get('list_user');
-    const listOrder = data.get('list_order');
     //REMOVE TEST
     console.log(`List name = ${listName}`);
     console.log(`List description = ${listDescription}`);
     console.log(`List user = ${listUser}`);
-    console.log(`List order = ${listOrder}`);
 
     const options = {
       method: 'POST',
@@ -114,7 +116,6 @@ const app = {
       body: JSON.stringify({
         "title": listName,
         "description": listDescription,
-        "order": listOrder,
         "user_id": listUser
       })
     };
@@ -124,8 +125,10 @@ const app = {
     if (response.ok) {
 
       const listMessage = await response.json();
+      //todo remove
       console.log("listMessage: ", listMessage);
-      app.makeListInDOM('', listName, listDescription, listUser, listOrder)
+      // app.makeListInDOM('', listName, listDescription, listUser)
+      location.reload();
     };
 
     const buttonAddCard = document.querySelector('.addCardButton');
@@ -149,6 +152,7 @@ const app = {
     const clone = document.importNode(template.content, true);
     const list = clone.querySelector('.my-list');
     list.setAttribute('data-list-id', `${id}`);
+    list.addEventListener('dragstart', dragList.handleDragStartList);
 
     //~append to list board
     const cardLists = document.querySelector('.card-lists');
@@ -207,6 +211,7 @@ const app = {
 
     if (response.ok) {
       const deleteList = await response.json();
+      //todo remove
       console.log(deleteList);
 
       listToRemove.remove();
@@ -228,9 +233,6 @@ const app = {
     const confirmDeleteBtnElement = document.querySelector('#removeModal');
     confirmDeleteBtnElement.classList.remove('is-active');
   },
-
-
-  //&===============================================================
 
   //*EDIT FORM LIST
   editListForm() {
@@ -266,18 +268,19 @@ const app = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
+      body:  JSON.stringify({
         "title": listName,
         "description": listDescription,
         "order": listOrder,
         "user_id": listUser
-      })
+      }) 
     };
 
     const response = await fetch(`${url}${allLists}/${listId}`, options);
 
     if (response.ok) {
       const updateList = await response.json();
+      //todo remove
       console.log(updateList);
 
       listTitleElement.querySelector('.list-title').textContent = listName;
@@ -357,7 +360,8 @@ const app = {
     if (response.ok) {
       const cardMessage = await response.json();
       console.log("cardMessage: ", cardMessage);
-      app.makeCardInDOM('', cardTitle, cardDescription, cardColor, listId, cardOrder, cardUser)
+      /* app.makeCardInDOM('', cardTitle, cardDescription, cardColor, listId, cardOrder, cardUser); */
+      location.reload();
     };
   },
   /**
@@ -620,7 +624,7 @@ const app = {
     tag.style.backgroundColor = tagColor;
     //~apply event listener on delete tag button
     tag.querySelector('.btn-delete-tag').addEventListener('click', app.doRemoveTag);
-    
+
     document.querySelector(`[data-card-id="${cardId}"]`).querySelector('.tag-box').append(tag);
 
   },
@@ -629,7 +633,7 @@ const app = {
     const tagToRemove = event.target.closest('[data-tag-id]');
     const tagIdToRemove = tagToRemove.dataset.tagId;
     const cardId = event.target.closest('[data-card-id]').dataset.cardId;
-    
+
     //todo remove
     console.log(tagToRemove);
     console.log("Id du tag sélectionné: ", tagIdToRemove);
@@ -646,10 +650,10 @@ const app = {
       console.log(deleteTag);
       tagToRemove.remove();
     }
-  },
-
-  //^----------------------DRAG AND DROP -------------------------------
+  }
 
 };
 
-app.init();
+export {
+  app
+};
