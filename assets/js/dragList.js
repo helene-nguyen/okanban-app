@@ -8,9 +8,7 @@ const dragList = {
     //*DRAGGABLE LIST ZONE
     listZone() {
         const listZone = document.getElementById('zone-list');
-        //todo remove
-        console.log("listZone: ", listZone);
-
+    
         listZone.addEventListener('drop', dragList.handleOnDropList);
         listZone.addEventListener('drop', dragList.handleOnDragOverList);
     },
@@ -24,13 +22,15 @@ const dragList = {
         event.preventDefault();
     },
     handleDragStartList(event) {
+        const listOrder = event.target.querySelector('.list-order').value;
         //todo remove
-        console.log("J'ai déplacé ma liste");
+        console.log("I've moved my list");
         console.log(event.target)
-        console.log('Mon id List est le : ', event.target.dataset.listId);
-        // console.log(`L'ordre de ma List est le : `, event.target.querySelector(''));
+        console.log('My list Id is : ', event.target.dataset.listId);
+        console.log(`Position of my list is : `, event.target.querySelector('.list-order').value);
 
-
+        event.dataTransfer.setData('listOrder', listOrder);
+        event.dataTransfer.dropEffect = 'move';
      }
 }
 

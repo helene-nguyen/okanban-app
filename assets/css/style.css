@@ -106,6 +106,7 @@ body {
 .panel-heading {
   background-color: #343434;
   height: 8em;
+  cursor: grabbing;
 }
 
 .new-list,
@@ -249,10 +250,11 @@ h2.list-title:hover {
 
 .tag{
   margin: 0.15em;
+  transition: all 0.25s;
 }
 
 .tag:hover{
-  
+  transform: translateY(5px);
 }
 
 

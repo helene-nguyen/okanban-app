@@ -214,8 +214,9 @@ const app = {
       //todo remove
       console.log(deleteList);
 
-      listToRemove.remove();
       app.hideModalDeleteList();
+      //trick to see deletion immediately
+      listToRemove.remove();
     }
 
   },
@@ -256,10 +257,20 @@ const app = {
     event.preventDefault();
     const listTitleElement = event.target.closest('.my-list');
     const listId = listTitleElement.dataset.listId;
+    const currentTitle = listTitleElement.querySelector('.list-title').textContent;
+    const currentDescription = listTitleElement.querySelector('.list-description').textContent;
+    //todo remove after test 
+    console.log("Titre actuel : ", currentTitle);
+    console.log("Description actuelle : ", currentDescription);
 
     const data = new FormData(event.target);
-    const listName = data.get('list_name');
-    const listDescription = data.get('list_description');
+
+    let listName = data.get('list_name');
+    listName === '' ? listName = currentTitle : listName;
+    console.log("Le nom de la liste éditée : ", listName);
+    let listDescription = data.get('list_description');
+    console.log("La description éditée : ", listDescription);
+
     const listOrder = data.get('list_order');
     const listUser = data.get('list_user');
 
@@ -268,12 +279,12 @@ const app = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body:  JSON.stringify({
+      body: JSON.stringify({
         "title": listName,
         "description": listDescription,
         "order": listOrder,
         "user_id": listUser
-      }) 
+      })
     };
 
     const response = await fetch(`${url}${allLists}/${listId}`, options);
@@ -286,6 +297,7 @@ const app = {
       listTitleElement.querySelector('.list-title').textContent = listName;
       listTitleElement.querySelector('.list-description').textContent = listDescription;
       listTitleElement.querySelector('.edit-list-form').classList.add('is-hidden');
+      /* location.reload(); */
     }
 
   },
@@ -385,7 +397,9 @@ const app = {
     card.querySelector('.card-order').value = cardOrder;
     card.querySelector('.card-user').value = cardUser;
     card.querySelector('.card-list-id').value = listId;
-    card.style.borderTop = `4px solid ${color}`;
+    card.style.borderTop = `4px solid`;
+    //color in HEX
+    card.style.borderTopColor = color;
 
     document.querySelector(`[data-list-id="${listId}"]`).querySelector('.panel-block').insertAdjacentElement('afterbegin', card);
     //todo put cardId
@@ -443,10 +457,11 @@ const app = {
     if (response.ok) {
       const deleteCard = await response.json();
       console.log(deleteCard);
-      cardToRemove.remove();
       app.hideModalDeleteList();
-      alert(deleteCard);
-      location.reload();
+      //trick to see deletion immediately
+      cardToRemove.remove();
+      /* alert(deleteCard); */
+      /*  location.reload(); */
     }
   },
 
@@ -497,21 +512,43 @@ const app = {
   //*HANDLE EDIT CARD FORM MODAL
   async handleEditCardForm(event) {
     event.preventDefault();
+
     const cardId = event.target.querySelector('.card-id').value;
-    console.log("cardId modifiée: ", cardId);
     const targetCardElement = document.querySelector(`[data-card-id="${cardId}"]`);
-    console.log("Carte visée: ", targetCardElement);
+    const currentTitleCard = targetCardElement.querySelector('.card-info').textContent;
+    const currentDescriptionCard = targetCardElement.querySelector('.card-description').textContent;
+
+    let currentColorCard = targetCardElement.style.borderTopColor;
+    let valueRGB = currentColorCard.split("(")[1].split(")")[0];
+    currentColorCard = app.getHexFromRGB(valueRGB);
+       
+    //todo remove after test
+    console.log("_______________________________________________");
+    console.log("valueRGB: ", valueRGB);
+    console.log("currentTitleCard: ", currentTitleCard);
+    console.log("currentDescriptionCard: ", currentDescriptionCard);
+    console.log("currentColorCard: ", currentColorCard); //first in RGB
+    console.log("_______________________________________________");
+    // console.log("cardId modifiée: ", cardId);
+    // console.log("Carte visée: ", targetCardElement);
 
     const data = new FormData(event.target);
-    const cardEdit = data.get('card_edit');
-    const cardDescription = data.get('card_description');
-    const cardColor = data.get('card_color');
+
+    //!condition if modify only one value
+    let cardEdit = data.get('card_edit');
+    let cardDescription = data.get('card_description');
+    let cardColor = data.get('card_color');
+    
+    cardEdit === '' ? cardEdit = currentTitleCard : cardEdit;
+    cardDescription === '' ? cardDescription = currentDescriptionCard : cardDescription;
+    cardColor === '' ? cardColor = currentColorCard : cardColor;
+
     const cardOrder = data.get('card_order');
     const listId = data.get('list_id');
     //todo remove
     console.log(`Titre de la nouvelle carte = ${cardEdit}`);
-    console.log(`Description = ${cardDescription}`);
-    console.log(`Couleur = ${cardColor}`);
+    console.log(`Description de la nouvelle carte = ${cardDescription}`);
+    console.log(`Couleur de la nouvelle carte= ${cardColor}`);
     console.log(`Ordre = ${cardOrder}`);
     console.log(`La liste = ${listId}`);
 
@@ -556,7 +593,6 @@ const app = {
         app.makeCardInDOM(card.id, card.title, card.description, card.color, card.list_id, card.order, card.user_id);
         app.fetchAllTagsByCardId(card.id);
       }
-
 
       app.buttonRemoveCard();
     }
@@ -648,9 +684,24 @@ const app = {
       const deleteTag = await response.json();
       //todo remove
       console.log(deleteTag);
+      //trick to see it immediately
       tagToRemove.remove();
     }
-  }
+  },
+  //*CONVERT RGB TO HEX
+  /**
+ * Convertis en Héxadécimal depuis le RGB
+ * @param {*} color 
+ * @returns 
+ */
+ getHexFromRGB(color){
+  let a = color.split(",");
+  var b = a.map(function(x){             //For each array element
+      x = parseInt(x).toString(16);      //Convert to a base16 string
+      return (x.length==1) ? "0"+x : x;  //Add zero if we get only one character
+  });
+  return b = "#"+b.join("");
+}
 
 };
 
