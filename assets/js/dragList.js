@@ -38,7 +38,7 @@ const dragList = {
         
         const draggableListItem = document.querySelector('.panel-heading');
         console.log("draggableListItem: ", draggableListItem);
-        
+        // console.log("draggableList: ", draggableList);
        
     }
 }
