@@ -1,5 +1,8 @@
 //~import api
 import {
+  converter
+} from './convertHexToRGB.js';
+import {
   dragList
 } from './dragList.js';
 
@@ -520,8 +523,8 @@ const app = {
 
     let currentColorCard = targetCardElement.style.borderTopColor;
     let valueRGB = currentColorCard.split("(")[1].split(")")[0];
-    currentColorCard = app.getHexFromRGB(valueRGB);
-       
+    currentColorCard = converter.getHexFromRGB(valueRGB);
+
     //todo remove after test
     console.log("_______________________________________________");
     console.log("valueRGB: ", valueRGB);
@@ -538,7 +541,7 @@ const app = {
     let cardEdit = data.get('card_edit');
     let cardDescription = data.get('card_description');
     let cardColor = data.get('card_color');
-    
+
     cardEdit === '' ? cardEdit = currentTitleCard : cardEdit;
     cardDescription === '' ? cardDescription = currentDescriptionCard : cardDescription;
     cardColor === '' ? cardColor = currentColorCard : cardColor;
@@ -687,22 +690,7 @@ const app = {
       //trick to see it immediately
       tagToRemove.remove();
     }
-  },
-  //*CONVERT RGB TO HEX
-  /**
- * Convertis en Héxadécimal depuis le RGB
- * @param {*} color 
- * @returns 
- */
- getHexFromRGB(color){
-  let a = color.split(",");
-  var b = a.map(function(x){             //For each array element
-      x = parseInt(x).toString(16);      //Convert to a base16 string
-      return (x.length==1) ? "0"+x : x;  //Add zero if we get only one character
-  });
-  return b = "#"+b.join("");
-}
-
+  }
 };
 
 export {
