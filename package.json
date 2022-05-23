@@ -1,0 +1,19 @@
+{
+  "name": "front_okanban-v1",
+  "version": "1.0.0",
+  "description": "Front App Kanban",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/O-clock-Cassini/S07-oKanban-front-helene-nguyen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/O-clock-Cassini/S07-oKanban-front-helene-nguyen/issues"
+  },
+  "homepage": "https://github.com/O-clock-Cassini/S07-oKanban-front-helene-nguyen#readme"
+}

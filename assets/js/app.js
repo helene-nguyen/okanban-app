@@ -177,6 +177,8 @@ const app = {
 
     //~button remove list
     app.buttonRemoveList();
+    //~listener for drag list
+    dragList.eventListeners();
   },
 
   //*BUTTON REMOVE LIST
@@ -498,6 +500,7 @@ const app = {
   //*SHOW EDIT CARD MODAL
   showEditCardModal(cardId, listId, cardOrder, cardUser) {
     document.querySelector(`#editCardModal input[name="card_edit"]`).value = '';
+    document.querySelector(`#editCardModal input[name="card_description"]`).value = '';
 
     const editModalElement = document.getElementById('editCardModal');
 
@@ -518,6 +521,7 @@ const app = {
 
     const cardId = event.target.querySelector('.card-id').value;
     const targetCardElement = document.querySelector(`[data-card-id="${cardId}"]`);
+    //CURRENT CARD
     const currentTitleCard = targetCardElement.querySelector('.card-info').textContent;
     const currentDescriptionCard = targetCardElement.querySelector('.card-description').textContent;
 
@@ -551,10 +555,9 @@ const app = {
     //todo remove
     console.log(`Titre de la nouvelle carte = ${cardEdit}`);
     console.log(`Description de la nouvelle carte = ${cardDescription}`);
-    console.log(`Couleur de la nouvelle carte= ${cardColor}`);
+    console.log(`Couleur de la nouvelle carte = ${cardColor}`);
     console.log(`Ordre = ${cardOrder}`);
     console.log(`La liste = ${listId}`);
-
 
     const options = {
       method: 'PATCH',

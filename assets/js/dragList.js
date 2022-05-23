@@ -1,11 +1,11 @@
 const dragList = {
     //^INITIALISATION
     init() {
-        dragList.listZone();
+        dragList.eventListeners();
     },
 
     //^METHODS
-    //*DRAGGABLE LIST ZONE
+    /* //*DRAGGABLE LIST ZONE
     listZone() {
         const listZone = document.getElementById('zone-list');
     
@@ -31,7 +31,16 @@ const dragList = {
 
         event.dataTransfer.setData('listOrder', listOrder);
         event.dataTransfer.dropEffect = 'move';
-     }
+     } */
+    eventListeners() {
+        const draggableList = document.querySelector('.my-list');
+        console.log("draggableList: ", draggableList);
+        
+        const draggableListItem = document.querySelector('.panel-heading');
+        console.log("draggableListItem: ", draggableListItem);
+        
+       
+    }
 }
 
 export {

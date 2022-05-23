@@ -12,19 +12,35 @@
     <!--favicon.ico error remove-->
     <link rel="icon" href="data:,">
 
+    <!-- animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+
     <!-- Chargement de mon fichier JS -->
     <script src="./assets/js/index.js" defer type="module"></script>
+
+
 </head>
 
 <body>
+
+    <header id="header">
+        <h1 class="title focus-in-contract">
+            O'Kanban
+        </h1>
+        <p class="subtitle">Stay organized</p>
+    </header>
+
     <section class="section ">
         <div class="container">
 
-            <h1 class="title focus-in-contract">
-                O'Kanban
-            </h1>
-
             <nav class="navbar-end" role="navigation" aria-label="main navigation">
+
+                <!-- Animation here https://tobiasahlin.com/moving-letters/#9 -->
+                <h1 class="ml9">
+                    <span class="text-wrapper welcome-message">
+                        <span class="letters">Hello Yumi</span>
+                    </span>
+                </h1>
 
                 <div id="navbarBasicExample">
                     <div class="navbar">
@@ -71,8 +87,8 @@
                         <!--! TEMPLATE LIST -->
                         <template id="template-list">
 
-                            <div class="column is-one-third panel my-list" data-list-id="" draggable="true">
-                                <div class="panel-heading">
+                            <div class="column is-one-third panel my-list" data-list-id="">
+                                <div class="panel-heading" draggable="true">
                                     <div class="columns">
 
                                         <div class="column heading-list">
@@ -371,6 +387,10 @@
             </form>
         </div>
     </div>
+
+    <footer id="footer">
+        YumiCode©️ 2022 #nevergoingback
+    </footer>
 
 
 </body>

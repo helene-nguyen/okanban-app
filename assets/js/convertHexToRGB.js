@@ -1,7 +1,7 @@
 const converter = {
     /**
      * Convert RGB to Hexadecimal
-     * @param {*} color 
+     * @param {*} color in RGB => ex: rgb(255, 159, 128)
      * @returns 
      */
     getHexFromRGB(color) {
