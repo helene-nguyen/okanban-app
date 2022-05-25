@@ -321,7 +321,6 @@ h2.list-title:hover {
   outline: none;
   text-align: start;
   flex-direction: column;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 5px;
 }
 
@@ -337,7 +336,6 @@ h2.list-title:hover {
 #new-tag-color:hover {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-
 
 .deleteListButton {
   transition: all 0.25s;
@@ -355,4 +353,13 @@ h2.list-title:hover {
   bottom: 1em;
   width: 100%;
   text-align: center;
+}
+
+.drag-over {
+  background-color: var(--primary-color01);
+  transition: all 0.75s;
+}
+
+.hide-element {
+  display: none;
 }

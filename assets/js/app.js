@@ -155,11 +155,13 @@ const app = {
     const clone = document.importNode(template.content, true);
     const list = clone.querySelector('.my-list');
     list.setAttribute('data-list-id', `${id}`);
-    list.addEventListener('dragstart', dragList.handleDragStartList);
+    const cloneBlockElement = clone.querySelector('.block-to-clone');
+    // console.log("position: ", cloneBlockElement);
+    cloneBlockElement.setAttribute('data-order-id', `${order}`);
 
     //~append to list board
     const cardLists = document.querySelector('.card-lists');
-    cardLists.insertAdjacentElement('afterbegin', list);
+    cardLists.insertAdjacentElement('afterbegin', cloneBlockElement);
     cardLists.querySelector('.list-title').textContent = title;
     cardLists.querySelector('.list-description').textContent = description;
     cardLists.querySelector('.list-user').setAttribute('value', `${user}`);
@@ -411,7 +413,6 @@ const app = {
     app.hideModalCard();
     app.buttonEditCard();
     app.buttonRemoveCard();
-    //todo draggable
 
     const cardsElement = document.querySelectorAll(`[data-card-id="${cardId}"]`);
 
@@ -485,20 +486,29 @@ const app = {
     const listId = cardElement.querySelector('.card-list-id').value;
     const cardOrder = cardElement.querySelector('.card-order').value;
     const cardUser = cardElement.querySelector('.card-user').value;
+    //color
+    let currentColorCard = cardElement.style.borderTopColor;
+    console.log('___________________________________');
+    console.log("currentColorCard: ", currentColorCard);
+    let valueRGB = currentColorCard.split("(")[1].split(")")[0];
+    console.log("valueRGB: ", valueRGB);
+    currentColorCard = converter.getHexFromRGB(valueRGB);
+
     //todo remove
+    console.log("currentColorCard: ", currentColorCard);
     console.log("cardId choisie pour modif: ", cardId);
     console.log("listId choisie pour modif: ", listId);
     console.log("cardOrder choisie pour modif: ", cardOrder);
     console.log("cardUser choisie pour modif: ", cardUser);
 
-    app.showEditCardModal(cardId, listId, cardOrder, cardUser);
+    app.showEditCardModal(cardId, listId, cardOrder, cardUser, currentColorCard);
 
     //~valid form card
     document.querySelector('#form-edit-card').addEventListener('submit', app.handleEditCardForm);
 
   },
   //*SHOW EDIT CARD MODAL
-  showEditCardModal(cardId, listId, cardOrder, cardUser) {
+  showEditCardModal(cardId, listId, cardOrder, cardUser, currentColor) {
     document.querySelector(`#editCardModal input[name="card_edit"]`).value = '';
     document.querySelector(`#editCardModal input[name="card_description"]`).value = '';
 
@@ -509,6 +519,7 @@ const app = {
     editModalElement.querySelector('.card-order').value = cardOrder;
     editModalElement.querySelector('.card-user').value = cardUser;
     editModalElement.querySelector('.list-id').value = listId;
+    editModalElement.querySelector('.card-color').value = currentColor;
   },
   //*HIDE EDIT CARD MODAL
   hideEditModalCard() {
@@ -612,13 +623,11 @@ const app = {
     console.log("currentTagName: ", currentTags);
 
     //if tag name existe, rechercher tagid pour faire un patch
-
     //review queryselector all id of tag on card
     //get data from form
     const data = new FormData(event.target);
     let tagName = data.get('new_tag');
     let tagColor = data.get('color_tag');
-
 
     //todo remove
     console.log("La couleur de mon tag choisi : ", tagColor);
@@ -636,16 +645,18 @@ const app = {
         };
         tags.push(currentTag);
       }
-
+      //todo remove after test
       console.log(tags);
-
+      
       for (const tag of tags) {
+        //todo remove after test
         console.log(tag);
-
+        
         if (tag.tagName === tagName) {
           let tagId = tag.id;
+          //todo remove after test
           console.log("tagId: ", tagId);
-
+          
           let options = {
             method: 'PATCH',
             headers: {
@@ -656,11 +667,12 @@ const app = {
               "color": tagColor
             })
           }
-
+          
           const response = await fetch(`${url}${allTags}/${tagId}`, options);
-
+          
           if (response.ok) {
             const tagMessage = await response.json();
+            //todo remove after test
             console.log("tagMessage: ", tagMessage);
 
             location.reload();
@@ -691,6 +703,10 @@ const app = {
     };
 
   },
+  /**
+   * 
+   * @param {*} cardId 
+   */
   //*FETCH ALL TAGS BY CARD ID
   async fetchAllTagsByCardId(cardId) {
 
@@ -704,6 +720,13 @@ const app = {
       }
     }
   },
+  /**
+   * 
+   * @param {*} tagId 
+   * @param {*} tagName 
+   * @param {*} tagColor 
+   * @param {*} cardId 
+   */
   //* MAKE TAGS
   async makeTagInDOM(tagId, tagName, tagColor, cardId) {
     //~Cloning template
@@ -726,6 +749,7 @@ const app = {
   //*DO DELETE TAGS
   async doRemoveTag(event) {
     const tagToRemove = event.target.closest('.tag[data-tag-id]');
+    //todo remove
     console.log("tagToRemove: ", tagToRemove);
     const tagIdToRemove = tagToRemove.dataset.tagId;
     const cardId = event.target.closest('[data-card-id]').dataset.cardId;

@@ -2,7 +2,6 @@ const animationLetters = {
 
     defineAnimation() {
         const textWrapper = document.querySelector('.ml9 .letters');
-        console.log('TEST ANIMATION');
 
         textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 

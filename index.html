@@ -87,63 +87,68 @@
                         <!--! TEMPLATE LIST -->
                         <template id="template-list">
 
-                            <div class="column is-one-third panel my-list" data-list-id="">
-                                <div class="panel-heading" draggable="true">
-                                    <div class="columns">
+                            <div class="column is-one-third panel block-to-clone" data-order-id="">
 
-                                        <div class="column heading-list">
-                                            <!-- LIST NAME -->
-                                            <h2 class="has-text list-title"></h2>
+                                <div class="column panel my-list" data-list-id="" draggable="true">
+                                    <div class="panel-heading">
+                                        <div class="columns">
 
-                                            <form action="" method="POST" class="is-hidden edit-list-form">
+                                            <div class="column heading-list">
+                                                <!-- LIST NAME -->
+                                                <h2 class="has-text list-title"></h2>
 
-                                                <!--~ INPUTS to get user id and order id-->
-                                                <input type="hidden" name="list_user" value="" class="list-user">
-                                                <input type="hidden" name="list_order" value="" class="list-order">
+                                                <form action="" method="POST" class="is-hidden edit-list-form">
 
-                                                <div class="field has-addons">
-                                                    <div class="control">
+                                                    <!--~ INPUTS to get user id and order id-->
+                                                    <input type="hidden" name="list_user" value="" class="list-user">
+                                                    <input type="hidden" name="list_order" value="" class="list-order">
 
-                                                        <!--~ INPUTS to fetch name of list -->
-                                                        <input type="text" class="input is-small new-list"
-                                                            name="list_name" value="" placeholder="Nouveau titre">
-                                                        <input type="text" class="input is-small new-description"
-                                                            name="list_description" value="" placeholder="Description">
+                                                    <div class="field has-addons">
+                                                        <div class="control">
 
+                                                            <!--~ INPUTS to fetch name of list -->
+                                                            <input type="text" class="input is-small new-list"
+                                                                name="list_name" value="" placeholder="Nouveau titre">
+                                                            <input type="text" class="input is-small new-description"
+                                                                name="list_description" value=""
+                                                                placeholder="Description">
+
+                                                        </div>
+                                                        <div class="control">
+                                                            <button
+                                                                class="new-list-btn button is-small is-success">Valider</button>
+                                                        </div>
                                                     </div>
-                                                    <div class="control">
-                                                        <button
-                                                            class="new-list-btn button is-small is-success">Valider</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                                                </form>
+                                            </div>
 
-                                        <div class="column is-narrow">
-                                            <button class="button is-link addCardButton">
-                                                <a href="#">
-                                                    <span class="icon is-small has-text-white">
-                                                        <i class="fas fa-plus"></i>
-                                                    </span>
-                                                </a>
-                                            </button>
-                                        </div>
+                                            <div class="column is-narrow">
+                                                <button class="button is-link addCardButton">
+                                                    <a href="#">
+                                                        <span class="icon is-small has-text-white">
+                                                            <i class="fas fa-plus"></i>
+                                                        </span>
+                                                    </a>
+                                                </button>
+                                            </div>
 
-                                        <div class="column is-narrow">
-                                            <button class="button is-danger deleteListButton">
-                                                <a href="#" class="is-pulled-right">
-                                                    <span class="icon is-small has-text-white">
-                                                        <i class="fas fa-minus"></i>
-                                                    </span>
-                                                </a>
-                                            </button>
+                                            <div class="column is-narrow">
+                                                <button class="button is-danger deleteListButton">
+                                                    <a href="#" class="is-pulled-right">
+                                                        <span class="icon is-small has-text-white">
+                                                            <i class="fas fa-minus"></i>
+                                                        </span>
+                                                    </a>
+                                                </button>
 
+                                            </div>
                                         </div>
+                                        <!-- LIST DESCRIPTION -->
+                                        <p class="list-description"></p>
                                     </div>
-                                    <!-- LIST DESCRIPTION -->
-                                    <p class="list-description"></p>
-                                </div>
-                                <div class="panel-block is-block has-background-light">
+                                    <div class="panel-block is-block has-background-light">
+
+                                    </div>
 
                                 </div>
 
@@ -271,8 +276,6 @@
         <div class="modal-card">
             <form action="" method="POST" class="form-delete">
                 <header class="modal-card-head column">
-
-
 
                     <p class="modal-card-title">
                         Etes-vous sur de vouloir la suppression cet élément ? <button class="delete close" type="button"
