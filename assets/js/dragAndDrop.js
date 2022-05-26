@@ -4,6 +4,7 @@ import { url, allLists } from "./services/api.okanban.js";
 const dragList = {
   //^VARIABLES
   dragStartIndex: "",
+
   //^INITIALISATION
   init() {
     dragList.eventListeners();
@@ -21,58 +22,46 @@ const dragList = {
     draggableZone.addEventListener("dragover", this.dragOver);
     draggableZone.addEventListener("drop", this.dragDrop);
   },
-  //^_______________Dragstart
+
+  //~__________________________ Dragstart
   dragStart(event) {
     //target the list we can to drag
     const draggedList = event.target;
     //the + symbol make it a Number
-    dragList.dragStartIndex = +this.closest(".my-list").getAttribute(
-      "data-order-id"
-    );
-
-    //todo remove after test
-    console.log("orderId: ", dragList.dragStartIndex);
-    console.log("Event", "drag start");
-    console.log("Element ciblé", event.target);
-    console.log(
-      `L'ordre de la liste : `,
-      event.target.querySelector(".list-order").value
-    );
+    dragList.dragStartIndex = +this.closest(".my-list").getAttribute("data-order-id");
 
     event.dataTransfer.dropEffect = "move";
     //when we drag the element, we want to make it disappear
     setTimeout(() => draggedList.classList.add("hide-element"), 0);
   },
-  //^_______________DragEnter
+
+  //~__________________________ DragEnter
   dragEnter(event) {
     event.preventDefault();
     this.classList.add("drag-over");
   },
-  //^_______________DragLeave
+
+  //~__________________________ DragLeave
   dragLeave() {
     this.classList.remove("drag-over");
   },
-  //^_______________DragOver
+
+  //~__________________________ DragOver
   dragOver(event) {
     event.preventDefault();
     this.classList.add("drag-over");
   },
-  //^_______________DragDrop
+
+  //~__________________________ DragDrop
   dragDrop(event) {
-    const dragEndIndex = +this.querySelector(".my-list").getAttribute(
-      "data-order-id"
-    );
+    const dragEndIndex = +this.querySelector(".my-list").getAttribute("data-order-id");
 
     dragList.swapItems(dragList.dragStartIndex, dragEndIndex, event);
 
     this.classList.remove("drag-over");
-
-    //todo swaping
-    console.log("Event", "drag drop");
-    console.log("dragEndIndex: ", dragEndIndex);
-    console.log("dragStartIndex: ", dragList.dragStartIndex);
   },
-  //^_______________Swap items
+
+  //~__________________________ Swap items
   /**
      * 
      * @param {int} fromIndex where to start
@@ -86,37 +75,30 @@ const dragList = {
     const targetEndBlock = event.target.closest(".block-to-clone");
     const targetStartBlock = itemOne.parentNode;
 
-    console.log("targetStartBlock: ", targetStartBlock);
     const listIdStart = targetStartBlock
       .querySelector(".my-list")
       .getAttribute("data-list-id");
-    console.log("targetEndBlock", targetEndBlock);
+
     const listIdEnd = targetEndBlock
       .querySelector(".my-list")
       .getAttribute("data-list-id");
     //! Be careful here
+    //start block is where you drag the item
+    //end block is where you want to drop the item
     targetStartBlock.appendChild(itemTwo);
     targetEndBlock.appendChild(itemOne);
 
+    //swap the position
     itemOne.setAttribute("data-order-id", `${toIndex}`);
     itemTwo.setAttribute("data-order-id", `${fromIndex}`);
 
     dragList.updateStartList(listIdStart, toIndex);
     dragList.updateEndList(listIdEnd, fromIndex);
-
-    console.log("toIndex: ", toIndex);
-    console.log("fromIndex: ", fromIndex);
-
-    //todo remove
-    console.log("listIdStart: ", listIdStart);
-    console.log("listIdEnd: ", listIdEnd);
-
-    console.log("itemOne: ", itemOne);
-    console.log("itemTwo: ", itemTwo);
   },
-  //^_______________Update lists
+
+  //~__________________________ Update lists
+
   async updateStartList(listIdStart, toIndex) {
-    //~DRAGSTART LIST
     const options = {
       method: "PATCH",
       headers: {
@@ -132,11 +114,10 @@ const dragList = {
     const response = await fetch(`${url}${allLists}/${listIdStart}`, options);
 
     if (response.ok) {
-      const updateList = await response.json();
-      //todo remove
-      console.log(updateList);
+      await response.json();
     }
   },
+
   async updateEndList(listIdEnd, fromIndex) {
     const options = {
       method: "PATCH",
@@ -153,9 +134,7 @@ const dragList = {
     const response = await fetch(`${url}${allLists}/${listIdEnd}`, options);
 
     if (response.ok) {
-      const updateList = await response.json();
-      //todo remove
-      console.log(updateList);
+      await response.json();
     }
   }
 };
