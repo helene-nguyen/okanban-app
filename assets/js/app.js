@@ -130,7 +130,6 @@ const app = {
       const listMessage = await response.json();
       //todo remove
       console.log("listMessage: ", listMessage);
-      // app.makeListInDOM('', listName, listDescription, listUser)
       location.reload();
     };
 
@@ -155,9 +154,9 @@ const app = {
     const clone = document.importNode(template.content, true);
     const list = clone.querySelector('.my-list');
     list.setAttribute('data-list-id', `${id}`);
+    list.setAttribute('data-order-id', `${order}`);
     const cloneBlockElement = clone.querySelector('.block-to-clone');
     // console.log("position: ", cloneBlockElement);
-    cloneBlockElement.setAttribute('data-order-id', `${order}`);
 
     //~append to list board
     const cardLists = document.querySelector('.card-lists');

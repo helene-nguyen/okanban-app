@@ -111,11 +111,12 @@ body {
   }
 }
 
-
 .focus-in-contract {
   -webkit-animation: focus-in-contract 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
   animation: focus-in-contract 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
+
+
 
 .panel-heading {
   background-color: #343434;
@@ -201,7 +202,16 @@ h2.list-title:hover {
   margin-left: 1.5rem;
 }
 
-/* CARD */
+.drag-over {
+  background-color: var(--primary-color01);
+  transition: all 0.75s;
+}
+
+.hide-element {
+  opacity: 0;
+}
+
+/** CARD **/
 
 .card-lists {
   overflow-x: auto;
@@ -355,11 +365,3 @@ h2.list-title:hover {
   text-align: center;
 }
 
-.drag-over {
-  background-color: var(--primary-color01);
-  transition: all 0.75s;
-}
-
-.hide-element {
-  display: none;
-}
