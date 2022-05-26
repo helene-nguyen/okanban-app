@@ -5,7 +5,7 @@ import { tagModule } from "./tag.js";
 //api
 import { url, allLists, allCards, allTags } from "./services/api.okanban.js";
 //drag and drop
-import { dragList } from "./dragAndDrop.js";
+import { dragList } from "./drag_drop/list.js";
 //animation letters
 import { animationLetters, converter, displayNotification } from "./utils.js";
 

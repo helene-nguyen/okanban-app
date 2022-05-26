@@ -1,5 +1,5 @@
 //~import module
-import { url, allLists } from "./services/api.okanban.js";
+import { url, allLists } from "../services/api.okanban.js";
 
 const dragList = {
   //^VARIABLES
