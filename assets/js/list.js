@@ -1,10 +1,11 @@
 import { cardModule } from "./index.js";
-import { url, allLists, allCards, allTags } from "./index.js";
-import { dragList, animationLetters, converter } from "./index.js";
+import { url, allLists } from "./index.js";
+import { dragList, displayNotification } from "./index.js";
 
 const listModule = {
- //*FETCH ALL LISTS
- async fetchListsFromAPI() {
+  //*FETCH ALL LISTS
+  async fetchListsFromAPI() {
+    //display all lists created
     const response = await fetch(`${url}${allLists}`);
 
     if (response.ok) {
@@ -25,39 +26,41 @@ const listModule = {
       for (const button of buttonsAddCard) {
         button.addEventListener("click", cardModule.showAddCardModal);
       }
-      //~button remove list
+      //button remove list
       listModule.buttonRemoveList();
+      //get all cards from API
       cardModule.fetchAllCards();
     }
   },
+
   //*SHOW LIST MODAL
   showAddListModal() {
+    //reset all inputs
     document.querySelector(`#addListModal input[name="list_name"]`).value = "";
     document.querySelector(
       `#addListModal input[name="list_description"]`
     ).value =
       "";
 
+    //display list form to create a list
     const modalElement = document.getElementById("addListModal");
     modalElement.classList.add("is-active");
   },
+
   //*HIDE MODALS
   hideModals() {
     const modalElement = document.getElementById("addListModal");
     modalElement.classList.remove("is-active");
   },
+
   //*HANDLE LIST FORM
   async handleAddListForm(event) {
     event.preventDefault();
-
+    //get all data from list form
     const data = new FormData(event.target);
     const listName = data.get("list_name");
     const listDescription = data.get("list_description");
     const listUser = data.get("list_user");
-    //REMOVE TEST
-    console.log(`List name = ${listName}`);
-    console.log(`List description = ${listDescription}`);
-    console.log(`List user = ${listUser}`);
 
     const options = {
       method: "POST",
@@ -71,12 +74,13 @@ const listModule = {
       })
     };
 
+    //use the API to get all lists
     const response = await fetch(`${url}${allLists}`, options);
 
     if (response.ok) {
-      const listMessage = await response.json();
-      //todo remove
-      console.log("listMessage: ", listMessage);
+      const message = await response.json();
+      //can add a notification if you want to
+      //displayNotification(message);
       location.reload();
     }
 
@@ -88,17 +92,20 @@ const listModule = {
     listModule.buttonRemoveList();
   },
   /**
-   * 
-   * @param {string} name 
-   * @param {int} user 
-   * @param {int} order 
-   */
+       * 
+       * @param {int} id 
+       * @param {string} title name of list
+       * @param {string} description 
+       * @param {int} user 
+       * @param {int} order 
+       */
   //*MAKE NEW LIST
   makeListInDOM(id, title, description, user, order) {
     //~clone our list template
     const template = document.querySelector("#template-list");
     const clone = document.importNode(template.content, true);
     const cloneBlockElement = clone.querySelector(".block-to-clone");
+    //set datas on our list
     const list = clone.querySelector(".my-list");
     list.setAttribute("data-list-id", `${id}`);
     list.setAttribute("data-order-id", `${order}`);
@@ -107,17 +114,18 @@ const listModule = {
       .addEventListener("submit", listModule.handleAddNewListTitle);
 
     //~append to list board
-    const cardLists = document.querySelector(".card-lists");
-    cardLists.insertAdjacentElement("afterbegin", cloneBlockElement);
-    cardLists.querySelector(".list-title").textContent = title;
-    cardLists.querySelector(".list-description").textContent = description;
-    cardLists.querySelector(".list-user").setAttribute("value", `${user}`);
-    cardLists.querySelector(".list-order").setAttribute("value", `${order}`);
+    const boardLists = document.querySelector(".board-lists");
+    boardLists.insertAdjacentElement("afterbegin", cloneBlockElement);
+    boardLists.querySelector(".list-title").textContent = title;
+    boardLists.querySelector(".list-description").textContent = description;
+    boardLists.querySelector(".list-user").setAttribute("value", `${user}`);
+    boardLists.querySelector(".list-order").setAttribute("value", `${order}`);
 
+    //~hide form
     listModule.hideModals();
+    //~editform
     listModule.editListForm();
-
-    //~button remove list
+    //~handle button remove list
     listModule.buttonRemoveList();
     //~listener for drag list
     dragList.eventListeners();
@@ -131,8 +139,10 @@ const listModule = {
       buttonRemove.addEventListener("click", listModule.confirmModalDeleteList);
     }
   },
-  //*BUTTON SHOW MODAL REMOVE LIST
+
+  //*BUTTON SHOW REMOVE LIST MODAL
   confirmModalDeleteList(event) {
+    //closest can select the closest parent that ave the selected class
     const listToRemove = event.target.closest(".my-list");
     const listId = listToRemove.dataset.listId;
 
@@ -145,6 +155,7 @@ const listModule = {
 
     listModule.closeModalDeleteBtn();
   },
+
   //*BUTTON CONFIRM DELETE
   async buttonConfirmDeleteList(event) {
     event.preventDefault();
@@ -152,6 +163,7 @@ const listModule = {
     const listIdToRemove = document
       .querySelector("#removeModal")
       .querySelector(".list-id").value;
+
     const listToRemove = document.querySelector(
       `[data-list-id="${listIdToRemove}"]`
     );
@@ -160,21 +172,17 @@ const listModule = {
       method: "DELETE"
     };
 
-    const response = await fetch(
-      `${url}${allLists}/${listIdToRemove}`,
-      options
-    );
+    const response = await fetch(`${url}${allLists}/${listIdToRemove}`, options);
 
     if (response.ok) {
-      const deleteList = await response.json();
-      //todo remove
-      console.log(deleteList);
+      await response.json();
 
       listModule.hideModalDeleteList();
       //trick to see deletion immediately
       listToRemove.remove();
     }
   },
+
   //*BUTTON CLOSE MODAL REMOVE LIST
   closeModalDeleteBtn() {
     const confirmDeleteBtnElement = document.querySelector("#removeModal");
@@ -184,6 +192,7 @@ const listModule = {
       button.addEventListener("click", listModule.hideModalDeleteList);
     }
   },
+
   //*HIDE MODAL REMOVE LIST
   hideModalDeleteList() {
     const confirmDeleteBtnElement = document.querySelector("#removeModal");
@@ -198,12 +207,11 @@ const listModule = {
       listsTitle.addEventListener("click", listModule.displayEditListForm);
     }
   },
+
   //*DISPLAY EDIT FORM LIST
   displayEditListForm(event) {
     const targetList = event.target.closest(`[data-list-id]`);
-    targetList
-      .querySelector(".list-description")
-      .classList.toggle("display-none");
+    targetList.querySelector(".list-description").classList.toggle("display-none");
     const listButtons = targetList.querySelectorAll(".list-btn");
 
     for (const listButton of listButtons) {
@@ -215,27 +223,25 @@ const listModule = {
     editListFormElement.querySelector(".new-list").value = "";
     editListFormElement.querySelector(".new-description").value = "";
   },
+
   //*HANDLE EDIT FORM LIST
   async handleAddNewListTitle(event) {
     event.preventDefault();
+    //~get info from current list
     const listTitleElement = event.target.closest(".my-list");
     const listId = listTitleElement.dataset.listId;
-    const currentTitle = listTitleElement.querySelector(".list-title")
-      .textContent;
-    const currentDescription = listTitleElement.querySelector(
-      ".list-description"
-    ).textContent;
-    //todo remove after test
-    console.log("Titre actuel : ", currentTitle);
-    console.log("Description actuelle : ", currentDescription);
+    let currentTitle = listTitleElement.querySelector(".list-title").textContent;
+    let currentDescription = listTitleElement.querySelector(".list-description").textContent;
 
+    //~get info from form list
     const data = new FormData(event.target);
 
+    //if list name or description are not entered, take the current info
     let listName = data.get("list_name");
     listName === "" ? (listName = currentTitle) : listName;
-    console.log("Le nom de la liste éditée : ", listName);
+
     let listDescription = data.get("list_description");
-    console.log("La description éditée : ", listDescription);
+    listDescription === "" ? (listDescription = currentDescription): listDescription;
 
     const listOrder = data.get("list_order");
     const listUser = data.get("list_user");
@@ -256,12 +262,12 @@ const listModule = {
     const response = await fetch(`${url}${allLists}/${listId}`, options);
 
     if (response.ok) {
-      const updateList = await response.json();
-      //todo remove
-      console.log(updateList);
+      const message = await response.json();
+      //can add a notification if you want to
+      //displayNotification(message);
       location.reload();
     }
-  },
+  }
 };
 
 export { listModule };
