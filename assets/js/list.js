@@ -175,8 +175,8 @@ const listModule = {
     const response = await fetch(`${url}${allLists}/${listIdToRemove}`, options);
 
     if (response.ok) {
-      await response.json();
-
+      const message = await response.json();
+      displayNotification(message);
       listModule.hideModalDeleteList();
       //trick to see deletion immediately
       listToRemove.remove();

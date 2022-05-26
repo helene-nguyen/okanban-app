@@ -59,7 +59,7 @@ function displayNotification(message) {
 function handleRemoveNotification() {
   const popUpElement = document.querySelector(".notification");
   popUpElement.classList.add("is-hidden");
-//   location.reload();
+  location.reload();
 }
 
 export { animationLetters, converter, displayNotification };
