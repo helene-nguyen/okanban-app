@@ -12,7 +12,7 @@ const app = {
   //^_______________________ METHODS
 
   addListenerToAction() {
-    //&____________  LIST
+    //&_______________________  LIST
 
     //~show modal list
     document
@@ -34,7 +34,7 @@ const app = {
     //~fetch all list
     listModule.fetchListsFromAPI();
 
-    //&____________ CARD
+    //&_______________________ CARD
 
     //~show modal card
     const buttonsAddCard = document.querySelectorAll(".addCardButton");

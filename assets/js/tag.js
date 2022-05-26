@@ -1,27 +1,21 @@
-import { listModule, cardModule } from "./index.js";
-import { url, allLists, allCards, allTags } from "./index.js";
-import { dragList, animationLetters, converter } from "./index.js";
+//~import modules
+import { url, allCards, allTags } from "./index.js";
 
 const tagModule = {
- //*HANDLE TAG FORM
- async handleAddTagsForm(cardId, event) {
+  //*HANDLE TAG FORM
+  async handleAddTagsForm(cardId, event) {
     const tagElement = event.target.closest(".tag-box");
     let currentTags = tagElement.querySelectorAll(".tag-name");
-    console.log("currentTagName: ", currentTags);
 
-    //if tag name existe, rechercher tagid pour faire un patch
-    //review queryselector all id of tag on card
+    //if tag name exist, find tagid for update
     //get data from form
     const data = new FormData(event.target);
     let tagName = data.get("new_tag");
     let tagColor = data.get("color_tag");
 
-    //todo remove
-    console.log("La couleur de mon tag choisi : ", tagColor);
-    console.log("Le nom de mon tag: ", tagName);
-    console.log("La carte que j'ai choisi pour modifier le tag", cardId);
-
+    //if a tag exist
     if (currentTags) {
+      //create an array of objects with name of tags
       let tags = [];
 
       for (let currentTag of currentTags) {
@@ -29,20 +23,14 @@ const tagModule = {
           tagName: currentTag.textContent,
           id: currentTag.dataset.tagId
         };
+
         tags.push(currentTag);
       }
-      //todo remove after test
-      console.log(tags);
 
       for (const tag of tags) {
-        //todo remove after test
-        console.log(tag);
-
         if (tag.tagName === tagName) {
           let tagId = tag.id;
-          //todo remove after test
-          console.log("tagId: ", tagId);
-
+          //if the tag exist and have the same name, we can update the color
           let options = {
             method: "PATCH",
             headers: {
@@ -57,16 +45,13 @@ const tagModule = {
           const response = await fetch(`${url}${allTags}/${tagId}`, options);
 
           if (response.ok) {
-            const tagMessage = await response.json();
-            //todo remove after test
-            console.log("tagMessage: ", tagMessage);
-
+            await response.json();
             location.reload();
           }
         }
       }
     }
-
+    //if a tag doesn't exist, we create a new one or take an existing one
     let options = {
       method: "PUT",
       headers: {
@@ -78,16 +63,11 @@ const tagModule = {
       })
     };
 
-    const response = await fetch(
-      `${url}${allCards}/${cardId}${allTags}/${tagName}`,
-      options
-    );
+    const response = await fetch(`${url}${allCards}/${cardId}${allTags}/${tagName}`,options);
 
     if (response.ok) {
-      const tagMessage = await response.json();
-      console.log("tagMessage: ", tagMessage);
-      /* tagModule.makeTagInDOM('', tagName, tagColor, cardId); */
-      /* Reloading the page. */
+      await response.json();
+      /* Reloading the page */
       location.reload();
     }
   },
@@ -118,7 +98,6 @@ const tagModule = {
   async makeTagInDOM(tagId, tagName, tagColor, cardId) {
     //~Cloning template
     const template = document.querySelector("#template-tag");
-
     const clone = document.importNode(template.content, true);
     const tag = clone.querySelector(".tag-element");
     //~set data tags id
@@ -135,32 +114,22 @@ const tagModule = {
       .querySelector(`[data-card-id="${cardId}"]`)
       .querySelector(".tag-box");
     selectedCard.append(tag);
-  },
+    },
+  
   //*DO DELETE TAGS
   async doRemoveTag(event) {
     const tagToRemove = event.target.closest(".tag[data-tag-id]");
-    //todo remove
-    console.log("tagToRemove: ", tagToRemove);
     const tagIdToRemove = tagToRemove.dataset.tagId;
     const cardId = event.target.closest("[data-card-id]").dataset.cardId;
-
-    //todo remove
-    console.log(tagToRemove);
-    console.log("Id du tag sélectionné: ", tagIdToRemove);
 
     const options = {
       method: "DELETE"
     };
 
-    const response = await fetch(
-      `${url}${allCards}/${cardId}${allTags}/${tagIdToRemove}`,
-      options
-    );
+    const response = await fetch(`${url}${allCards}/${cardId}${allTags}/${tagIdToRemove}`, options);
 
     if (response.ok) {
-      const deleteTag = await response.json();
-      //todo remove
-      console.log(deleteTag);
+      await response.json();
       //trick to see it immediately
       /* tagToRemove.remove(); */
       location.reload();
