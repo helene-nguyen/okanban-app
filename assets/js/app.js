@@ -1,24 +1,29 @@
-//~import api
-import {
-  converter
-} from './convertHexToRGB.js';
-import {
-  dragList
-} from './dragList.js';
-
+//~IMPORT MODULES
+//api
 import {
   url,
   allLists,
   allCards,
   allTags
-} from './services/api.okanban.js'
+} from './services/api.okanban.js';
+//drag and drop
+import {
+  dragList
+} from './dragAndDrop.js';
+//animation letters
+import {
+  animationLetters, converter
+} from './utils.js';
+
+
+
 
 const app = {
   //^------------------ INIT
   init: function () {
 
     app.addListenerToAction();
-
+    animationLetters.defineAnimation();
   },
 
   //^------------------ METHODS
@@ -152,11 +157,11 @@ const app = {
     //~clone our list template
     const template = document.querySelector('#template-list');
     const clone = document.importNode(template.content, true);
+    const cloneBlockElement = clone.querySelector('.block-to-clone');
     const list = clone.querySelector('.my-list');
     list.setAttribute('data-list-id', `${id}`);
     list.setAttribute('data-order-id', `${order}`);
-    const cloneBlockElement = clone.querySelector('.block-to-clone');
-    // console.log("position: ", cloneBlockElement);
+    list.querySelector('.edit-list-form').addEventListener('submit', app.handleAddNewListTitle);
 
     //~append to list board
     const cardLists = document.querySelector('.card-lists');
@@ -168,13 +173,13 @@ const app = {
 
     app.hideModals();
     app.editListForm();
-
+/* 
     //~form edit
     const editListFormElements = document.querySelectorAll('.edit-list-form');
 
     for (const element of editListFormElements) {
       element.addEventListener('submit', app.handleAddNewListTitle);
-    }
+    } */
 
     //~button remove list
     app.buttonRemoveList();
@@ -306,11 +311,7 @@ const app = {
       const updateList = await response.json();
       //todo remove
       console.log(updateList);
-
-      listTitleElement.querySelector('.list-title').textContent = listName;
-      listTitleElement.querySelector('.list-description').textContent = listDescription;
-      listTitleElement.querySelector('.edit-list-form').classList.add('is-hidden');
-      /* location.reload(); */
+      location.reload();
     }
 
   },
@@ -781,6 +782,4 @@ const app = {
   }
 };
 
-export {
-  app
-};
+app.init();

@@ -153,8 +153,6 @@ const dragList = {
             console.log(updateList);
         };
     }
-}
+};
 
-export {
-    dragList
-}
+export { dragList };
