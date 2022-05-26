@@ -116,7 +116,9 @@ body {
   animation: focus-in-contract 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
-
+.block-to-clone {
+  padding: 0;
+}
 
 .panel-heading {
   background-color: #343434;
@@ -131,6 +133,10 @@ body {
 
 button.new-list-btn {
   margin: 0.70em 0 0 0;
+}
+
+.display-none {
+  display: none;
 }
 
 .list-title {

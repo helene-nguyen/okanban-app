@@ -251,8 +251,15 @@ const app = {
   },
   //*DISPLAY EDIT FORM LIST
   displayEditListForm(event) {
+    const targetList = event.target.closest(`[data-list-id]`);
+    targetList.querySelector('.list-description').classList.toggle('display-none');
+    const listButtons = targetList.querySelectorAll('.list-btn');
 
-    const editListFormElement = event.target.closest(`[data-list-id]`).querySelector('.edit-list-form');
+    for (const listButton of listButtons) {
+      listButton.classList.toggle('display-none');
+    }
+
+    const editListFormElement = targetList.querySelector('.edit-list-form');
     editListFormElement.classList.toggle('is-hidden');
     editListFormElement.querySelector('.new-list').value = '';
     editListFormElement.querySelector('.new-description').value = '';
@@ -646,16 +653,16 @@ const app = {
       }
       //todo remove after test
       console.log(tags);
-      
+
       for (const tag of tags) {
         //todo remove after test
         console.log(tag);
-        
+
         if (tag.tagName === tagName) {
           let tagId = tag.id;
           //todo remove after test
           console.log("tagId: ", tagId);
-          
+
           let options = {
             method: 'PATCH',
             headers: {
@@ -666,9 +673,9 @@ const app = {
               "color": tagColor
             })
           }
-          
+
           const response = await fetch(`${url}${allTags}/${tagId}`, options);
-          
+
           if (response.ok) {
             const tagMessage = await response.json();
             //todo remove after test
