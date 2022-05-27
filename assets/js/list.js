@@ -3,6 +3,12 @@ import { url, allLists } from "./index.js";
 import { dragList, displayNotification } from "./index.js";
 
 const listModule = {
+  async test() {
+    const response = await fetch("http://localhost:1337/api/articles");
+    if (response.ok) {
+      console.log(await response.json());
+    }
+  },
   //*FETCH ALL LISTS
   async fetchListsFromAPI() {
     //display all lists created
@@ -82,6 +88,8 @@ const listModule = {
       //can add a notification if you want to
       //displayNotification(message);
       location.reload();
+    } else {
+      throw new Error("Cannot create this list, server error");
     }
 
     const buttonAddCard = document.querySelector(".addCardButton");
@@ -172,7 +180,10 @@ const listModule = {
       method: "DELETE"
     };
 
-    const response = await fetch(`${url}${allLists}/${listIdToRemove}`, options);
+    const response = await fetch(
+      `${url}${allLists}/${listIdToRemove}`,
+      options
+    );
 
     if (response.ok) {
       const message = await response.json();
@@ -181,6 +192,8 @@ const listModule = {
       //trick to see deletion immediately
       listToRemove.remove();
     }
+
+    throw new Error('Cannot delete this list, server error');
   },
 
   //*BUTTON CLOSE MODAL REMOVE LIST
@@ -211,7 +224,9 @@ const listModule = {
   //*DISPLAY EDIT FORM LIST
   displayEditListForm(event) {
     const targetList = event.target.closest(`[data-list-id]`);
-    targetList.querySelector(".list-description").classList.toggle("display-none");
+    targetList
+      .querySelector(".list-description")
+      .classList.toggle("display-none");
     const listButtons = targetList.querySelectorAll(".list-btn");
 
     for (const listButton of listButtons) {
@@ -230,8 +245,10 @@ const listModule = {
     //~get info from current list
     const listTitleElement = event.target.closest(".my-list");
     const listId = listTitleElement.dataset.listId;
-    let currentTitle = listTitleElement.querySelector(".list-title").textContent;
-    let currentDescription = listTitleElement.querySelector(".list-description").textContent;
+    let currentTitle = listTitleElement.querySelector(".list-title")
+      .textContent;
+    let currentDescription = listTitleElement.querySelector(".list-description")
+      .textContent;
 
     //~get info from form list
     const data = new FormData(event.target);
@@ -241,7 +258,9 @@ const listModule = {
     listName === "" ? (listName = currentTitle) : listName;
 
     let listDescription = data.get("list_description");
-    listDescription === "" ? (listDescription = currentDescription): listDescription;
+    listDescription === ""
+      ? (listDescription = currentDescription)
+      : listDescription;
 
     const listOrder = data.get("list_order");
     const listUser = data.get("list_user");
@@ -267,6 +286,8 @@ const listModule = {
       //displayNotification(message);
       location.reload();
     }
+
+    throw new Error('Cannot edit this list, server error');
   }
 };
 

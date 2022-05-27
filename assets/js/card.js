@@ -37,7 +37,10 @@ const cardModule = {
     document.querySelector(".card-list-id").value = listId;
     //reset info in inputs
     document.querySelector(`#addCardModal input[name="card_title"]`).value = "";
-    document.querySelector(`#addCardModal input[name="card_description"]`).value = "";
+    document.querySelector(
+      `#addCardModal input[name="card_description"]`
+    ).value =
+      "";
 
     const modalElement = document.getElementById("addCardModal");
     modalElement.classList.add("is-active");
@@ -89,6 +92,8 @@ const cardModule = {
       //refresh page
       location.reload();
     }
+
+    throw new Error("Cannot create this card, server error");
   },
   /**
    * 
@@ -101,7 +106,15 @@ const cardModule = {
    * @param {int} cardUser 
    */
   //*MAKE NEW CARD
-  makeCardInDOM(cardId, cardInfo, cardDescription, color, listId, cardOrder, cardUser) {
+  makeCardInDOM(
+    cardId,
+    cardInfo,
+    cardDescription,
+    color,
+    listId,
+    cardOrder,
+    cardUser
+  ) {
     //~Cloning template
     const template = document.querySelector("#template-card");
     const clone = document.importNode(template.content, true);
@@ -127,14 +140,17 @@ const cardModule = {
     cardModule.buttonEditCard();
     cardModule.buttonRemoveCard();
 
-    const cardsElement = document.querySelectorAll(`[data-card-id="${cardId}"]`);
+    const cardsElement = document.querySelectorAll(
+      `[data-card-id="${cardId}"]`
+    );
 
     for (const card of cardsElement) {
-      card.querySelector("#container-new-tag")
+      card
+        .querySelector("#container-new-tag")
         .addEventListener("submit", event => {
-            event.preventDefault();
-            //for each card, we want to add tags
-            tagModule.handleAddTagsForm(cardId, event);
+          event.preventDefault();
+          //for each card, we want to add tags
+          tagModule.handleAddTagsForm(cardId, event);
         });
     }
   },
@@ -192,6 +208,8 @@ const cardModule = {
       //trick to see deletion immediately
       cardToRemove.remove();
     }
+
+    throw new Error("Cannot delete this card, server error");
   },
 
   //*BUTTON EDIT CARD
@@ -201,8 +219,8 @@ const cardModule = {
     for (const buttonEdit of buttonsEditCard) {
       buttonEdit.addEventListener("click", cardModule.editCard);
     }
-    },
-  
+  },
+
   //*DO EDIT CARD
   editCard(event) {
     const cardElement = event.target.closest(".myCard");
@@ -214,7 +232,6 @@ const cardModule = {
     let currentColorCard = cardElement.style.borderTopColor;
     //convert RGB color in Hex color
     let valueRGB = currentColorCard.split("(")[1].split(")")[0];
-    console.log("valueRGB: ", valueRGB);
     currentColorCard = converter.getHexFromRGB(valueRGB);
 
     cardModule.showEditCardModal(
@@ -241,7 +258,10 @@ const cardModule = {
   //*SHOW EDIT CARD MODAL
   showEditCardModal(cardId, listId, cardOrder, cardUser, currentColor) {
     document.querySelector(`#editCardModal input[name="card_edit"]`).value = "";
-    document.querySelector(`#editCardModal input[name="card_description"]`).value = "";
+    document.querySelector(
+      `#editCardModal input[name="card_description"]`
+    ).value =
+      "";
 
     const editModalElement = document.getElementById("editCardModal");
 
@@ -264,10 +284,15 @@ const cardModule = {
     event.preventDefault();
 
     const cardId = event.target.querySelector(".card-id").value;
-    const targetCardElement = document.querySelector(`[data-card-id="${cardId}"]`);
+    const targetCardElement = document.querySelector(
+      `[data-card-id="${cardId}"]`
+    );
     //info current card
-    const currentTitleCard = targetCardElement.querySelector(".card-info").textContent;
-    const currentDescriptionCard = targetCardElement.querySelector(".card-description").textContent;
+    const currentTitleCard = targetCardElement.querySelector(".card-info")
+      .textContent;
+    const currentDescriptionCard = targetCardElement.querySelector(
+      ".card-description"
+    ).textContent;
     //convert RGB to Hex
     let currentColorCard = targetCardElement.style.borderTopColor;
     let valueRGB = currentColorCard.split("(")[1].split(")")[0];
@@ -283,7 +308,9 @@ const cardModule = {
     let cardColor = data.get("card_color");
 
     cardEdit === "" ? (cardEdit = currentTitleCard) : cardEdit;
-    cardDescription === "" ? (cardDescription = currentDescriptionCard) : cardDescription;
+    cardDescription === ""
+      ? (cardDescription = currentDescriptionCard)
+      : cardDescription;
     cardColor === "" ? (cardColor = currentColorCard) : cardColor;
 
     const options = {
@@ -305,11 +332,15 @@ const cardModule = {
       await response.json();
 
       targetCardElement.querySelector(".card-info").textContent = cardEdit;
-      targetCardElement.querySelector(".card-description").textContent = cardDescription;
+      targetCardElement.querySelector(
+        ".card-description"
+      ).textContent = cardDescription;
       targetCardElement.style.borderTop = `4px solid ${cardColor}`;
 
       cardModule.hideEditModalCard();
     }
+
+    throw new Error("Cannot edit this card, server error");
   }
 };
 

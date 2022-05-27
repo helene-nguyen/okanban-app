@@ -48,6 +48,7 @@ const tagModule = {
             await response.json();
             location.reload();
           }
+          throw new Error('Cannot edit this tag, server error');
         }
       }
     }
@@ -70,6 +71,8 @@ const tagModule = {
       /* Reloading the page */
       location.reload();
     }
+
+    throw new Error('Cannot create or modify this tag, server error');
   },
   /**
    * 
@@ -134,6 +137,8 @@ const tagModule = {
       /* tagToRemove.remove(); */
       location.reload();
     }
+
+    throw new Error('Cannot remove this tag, server error');
   }
 };
 

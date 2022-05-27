@@ -44,6 +44,8 @@ const dragList = {
   //~__________________________ DragLeave
   dragLeave() {
     this.classList.remove("drag-over");
+    this.style.opacity = '1';
+    this.style.transition = '0.5s ease-in-out'
   },
 
   //~__________________________ DragOver
@@ -59,6 +61,7 @@ const dragList = {
     dragList.swapItems(dragList.dragStartIndex, dragEndIndex, event);
 
     this.classList.remove("drag-over");
+    this.style.opacity = '1';
   },
 
   //~__________________________ Swap items

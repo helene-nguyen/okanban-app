@@ -47,7 +47,6 @@ const converter = {
 
 function displayNotification(message) {
   const popUpElement = document.querySelector(".notification");
-  console.log("popUpElement: ", popUpElement);
   popUpElement.classList.remove("is-hidden");
   popUpElement.querySelector(".message-popup").textContent = message;
 
