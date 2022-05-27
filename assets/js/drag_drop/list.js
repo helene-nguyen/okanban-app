@@ -123,3 +123,5 @@ const dragList = {
 };
 
 export { dragList };
+  
+  //Thank you Traversy Media for tuto https://www.youtube.com/watch?v=wv7pvH1O5Ho
