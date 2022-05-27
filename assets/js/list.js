@@ -191,9 +191,9 @@ const listModule = {
       listModule.hideModalDeleteList();
       //trick to see deletion immediately
       listToRemove.remove();
+    } else {
+      throw new Error("Cannot delete this list, server error");
     }
-
-    throw new Error('Cannot delete this list, server error');
   },
 
   //*BUTTON CLOSE MODAL REMOVE LIST
@@ -285,9 +285,9 @@ const listModule = {
       //can add a notification if you want to
       //displayNotification(message);
       location.reload();
+    } else {
+      throw new Error("Cannot edit this list, server error");
     }
-
-    throw new Error('Cannot edit this list, server error');
   }
 };
 

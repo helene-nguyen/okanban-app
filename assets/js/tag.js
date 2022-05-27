@@ -47,8 +47,9 @@ const tagModule = {
           if (response.ok) {
             await response.json();
             location.reload();
+          } else {
+            throw new Error("Cannot edit this tag, server error");
           }
-          throw new Error('Cannot edit this tag, server error');
         }
       }
     }
@@ -64,15 +65,18 @@ const tagModule = {
       })
     };
 
-    const response = await fetch(`${url}${allCards}/${cardId}${allTags}/${tagName}`,options);
+    const response = await fetch(
+      `${url}${allCards}/${cardId}${allTags}/${tagName}`,
+      options
+    );
 
     if (response.ok) {
       await response.json();
       /* Reloading the page */
       location.reload();
+    } else {
+      throw new Error("Cannot create or modify this tag, server error");
     }
-
-    throw new Error('Cannot create or modify this tag, server error');
   },
   /**
    * 
@@ -117,8 +121,8 @@ const tagModule = {
       .querySelector(`[data-card-id="${cardId}"]`)
       .querySelector(".tag-box");
     selectedCard.append(tag);
-    },
-  
+  },
+
   //*DO DELETE TAGS
   async doRemoveTag(event) {
     const tagToRemove = event.target.closest(".tag[data-tag-id]");
@@ -129,16 +133,19 @@ const tagModule = {
       method: "DELETE"
     };
 
-    const response = await fetch(`${url}${allCards}/${cardId}${allTags}/${tagIdToRemove}`, options);
+    const response = await fetch(
+      `${url}${allCards}/${cardId}${allTags}/${tagIdToRemove}`,
+      options
+    );
 
     if (response.ok) {
       await response.json();
       //trick to see it immediately
       /* tagToRemove.remove(); */
       location.reload();
+    } else {
+      throw new Error("Cannot remove this tag, server error");
     }
-
-    throw new Error('Cannot remove this tag, server error');
   }
 };
 

@@ -207,9 +207,9 @@ const cardModule = {
       listModule.hideModalDeleteList();
       //trick to see deletion immediately
       cardToRemove.remove();
+    } else {
+      throw new Error("Cannot delete this card, server error");
     }
-
-    throw new Error("Cannot delete this card, server error");
   },
 
   //*BUTTON EDIT CARD
@@ -338,9 +338,9 @@ const cardModule = {
       targetCardElement.style.borderTop = `4px solid ${cardColor}`;
 
       cardModule.hideEditModalCard();
+    } else {
+      throw new Error("Cannot edit this card, server error");
     }
-
-    throw new Error("Cannot edit this card, server error");
   }
 };
 
