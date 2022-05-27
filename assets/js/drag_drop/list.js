@@ -25,7 +25,7 @@ const dragList = {
 
   //~__________________________ Dragstart
   dragStart(event) {
-    //target the list we can to drag
+    //target the list we want to drag
     const draggedList = event.target;
     //the + symbol make it a Number
     dragList.dragStartIndex = +this.closest(".my-list").getAttribute("data-order-id");
@@ -92,46 +92,26 @@ const dragList = {
     itemOne.setAttribute("data-order-id", `${toIndex}`);
     itemTwo.setAttribute("data-order-id", `${fromIndex}`);
 
-    dragList.updateStartList(listIdStart, toIndex);
-    dragList.updateEndList(listIdEnd, fromIndex);
+    dragList.updateList(listIdStart, toIndex);
+    dragList.updateList(listIdEnd, fromIndex);
   },
 
   //~__________________________ Update lists
 
-  async updateStartList(listIdStart, toIndex) {
+  async updateList(listId, index) {
     const options = {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        order: toIndex,
+        order: index,
         //by default user 1 for now
         user_id: 1
       })
     };
 
-    const response = await fetch(`${url}${allLists}/${listIdStart}`, options);
-
-    if (response.ok) {
-      await response.json();
-    }
-  },
-
-  async updateEndList(listIdEnd, fromIndex) {
-    const options = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        order: fromIndex,
-        //by default user 1 for now
-        user_id: 1
-      })
-    };
-
-    const response = await fetch(`${url}${allLists}/${listIdEnd}`, options);
+    const response = await fetch(`${url}${allLists}/${listId}`, options);
 
     if (response.ok) {
       await response.json();
