@@ -65,10 +65,7 @@ const tagModule = {
       })
     };
 
-    const response = await fetch(
-      `${url}${allCards}/${cardId}${allTags}/${tagName}`,
-      options
-    );
+    const response = await fetch(`${url}${allCards}/${cardId}${allTags}/${tagName}`, options);
 
     if (response.ok) {
       await response.json();
@@ -113,13 +110,9 @@ const tagModule = {
     tag.querySelector(".tag-name").textContent = tagName;
     tag.style.backgroundColor = tagColor;
     //~apply event listener on delete tag button
-    tag
-      .querySelector(".btn-delete-tag")
-      .addEventListener("click", tagModule.doRemoveTag);
+    tag.querySelector(".btn-delete-tag").addEventListener("click", tagModule.doRemoveTag);
 
-    const selectedCard = document
-      .querySelector(`[data-card-id="${cardId}"]`)
-      .querySelector(".tag-box");
+    const selectedCard = document.querySelector(`[data-card-id="${cardId}"]`).querySelector(".tag-box");
     selectedCard.append(tag);
   },
 
@@ -133,10 +126,7 @@ const tagModule = {
       method: "DELETE"
     };
 
-    const response = await fetch(
-      `${url}${allCards}/${cardId}${allTags}/${tagIdToRemove}`,
-      options
-    );
+    const response = await fetch(`${url}${allCards}/${cardId}${allTags}/${tagIdToRemove}`, options);
 
     if (response.ok) {
       await response.json();

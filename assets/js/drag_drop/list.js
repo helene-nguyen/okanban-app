@@ -44,8 +44,8 @@ const dragList = {
   //~__________________________ DragLeave
   dragLeave() {
     this.classList.remove("drag-over");
-    this.style.opacity = '1';
-    this.style.transition = '0.5s ease-in-out'
+    this.style.opacity = "1";
+    this.style.transition = "0.5s ease-in-out";
   },
 
   //~__________________________ DragOver
@@ -61,7 +61,7 @@ const dragList = {
     dragList.swapItems(dragList.dragStartIndex, dragEndIndex, event);
 
     this.classList.remove("drag-over");
-    this.style.opacity = '1';
+    this.style.opacity = "1";
   },
 
   //~__________________________ Swap items
@@ -72,19 +72,15 @@ const dragList = {
      * @param {*} event 
      */
   swapItems(fromIndex, toIndex, event) {
-    const itemOne = document.querySelector(`[data-order-id="${fromIndex}"]`);
+    const itemOne = document.querySelector(`[data-order-id='${fromIndex}']`);
     itemOne.classList.remove("hide-element");
-    const itemTwo = document.querySelector(`[data-order-id="${toIndex}"]`);
+    const itemTwo = document.querySelector(`[data-order-id='${toIndex}']`);
     const targetEndBlock = event.target.closest(".block-to-clone");
     const targetStartBlock = itemOne.parentNode;
 
-    const listIdStart = targetStartBlock
-      .querySelector(".my-list")
-      .getAttribute("data-list-id");
+    const listIdStart = targetStartBlock.querySelector(".my-list").getAttribute("data-list-id");
 
-    const listIdEnd = targetEndBlock
-      .querySelector(".my-list")
-      .getAttribute("data-list-id");
+    const listIdEnd = targetEndBlock.querySelector(".my-list").getAttribute("data-list-id");
     //! Be careful here
     //start block is where you drag the item
     //end block is where you want to drop the item
@@ -123,5 +119,5 @@ const dragList = {
 };
 
 export { dragList };
-  
-  //Thank you Traversy Media for tuto https://www.youtube.com/watch?v=wv7pvH1O5Ho
+
+//Thank you Traversy Media for tuto https://www.youtube.com/watch?v=wv7pvH1O5Ho

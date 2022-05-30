@@ -4,8 +4,7 @@ import { animationLetters } from "./index.js";
 
 const app = {
   //^_______________________ INIT
-  init: function () {
-    
+  init: function() {
     app.addListenerToAction();
     animationLetters.defineAnimation();
   },
@@ -15,9 +14,7 @@ const app = {
     //&_______________________  LIST
 
     //~show modal list
-    document
-      .getElementById("addListButton")
-      .addEventListener("click", listModule.showAddListModal);
+    document.getElementById("addListButton").addEventListener("click", listModule.showAddListModal);
 
     //~close modal list
     const buttonsClose = document.querySelectorAll(".close");
@@ -27,9 +24,7 @@ const app = {
     }
 
     //~valid form list
-    document
-      .querySelector("#form-list")
-      .addEventListener("submit", listModule.handleAddListForm);
+    document.querySelector("#form-list").addEventListener("submit", listModule.handleAddListForm);
 
     //~fetch all list
     listModule.fetchListsFromAPI();
@@ -52,9 +47,7 @@ const app = {
     }
 
     //~valid form card
-    document
-      .querySelector("#form-card")
-      .addEventListener("submit", cardModule.handleAddCardForm);
+    document.querySelector("#form-card").addEventListener("submit", cardModule.handleAddCardForm);
   }
 };
 

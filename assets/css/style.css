@@ -32,8 +32,9 @@
   --primary-color03: #8C8181;
   --primary-color04: #BFB4B4;
   --primary-color05: #262626;
-
+  
   /* ? - COLOR SECONDARY - */
+  --secondary-color01: #e9aaf8;
 
   /* ! - TYPOGRAPHIES - */
   --font-poppins: 'Poppins', sans-serif;
@@ -264,6 +265,7 @@ h2.list-title:hover {
   transition: all 0.75s;
 }
 
+
 .hide-element {
   opacity: 0;
 }
@@ -311,22 +313,31 @@ h2.list-title:hover {
   border-top: 1px solid rgb(190, 184, 184);
 }
 
-.myCard {
+.my-card {
   transition: all 0.25s ease;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   ;
 }
 
-.myCard:hover {
+.my-card:hover {
   transform: translateX(5px);
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.card-block-to-clone {
+margin: 0.5rem auto;
 }
 
 .modal-card-foot {
   justify-content: flex-end;
 }
 
-/* TAG */
+.drag-over-card {
+  background-color: var(--secondary-color01);
+  transition: all 0.75s;
+}
+
+/** TAG **/
 .tag-box {
   border-top: 1px solid rgb(190, 184, 184);
   padding-top: 1em;

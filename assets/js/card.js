@@ -1,4 +1,5 @@
 //~import modules
+import { dragCard } from "./drag_drop/card.js";
 import { listModule, tagModule, url, allCards, converter } from "./index.js";
 import { displayNotification } from "./utils.js";
 
@@ -11,15 +12,7 @@ const cardModule = {
       const cards = await response.json();
 
       for (const card of cards) {
-        cardModule.makeCardInDOM(
-          card.id,
-          card.title,
-          card.description,
-          card.color,
-          card.list_id,
-          card.order,
-          card.user_id
-        );
+        cardModule.makeCardInDOM(card.id, card.title, card.description, card.color, card.list_id, card.order, card.user_id);
 
         tagModule.fetchAllTagsByCardId(card.id);
       }
@@ -36,11 +29,8 @@ const cardModule = {
     //add data attribute
     document.querySelector(".card-list-id").value = listId;
     //reset info in inputs
-    document.querySelector(`#addCardModal input[name="card_title"]`).value = "";
-    document.querySelector(
-      `#addCardModal input[name="card_description"]`
-    ).value =
-      "";
+    document.querySelector(`#addCardModal input[name='card_title']`).value = "";
+    document.querySelector(`#addCardModal input[name='card_description']`).value = "";
 
     const modalElement = document.getElementById("addCardModal");
     modalElement.classList.add("is-active");
@@ -106,19 +96,12 @@ const cardModule = {
    * @param {int} cardUser 
    */
   //*MAKE NEW CARD
-  makeCardInDOM(
-    cardId,
-    cardInfo,
-    cardDescription,
-    color,
-    listId,
-    cardOrder,
-    cardUser
-  ) {
+  makeCardInDOM(cardId, cardInfo, cardDescription, color, listId, cardOrder, cardUser) {
     //~Cloning template
     const template = document.querySelector("#template-card");
     const clone = document.importNode(template.content, true);
-    const card = clone.querySelector(".myCard");
+    const cloneBlockElement = clone.querySelector(".card-block-to-clone");
+    const card = clone.querySelector(".my-card");
     //~set data cards id
     card.setAttribute("data-card-id", `${cardId}`);
     //~set info card
@@ -131,28 +114,24 @@ const cardModule = {
     //color in HEX
     card.style.borderTopColor = color;
 
-    document
-      .querySelector(`[data-list-id="${listId}"]`)
-      .querySelector(".panel-block")
-      .insertAdjacentElement("afterbegin", card);
+    document.querySelector(`[data-list-id='${listId}']`).querySelector(".panel-block").insertAdjacentElement("afterbegin", cloneBlockElement);
 
     cardModule.hideModalCard();
     cardModule.buttonEditCard();
     cardModule.buttonRemoveCard();
 
-    const cardsElement = document.querySelectorAll(
-      `[data-card-id="${cardId}"]`
-    );
+    const cardsElement = document.querySelectorAll(`[data-card-id='${cardId}']`);
 
     for (const card of cardsElement) {
-      card
-        .querySelector("#container-new-tag")
-        .addEventListener("submit", event => {
-          event.preventDefault();
-          //for each card, we want to add tags
-          tagModule.handleAddTagsForm(cardId, event);
-        });
+      card.querySelector("#container-new-tag").addEventListener("submit", event => {
+        event.preventDefault();
+        //for each card, we want to add tags
+        tagModule.handleAddTagsForm(cardId, event);
+      });
     }
+
+    //~handle drag and drop cards
+    dragCard.init();
   },
 
   //*BUTTON REMOVE CARD
@@ -166,16 +145,14 @@ const cardModule = {
 
   //*BUTTON SHOW MODAL REMOVE CARD
   confirmModalDeleteCard(event) {
-    const cardToRemove = event.target.closest(".myCard");
+    const cardToRemove = event.target.closest(".my-card");
     const cardId = cardToRemove.dataset.cardId;
 
     //add pop up window to confirm deletion
     const confirmDeleteBtnElement = document.querySelector("#removeModal");
     confirmDeleteBtnElement.classList.add("is-active");
     confirmDeleteBtnElement.querySelector(".card-id").value = cardId;
-    confirmDeleteBtnElement
-      .querySelector(".form-delete")
-      .addEventListener("submit", cardModule.buttonConfirmDeleteCard);
+    confirmDeleteBtnElement.querySelector(".form-delete").addEventListener("submit", cardModule.buttonConfirmDeleteCard);
 
     listModule.closeModalDeleteBtn();
   },
@@ -184,22 +161,15 @@ const cardModule = {
   async buttonConfirmDeleteCard(event) {
     event.preventDefault();
 
-    const cardIdToRemove = document
-      .querySelector("#removeModal")
-      .querySelector(".card-id").value;
+    const cardIdToRemove = document.querySelector("#removeModal").querySelector(".card-id").value;
 
-    const cardToRemove = document.querySelector(
-      `[data-card-id="${cardIdToRemove}"]`
-    );
+    const cardToRemove = document.querySelector(`[data-card-id='${cardIdToRemove}']`);
 
     const options = {
       method: "DELETE"
     };
 
-    const response = await fetch(
-      `${url}${allCards}/${cardIdToRemove}`,
-      options
-    );
+    const response = await fetch(`${url}${allCards}/${cardIdToRemove}`, options);
 
     if (response.ok) {
       const message = await response.json();
@@ -223,7 +193,7 @@ const cardModule = {
 
   //*DO EDIT CARD
   editCard(event) {
-    const cardElement = event.target.closest(".myCard");
+    const cardElement = event.target.closest(".my-card");
     const cardId = cardElement.dataset.cardId;
     const listId = cardElement.querySelector(".card-list-id").value;
     const cardOrder = cardElement.querySelector(".card-order").value;
@@ -234,18 +204,10 @@ const cardModule = {
     let valueRGB = currentColorCard.split("(")[1].split(")")[0];
     currentColorCard = converter.getHexFromRGB(valueRGB);
 
-    cardModule.showEditCardModal(
-      cardId,
-      listId,
-      cardOrder,
-      cardUser,
-      currentColorCard
-    );
+    cardModule.showEditCardModal(cardId, listId, cardOrder, cardUser, currentColorCard);
 
     //~valid form card
-    document
-      .querySelector("#form-edit-card")
-      .addEventListener("submit", cardModule.handleEditCardForm);
+    document.querySelector("#form-edit-card").addEventListener("submit", cardModule.handleEditCardForm);
   },
   /**
    * 
@@ -257,11 +219,8 @@ const cardModule = {
    */
   //*SHOW EDIT CARD MODAL
   showEditCardModal(cardId, listId, cardOrder, cardUser, currentColor) {
-    document.querySelector(`#editCardModal input[name="card_edit"]`).value = "";
-    document.querySelector(
-      `#editCardModal input[name="card_description"]`
-    ).value =
-      "";
+    document.querySelector(`#editCardModal input[name='card_edit']`).value = "";
+    document.querySelector(`#editCardModal input[name='card_description']`).value = "";
 
     const editModalElement = document.getElementById("editCardModal");
 
@@ -284,15 +243,10 @@ const cardModule = {
     event.preventDefault();
 
     const cardId = event.target.querySelector(".card-id").value;
-    const targetCardElement = document.querySelector(
-      `[data-card-id="${cardId}"]`
-    );
+    const targetCardElement = document.querySelector(`[data-card-id='${cardId}']`);
     //info current card
-    const currentTitleCard = targetCardElement.querySelector(".card-info")
-      .textContent;
-    const currentDescriptionCard = targetCardElement.querySelector(
-      ".card-description"
-    ).textContent;
+    const currentTitleCard = targetCardElement.querySelector(".card-info").textContent;
+    const currentDescriptionCard = targetCardElement.querySelector(".card-description").textContent;
     //convert RGB to Hex
     let currentColorCard = targetCardElement.style.borderTopColor;
     let valueRGB = currentColorCard.split("(")[1].split(")")[0];
@@ -308,9 +262,7 @@ const cardModule = {
     let cardColor = data.get("card_color");
 
     cardEdit === "" ? (cardEdit = currentTitleCard) : cardEdit;
-    cardDescription === ""
-      ? (cardDescription = currentDescriptionCard)
-      : cardDescription;
+    cardDescription === "" ? (cardDescription = currentDescriptionCard) : cardDescription;
     cardColor === "" ? (cardColor = currentColorCard) : cardColor;
 
     const options = {
@@ -332,9 +284,7 @@ const cardModule = {
       await response.json();
 
       targetCardElement.querySelector(".card-info").textContent = cardEdit;
-      targetCardElement.querySelector(
-        ".card-description"
-      ).textContent = cardDescription;
+      targetCardElement.querySelector(".card-description").textContent = cardDescription;
       targetCardElement.style.borderTop = `4px solid ${cardColor}`;
 
       cardModule.hideEditModalCard();

@@ -18,13 +18,7 @@ const listModule = {
       const lists = await response.json();
 
       for (const list of lists) {
-        listModule.makeListInDOM(
-          list.id,
-          list.title,
-          list.description,
-          list.user_id,
-          list.order
-        );
+        listModule.makeListInDOM(list.id, list.title, list.description, list.user_id, list.order);
       }
 
       const buttonsAddCard = document.querySelectorAll(".addCardButton");
@@ -42,11 +36,8 @@ const listModule = {
   //*SHOW LIST MODAL
   showAddListModal() {
     //reset all inputs
-    document.querySelector(`#addListModal input[name="list_name"]`).value = "";
-    document.querySelector(
-      `#addListModal input[name="list_description"]`
-    ).value =
-      "";
+    document.querySelector(`#addListModal input[name='list_name']`).value = "";
+    document.querySelector(`#addListModal input[name='list_description']`).value = "";
 
     //display list form to create a list
     const modalElement = document.getElementById("addListModal");
@@ -117,9 +108,7 @@ const listModule = {
     const list = clone.querySelector(".my-list");
     list.setAttribute("data-list-id", `${id}`);
     list.setAttribute("data-order-id", `${order}`);
-    list
-      .querySelector(".edit-list-form")
-      .addEventListener("submit", listModule.handleAddNewListTitle);
+    list.querySelector(".edit-list-form").addEventListener("submit", listModule.handleAddNewListTitle);
 
     //~append to list board
     const boardLists = document.querySelector(".board-lists");
@@ -136,7 +125,7 @@ const listModule = {
     //~handle button remove list
     listModule.buttonRemoveList();
     //~listener for drag list
-    dragList.eventListeners();
+    dragList.init();
   },
 
   //*BUTTON REMOVE LIST
@@ -157,9 +146,7 @@ const listModule = {
     const confirmDeleteBtnElement = document.querySelector("#removeModal");
     confirmDeleteBtnElement.classList.add("is-active");
     confirmDeleteBtnElement.querySelector(".list-id").value = listId;
-    confirmDeleteBtnElement
-      .querySelector(".form-delete")
-      .addEventListener("submit", listModule.buttonConfirmDeleteList);
+    confirmDeleteBtnElement.querySelector(".form-delete").addEventListener("submit", listModule.buttonConfirmDeleteList);
 
     listModule.closeModalDeleteBtn();
   },
@@ -168,22 +155,15 @@ const listModule = {
   async buttonConfirmDeleteList(event) {
     event.preventDefault();
 
-    const listIdToRemove = document
-      .querySelector("#removeModal")
-      .querySelector(".list-id").value;
+    const listIdToRemove = document.querySelector("#removeModal").querySelector(".list-id").value;
 
-    const listToRemove = document.querySelector(
-      `[data-list-id="${listIdToRemove}"]`
-    );
+    const listToRemove = document.querySelector(`[data-list-id='${listIdToRemove}']`);
 
     const options = {
       method: "DELETE"
     };
 
-    const response = await fetch(
-      `${url}${allLists}/${listIdToRemove}`,
-      options
-    );
+    const response = await fetch(`${url}${allLists}/${listIdToRemove}`, options);
 
     if (response.ok) {
       const message = await response.json();
@@ -224,9 +204,7 @@ const listModule = {
   //*DISPLAY EDIT FORM LIST
   displayEditListForm(event) {
     const targetList = event.target.closest(`[data-list-id]`);
-    targetList
-      .querySelector(".list-description")
-      .classList.toggle("display-none");
+    targetList.querySelector(".list-description").classList.toggle("display-none");
     const listButtons = targetList.querySelectorAll(".list-btn");
 
     for (const listButton of listButtons) {
@@ -245,10 +223,8 @@ const listModule = {
     //~get info from current list
     const listTitleElement = event.target.closest(".my-list");
     const listId = listTitleElement.dataset.listId;
-    let currentTitle = listTitleElement.querySelector(".list-title")
-      .textContent;
-    let currentDescription = listTitleElement.querySelector(".list-description")
-      .textContent;
+    let currentTitle = listTitleElement.querySelector(".list-title").textContent;
+    let currentDescription = listTitleElement.querySelector(".list-description").textContent;
 
     //~get info from form list
     const data = new FormData(event.target);
@@ -258,9 +234,7 @@ const listModule = {
     listName === "" ? (listName = currentTitle) : listName;
 
     let listDescription = data.get("list_description");
-    listDescription === ""
-      ? (listDescription = currentDescription)
-      : listDescription;
+    listDescription === "" ? (listDescription = currentDescription) : listDescription;
 
     const listOrder = data.get("list_order");
     const listUser = data.get("list_user");

@@ -154,55 +154,63 @@
                         <!--! TEMPLATE CARD -->
                         <template id="template-card">
                             <!-- card -->
-                            <div class="box myCard" data-card-id="" draggable="true">
-                                <div class="columns">
-                                    <!--~ HERE the card name -->
-                                    <div class="column card-info"></div>
+                            <div class="card-block-to-clone">
 
-                                    <!--~ INPUTS to get user id and order id-->
-                                    <input type="hidden" name="card_user" value="" class="card-user">
+                                <div class="box my-card" data-card-id="" draggable="true">
+                                    <div class="columns">
+                                        <!--~ HERE the card name -->
+                                        <div class="column card-info"></div>
 
-                                    <input type="hidden" name="card_order" value="" class="card-order">
-                                    <input type="hidden" name="list_id" value="" class="card-list-id">
+                                        <!--~ INPUTS to get user id and order id-->
+                                        <input type="hidden" name="card_user" value="" class="card-user">
 
-                                    <div class="column is-narrow">
-                                        <a href="#" class="edit-card">
-                                            <span class="icon is-small has-text-link">
-                                                <i class="fas fa-pencil-alt"></i>
+                                        <input type="hidden" name="card_order" value="" class="card-order">
+                                        <input type="hidden" name="list_id" value="" class="card-list-id">
+
+                                        <div class="column is-narrow">
+                                            <a href="#" class="edit-card">
+                                                <span class="icon is-small has-text-link">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="remove-card">
+                                                <span class="icon is-small has-text-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!--~ HERE the card description -->
+                                    <p class="column card-description"></p>
+
+                                    <!--~ HERE the card tag -->
+                                    <div class="tag-box">
+
+                                        <form id="container-new-tag">
+                                            <input type="text" name="new_tag" id="new-tag" placeholder="New Tag">
+                                            <input type="color" name="color_tag" id="new-tag-color" value="#B4FF9F">
+                                        </form>
+
+                                        <!--! TEMPLATE TAG -->
+                                        <template id="template-tag">
+
+                                            <span class="tag tag-element" data-tag-id="">
+
+                                                <p class="tag-name" data-tag-id=""></p>
+                                                <button class="delete btn-delete-tag is-small"></button>
                                             </span>
-                                        </a>
-                                        <a href="#" class="remove-card">
-                                            <span class="icon is-small has-text-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </span>
-                                        </a>
+
+                                        </template>
+                                        <!--! TEMPLATE TAG -->
                                     </div>
                                 </div>
 
-                                <!--~ HERE the card description -->
-                                <p class="column card-description"></p>
-
-                                <!--~ HERE the card tag -->
-                                <div class="tag-box">
-
-                                    <form id="container-new-tag">
-                                        <input type="text" name="new_tag" id="new-tag" placeholder="New Tag">
-                                        <input type="color" name="color_tag" id="new-tag-color" value="#B4FF9F">
-                                    </form>
-
-                                    <!--! TEMPLATE TAG -->
-                                    <template id="template-tag">
-
-                                        <span class="tag tag-element" data-tag-id="">
-
-                                            <p class="tag-name" data-tag-id=""></p>
-                                            <button class="delete btn-delete-tag is-small"></button>
-                                        </span>
-
-                                    </template>
-                                    <!--! TEMPLATE TAG -->
-                                </div>
                             </div>
+
+
+
+
                             <!--/ card -->
                         </template>
                         <!--! TEMPLATE CARD -->
