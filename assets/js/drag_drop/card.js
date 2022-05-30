@@ -132,55 +132,48 @@ const dragCard = {
     console.log("cardId with which we replace : ", cardIdEnd);
     //! Be careful here
     //#if listId where we drag item is not the same as where want to drop, append to block
-    
+
     if (listIdStart !== listIdEnd) {
       targetEndPanelBlock.insertAdjacentElement("afterbegin", targetStartBlock);
-      
+
       const targetCardsEndPanelBlock = targetEndPanelBlock.querySelectorAll(".my-card");
-      console.log("targetCardsEndPanelBlock: ", targetCardsEndPanelBlock);
-      //remove after test
+
       let cardsElement = [];
 
       for (const targetCard of targetCardsEndPanelBlock) {
         const cardOrder = targetCard.querySelector(".card-order").value;
 
         cardsElement.push(cardOrder);
-      };
+      }
 
       cardsElement.sort((a, b) => a - b).reverse();
       console.log(cardsElement);
 
       for (let index = 0; index < targetCardsEndPanelBlock.length; index++) {
-
-        const newOrderCard = cardsElement[index];
+        const newCardOrder = cardsElement[index];
         const cardElement = targetCardsEndPanelBlock[index];
-        const cardId = cardElement.getAttribute('data-card-id');
-        cardElement.querySelector('.card-order').value = newOrderCard;
-        
-        console.log("newOrderCard: ", newOrderCard);
-        console.log("cardId: ", cardId);
-        console.log("cardElement: ", cardElement);
-        console.log(listIdEnd);
+        const cardId = cardElement.getAttribute("data-card-id");
+        cardElement.querySelector(".card-order").value = newCardOrder;
 
-        dragCard.updateCard(cardId, newOrderCard, listIdEnd);
+        dragCard.updateCard(cardId, newCardOrder, listIdEnd);
       }
+    } else {
+      //start block is where you drag the item
+      //end block is where you want to drop the item
+      targetStartBlock.appendChild(itemTwo);
+      targetEndBlock.appendChild(itemOne);
 
-      //todo append before select end card
-      // dragCard.updateCard(cardIdEnd, fromIndex, listIdStart);
+      //swap the position
+      itemOne.value = `${toIndex}`;
+      itemTwo.value = `${fromIndex}`;
+
+      console.log("Finale position of item one : ", itemOne.value);
+      console.log("Finale position of item two : ", itemTwo.value);
+
+      dragCard.updateCard(cardIdStart, toIndex, listIdEnd);
+      dragCard.updateCard(cardIdEnd, fromIndex, listIdStart);
     }
-    //start block is where you drag the item
-    //end block is where you want to drop the item
-    /* targetStartBlock.appendChild(itemTwo);
-    targetEndBlock.appendChild(itemOne); */
 
-    //swap the position
-    itemOne.value = `${toIndex}`;
-    console.log("Finale position of item one : ", itemOne.value);
-    itemTwo.value = `${fromIndex}`;
-    console.log("Finale position of item two : ", itemTwo.value);
-
-    // dragCard.updateCard(cardIdStart, toIndex, listIdEnd);
-    // dragCard.updateCard(cardIdEnd, fromIndex, listIdStart);
   },
 
   //~__________________________ Update cards
