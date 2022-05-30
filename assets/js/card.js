@@ -56,7 +56,6 @@ const cardModule = {
     const cardTitle = data.get("card_title");
     const cardDescription = data.get("card_description");
     const cardColor = data.get("card_color");
-    const cardOrder = data.get("card_order");
     const cardUser = data.get("card_user");
     const listId = data.get("list_id");
 
@@ -69,7 +68,6 @@ const cardModule = {
         title: cardTitle,
         description: cardDescription,
         color: cardColor,
-        order: cardOrder,
         user_id: cardUser,
         list_id: listId
       })

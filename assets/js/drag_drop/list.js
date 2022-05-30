@@ -26,17 +26,20 @@ const dragList = {
   //~__________________________ Dragstart
   dragStart(event) {
     //target the list we want to drag
-    const draggedList = event.target;
+    const draggedList = event.currentTarget;
+    console.log("draggedList: ", draggedList);
     //the + symbol make it a Number
     dragList.dragStartIndex = +this.closest(".my-list").getAttribute("data-order-id");
 
-    event.dataTransfer.dropEffect = "move";
+    // event.dataTransfer.dropEffect = "move";
     //when we drag the element, we want to make it disappear
     setTimeout(() => draggedList.classList.add("hide-element"), 0);
   },
 
   //~__________________________ DragEnter
   dragEnter(event) {
+    //avoid to select the list
+    event.stopPropagation();
     event.preventDefault();
     this.classList.add("drag-over");
   },
@@ -50,6 +53,8 @@ const dragList = {
 
   //~__________________________ DragOver
   dragOver(event) {
+    //avoid to select the list
+    event.stopPropagation();
     event.preventDefault();
     this.classList.add("drag-over");
   },

@@ -3,12 +3,6 @@ import { url, allLists } from "./index.js";
 import { dragList, displayNotification } from "./index.js";
 
 const listModule = {
-  async test() {
-    const response = await fetch("http://localhost:1337/api/articles");
-    if (response.ok) {
-      console.log(await response.json());
-    }
-  },
   //*FETCH ALL LISTS
   async fetchListsFromAPI() {
     //display all lists created
