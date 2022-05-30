@@ -15,6 +15,7 @@ const dragList = {
     //item we can drag
     const draggableList = document.querySelector(".my-list");
     draggableList.addEventListener("dragstart", this.dragStart);
+    draggableList.addEventListener("dragend", this.dragEnd);
     //place where we can drop
     const draggableZone = document.querySelector(".block-to-clone");
     draggableZone.addEventListener("dragenter", this.dragEnter);
@@ -22,7 +23,7 @@ const dragList = {
     draggableZone.addEventListener("dragover", this.dragOver);
     draggableZone.addEventListener("drop", this.dragDrop);
   },
-
+  //*________________ DRAGGABLE LIST _________________*/
   //~__________________________ Dragstart
   dragStart(event) {
     //target the list we want to drag
@@ -35,7 +36,10 @@ const dragList = {
     //when we drag the element, we want to make it disappear
     setTimeout(() => draggedList.classList.add("hide-element"), 0);
   },
-
+  dragEnd(event) {
+    this.classList.remove("hide-element");
+  },
+  //*________________ DRAGGABLE ZONE LIST _________________*/
   //~__________________________ DragEnter
   dragEnter(event) {
     //avoid to select the list
