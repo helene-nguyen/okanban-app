@@ -11,7 +11,7 @@ const app = {
   //^_______________________ METHODS
 
   addListenerToAction() {
-    //&_______________________  LIST
+    //#_______________________  LIST
 
     //~show modal list
     document.getElementById("addListButton").addEventListener("click", listModule.showAddListModal);
@@ -29,7 +29,7 @@ const app = {
     //~fetch all list
     listModule.fetchListsFromAPI();
 
-    //&_______________________ CARD
+    //#_______________________ CARD
 
     //~show modal card
     const buttonsAddCard = document.querySelectorAll(".addCardButton");

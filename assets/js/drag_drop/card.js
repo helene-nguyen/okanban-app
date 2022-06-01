@@ -39,8 +39,10 @@ const dragCard = {
     console.log("draggedCard: ", draggedCard);
     //the + symbol make it a Number
     dragCard.dragStartIndex = +draggedCard.querySelector(".card-order").value;
+
     console.log("My card start position is the : ", dragCard.dragStartIndex);
 
+    event.dataTransfer.setData("text/plain", dragCard.dragStartIndex);
     event.dataTransfer.dropEffect = "move";
     //when we drag the element, we want to make it disappear
     setTimeout(() => draggedCard.classList.add("hide-element"), 0);
@@ -52,10 +54,10 @@ const dragCard = {
   //*________________ DRAGGABLE ZONE CARD _________________*/
   //~__________________________ DragEnter
   dragEnter(event) {
-    //avoid to refresh the page
-    event.preventDefault();
     //avoid to select the list
     event.stopPropagation();
+    //avoid to refresh the page
+    event.preventDefault();
     this.classList.add("drag-over-card");
   },
 
@@ -71,20 +73,24 @@ const dragCard = {
   dragOver(event) {
     //avoid to select the list
     event.stopPropagation();
-    //avoid to refresh the page
-    event.preventDefault();
+    //detect if we take the correct item
+    const isLink = event.dataTransfer.types.includes("text/plain");
+    //if true, allow drop effect, if not, remove event.preventDefault()
+    if (isLink) {
+      //avoid to refresh the page and allow droppping
+      event.preventDefault();
 
-    this.classList.add("drag-over-card");
+      this.classList.add("drag-over-card");
+    }
   },
-  //~__________________________ DragDrop Card
-  /*  dragDropPanel(listIdStart, listIdEnd) {
-  
-} */
   //~__________________________ DragDrop Card
   dragDropCard(event) {
     event.stopPropagation();
+    //avoid to refresh the page and allow droppping
+    event.preventDefault();
     const dragEndIndex = +this.querySelector(".card-order").value;
     console.log("My end position is : ", dragEndIndex);
+
     dragCard.swapItems(dragCard.dragStartIndex, dragEndIndex, event);
 
     this.classList.remove("drag-over-card");
@@ -100,8 +106,7 @@ const dragCard = {
   swapItems(fromIndex, toIndex, event) {
     //#select item one
     const itemOne = document.querySelector(`[value='${fromIndex}'].card-order`).closest(".my-card");
-    console.log(document.querySelector(`[value='${fromIndex}'].card-order`));
-    itemOne.classList.remove("hide-element");
+
     //#select item two
     const itemTwo = document.querySelector(`[value='${toIndex}'].card-order`).closest(".my-card");
 
@@ -146,7 +151,7 @@ const dragCard = {
         cardsElement.push(cardOrder);
       }
 
-      cardsElement.sort((a, b) => a - b).reverse();
+      cardsElement.sort((a, b) => b - a);
       console.log(cardsElement);
 
       for (let index = 0; index < targetCardsEndPanelBlock.length; index++) {
@@ -173,7 +178,6 @@ const dragCard = {
       dragCard.updateCard(cardIdStart, toIndex, listIdEnd);
       dragCard.updateCard(cardIdEnd, fromIndex, listIdStart);
     }
-
   },
 
   //~__________________________ Update cards

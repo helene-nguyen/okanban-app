@@ -26,6 +26,8 @@ const dragList = {
   //*________________ DRAGGABLE LIST _________________*/
   //~__________________________ Dragstart
   dragStart(event) {
+      //avoid to select the list
+      event.stopPropagation();
     //target the list we want to drag
     const draggedList = event.currentTarget;
     console.log("draggedList: ", draggedList);
@@ -37,12 +39,14 @@ const dragList = {
     setTimeout(() => draggedList.classList.add("hide-element"), 0);
   },
   dragEnd(event) {
+    //avoid to select the card
+    event.stopPropagation();
     this.classList.remove("hide-element");
   },
   //*________________ DRAGGABLE ZONE LIST _________________*/
   //~__________________________ DragEnter
   dragEnter(event) {
-    //avoid to select the list
+    //avoid to select the card
     event.stopPropagation();
     event.preventDefault();
     this.classList.add("drag-over");
@@ -57,7 +61,7 @@ const dragList = {
 
   //~__________________________ DragOver
   dragOver(event) {
-    //avoid to select the list
+    //avoid to select the card
     event.stopPropagation();
     event.preventDefault();
     this.classList.add("drag-over");
@@ -65,6 +69,8 @@ const dragList = {
 
   //~__________________________ DragDrop
   dragDrop(event) {
+    //avoid to select the card
+    event.stopPropagation();
     const dragEndIndex = +this.querySelector(".my-list").getAttribute("data-order-id");
 
     dragList.swapItems(dragList.dragStartIndex, dragEndIndex, event);

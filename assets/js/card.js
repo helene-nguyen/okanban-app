@@ -103,7 +103,7 @@ const cardModule = {
     //~set data cards id
     card.setAttribute("data-card-id", `${cardId}`);
     //~set info card
-    card.querySelector(".card-info").textContent = cardInfo + ` [ order ${cardOrder} ]`;
+    card.querySelector(".card-info").textContent = cardInfo;
     card.querySelector(".card-description").textContent = cardDescription;
     card.querySelector(".card-order").value = cardOrder;
     card.querySelector(".card-user").value = cardUser;
