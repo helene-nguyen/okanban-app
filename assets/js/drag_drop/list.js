@@ -30,7 +30,7 @@ const dragList = {
       event.stopPropagation();
     //target the list we want to drag
     const draggedList = event.currentTarget;
-    console.log("draggedList: ", draggedList);
+
     //the + symbol make it a Number
     dragList.dragStartIndex = +this.closest(".my-list").getAttribute("data-order-id");
 
