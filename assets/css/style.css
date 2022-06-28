@@ -32,21 +32,24 @@
   --primary-color03: #8C8181;
   --primary-color04: #BFB4B4;
   --primary-color05: #262626;
-  
+
   /* ? - COLOR SECONDARY - */
   --secondary-color01: #e9aaf8;
 
   /* ! - TYPOGRAPHIES - */
   --font-poppins: 'Poppins', sans-serif;
   --font-comfortaa: 'Comfortaa', cursive, sans-serif;
-
+  background-color: var(--primary-color01);
 }
 
 body {
   font-family: var(--font-comfortaa);
   font-weight: 600;
-  background-color: var(--PrimaryColor02);
   margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
 }
 
 #header {
@@ -62,15 +65,80 @@ body {
   font-size: 6rem;
   text-align: center;
   user-select: none;
-  text-shadow: var(--primary-color05) 1px 10px 10px;
+  text-shadow: var(--primary-color04) 1px 10px 10px;
   letter-spacing: 0.15em;
+  color: var(--primary-color02);
 }
 
 .subtitle {
   letter-spacing: 0.5em;
+  color: var(--primary-color04);
 }
 
+/************* NAVBAR ***************/
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 
+  background-color: var(--primary-color01);
+}
+
+.navbar-item {
+  margin: 0 1.5em;
+}
+
+.navbar-end {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-connexion {
+  margin: 0;
+}
+
+.nav-btn {
+  margin: 0 0.5em;
+}
+
+/************* NAVBAR ***************/
+
+.welcome-block {
+  color: var(--primary-color04);
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5rem auto;
+  padding: 2rem 0;
+  text-align: center;
+  border-top:  1px solid var(--primary-color04);
+  border-bottom:  1px solid var(--primary-color04);
+}
+
+/* 
+.welcome-message {
+  font-size: 1.5em;
+}
+
+.ml9 .text-wrapper {
+  position: relative;
+  display: inline-block;
+  padding-top: 0.2em;
+  padding-right: 0.05em;
+  padding-bottom: 0.1em;
+  overflow: hidden;
+}
+
+.ml9 .letter {
+  transform-origin: 50% 100%;
+  display: inline-block;
+  line-height: 1em;
+} */
 
 /**
 /* ----------------------------------------------
@@ -168,12 +236,16 @@ body {
   animation: focus-in-contract 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
+
+/************************************/
+/*********** MAIN PAGE *************/
+/***********************************/
 .block-to-clone {
   padding: 0;
 }
 
 .panel-heading {
-  background-color: #343434;
+  background-color: #0d1d2b;
   height: 8em;
   cursor: grabbing;
 }
@@ -206,8 +278,12 @@ h2.list-title:hover {
 .list-description {
   font-size: 0.60em;
   color: #FFF;
-  border-top: 1px solid #FFF;
+  border-top: 1px solid rgb(255, 254, 254);
   padding-top: 0.5em;
+}
+
+.add-button {
+  color: var(--primary-color02);
 }
 
 .add-list {
@@ -217,44 +293,9 @@ h2.list-title:hover {
   padding-bottom: 2.25em;
   padding-top: 2.25em;
   border-top: 1px solid #696969;
+  display: none;
 }
 
-.navbar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.navbar-item {
-  margin: 0 1.5em;
-}
-
-.navbar-end {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.welcome-message {
-  font-size: 1.5em;
-}
-
-.ml9 .text-wrapper {
-  position: relative;
-  display: inline-block;
-  padding-top: 0.2em;
-  padding-right: 0.05em;
-  padding-bottom: 0.1em;
-  overflow: hidden;
-}
-
-.ml9 .letter {
-  transform-origin: 50% 100%;
-  display: inline-block;
-  line-height: 1em;
-}
 
 #addListButton {
   margin-left: 1.5rem;
@@ -319,13 +360,17 @@ h2.list-title:hover {
   ;
 }
 
+.box{
+  padding: 1rem
+}
+
 .my-card:hover {
   transform: translateX(5px);
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .card-block-to-clone {
-margin: 0.5rem auto;
+  margin: 0.5rem auto;
 }
 
 .modal-card-foot {
@@ -362,7 +407,6 @@ margin: 0.5rem auto;
   font-size: 10px;
   transition: all 0.25s ease;
   padding: 0 0 0.2rem 0;
-  margin-bottom: 0.6em;
   text-align: start;
   flex-direction: column;
 
@@ -385,7 +429,6 @@ margin: 0.5rem auto;
 .tag:hover {
   transform: translateY(5px);
 }
-
 
 #new-tag-color {
   border: none;
@@ -423,12 +466,49 @@ margin: 0.5rem auto;
   transform: scale(1.10);
 }
 
+/************************************/
+/*********** PROFILE PAGE *************/
+/***********************************/
+#profile-header {
+  padding-top: 1rem;
+}
+
+.profile-title {
+  font-size: 2rem;
+  margin: 0.5rem 2rem;
+  user-select: none;
+  text-shadow: var(--primary-color04) 1px 10px 10px;
+  letter-spacing: 0.15em;
+  color: var(--primary-color02);
+}
+
+.profile-subtitle {
+  font-size: 0.75rem;
+  margin: 0.5rem 5rem;
+  letter-spacing: 0.5em;
+  color: var(--primary-color04);
+}
+
+
 /**FOOTER**/
 #footer {
   font-size: 0.75em;
   color: var(--primary-color04);
-  position: relative;
-  bottom: 1em;
   width: 100%;
   text-align: center;
+  padding: 1em;
+}
+
+
+@media screen and (max-width : 720px) {
+  .title {
+    font-size: 3rem;
+    padding-top: 1.5rem;
+  }
+
+  .nav-connexion {
+    position: absolute;
+    top: -16em;
+    right: -1.5em;
+  }
 }

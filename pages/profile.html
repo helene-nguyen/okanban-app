@@ -1,42 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>oKanban</title>
+    <title>Profile Page</title>
 
     <!-- Bulma CSS Framework-->
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
     
     <!--~ CSS -->
-    <link rel="stylesheet" href="./assets/css/style.css">
-
-    <!--~ favicon.ico error remove-->
-    <link rel="icon" href="data:,">
-
-    <!--~ animation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
-
+    <link rel="stylesheet" href="../assets/css/style.css">
+    
     <!--~ Chargement de mon fichier JS -->
-    <script src="./assets/js/app.js" defer type="module"></script>
-
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="../assets/js/app.js" defer type="module"></script>
 </head>
 
 <body>
-
-    <header id="header">
-
-        <h1 class="title focus-in-contract">
-            O'Kanban
-        </h1>
-        <p class="subtitle">Stay organized</p>
-        <div class="notification is-hidden is-danger is-light">
-            <button class="delete"></button>
-            <p class="message-popup"></p>
-        </div>
+    <!-- HEADER -->
+    <header id="profile-header">
+        <a href="/">
+            <h1 class="profile-title focus-in-contract">
+                O'Kanban
+            </h1>
+            <p class="profile-subtitle">Stay organized</p>
+        </a>
     </header>
 
     <section class="section ">
@@ -68,12 +59,8 @@
                     <div class="navbar-item nav-connexion">
                         <div class="buttons">
 
-                            <a id="signup" class="nav-btn form-btn button is-light is-outlined" href="#">
-                                Sign up
-                            </a>
-
-                            <a id="signin" class="nav-btn form-btn button is-light is-outlined is-primary " href="#">
-                                Log in
+                            <a id="signout" class="nav-btn form-btn button is-light is-outlined is-danger " href="#">
+                                Log out
                             </a>
 
                         </div>
@@ -81,14 +68,6 @@
                 </div>
 
             </nav>
-
-            <!--~ WELCOME BLOCK -->
-            <section class="welcome-block">
-                <h2>Welcome to the super Kanban !</h2>
-                <p>Please sign up if you want to create your Kanban.</p>
-                <p>This is the first version of the app made with
-                    O'Clock school, hope you'll enjoy it !</p>
-            </section>
 
             <!--~ KANBAN BOARD -->
             <div class="column add-list">
@@ -407,57 +386,9 @@
         </div>
     </div>
 
-    <!--~ FORM MODAL -->
-    <div class="modal" id="signup-form-modal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head has-background-dark">
-                <p class="modal-card-title has-text-light">Sign Up</p>
-                <button class="delete close-form" aria-label="close"></button>
-            </header>
-            <!--^ FORM SIGN UP -->
-            <form method="POST">
-                <section class="modal-card-body">
-
-                    <div class="field">
-                        <label class="label">Email</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="Text input">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Password</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="Password">
-                        </div>
-                        <!-- <p class="help is-success">This username is available</p> -->
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Please confirm your password :</label>
-                        <div class="control">
-                            <input class="input" type="email" placeholder="Confirm your password">
-                        </div>
-                        <!-- <p class="help is-danger">This email is invalid</p> -->
-                    </div>
 
 
-                </section>
-
-                <footer class="modal-card-foot has-background-dark">
-
-                    <button class="button close-form is-light is-outlined">Cancel</button>
-
-                    <button type="submit" class="button is-dark is-outlined is-success">Submit</button>
-
-                </footer>
-
-            </form>
-        </div>
-    </div>
-
-
+    <!-- FOOTER -->
     <footer id="footer">
         YumiCode©️ 2022 #nevergoingback
     </footer>

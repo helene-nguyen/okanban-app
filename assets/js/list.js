@@ -7,9 +7,14 @@ const listModule = {
   async fetchListsFromAPI() {
     //display all lists created
     const response = await fetch(`${url}${allLists}`);
+    console.log("response: ", response);
 
-    if (response.ok) {
+    // const message = await response.json();
+      // console.log("lists: ", message);
+
+    if (response.ok && response.status === 200) {
       const lists = await response.json();
+      // console.log("lists: ", lists);
 
       for (const list of lists) {
         listModule.makeListInDOM(list.id, list.title, list.description, list.user_id, list.order);

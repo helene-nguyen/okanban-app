@@ -1,12 +1,14 @@
 //~IMPORT MODULES
-import { listModule, cardModule } from "./index.js";
-import { animationLetters } from "./index.js";
+import { listModule, cardModule, userModule, formModule} from "./index.js";
+// import { animationLetters } from "./index.js";
 
+//~APPLICATION
 const app = {
   //^_______________________ INIT
   init: function() {
     app.addListenerToAction();
-    animationLetters.defineAnimation();
+    // animationLetters.defineAnimation();
+    formModule.init()
   },
   //^_______________________ METHODS
 
@@ -48,7 +50,11 @@ const app = {
 
     //~valid form card
     document.querySelector("#form-card").addEventListener("submit", cardModule.handleAddCardForm);
-  }
+
+  },
+
+  userListenerToAction() {}
 };
 
+//~LAUNCH THE APP
 app.init();
