@@ -1,11 +1,8 @@
-# oKanban-front-version-1
+# oKanban
 
-Front App Kanban
+Author : Yumicode
+
+Kanban front application
 
 Vanilla JS + Bulma libraries
 
-Conception of app over [here](./__docs/application.md).
-
-See the result here :
-
-![Kanban Project](./__docs/images/kanban.gif)

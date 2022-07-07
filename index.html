@@ -10,7 +10,7 @@
     <!-- Bulma CSS Framework-->
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
-    
+
     <!--~ CSS -->
     <link rel="stylesheet" href="./assets/css/style.css">
 
@@ -26,439 +26,125 @@
 </head>
 
 <body>
+    <a href="/">
+        <header id="header">
 
-    <header id="header">
-
-        <h1 class="title focus-in-contract">
-            O'Kanban
-        </h1>
-        <p class="subtitle">Stay organized</p>
-        <div class="notification is-hidden is-danger is-light">
-            <button class="delete"></button>
-            <p class="message-popup"></p>
-        </div>
-    </header>
-
-    <section class="section ">
-        <div class="container">
-
-            <!-- Animation here https://tobiasahlin.com/moving-letters/#9 -->
-            <h1 class="ml9">
-                <span class="text-wrapper welcome-message">
-                    <!-- <span class="letters">Hello Yumi</span> -->
-                </span>
+            <h1 class="title focus-in-contract">
+                O'Kanban
             </h1>
-
-            <nav class="navbar-end" role="navigation" aria-label="main navigation">
-
-                <div class="navbar">
-
-                    <div>
-                        <a class="nav-btn button is-light is-outlined " href="/">
-                            Home
-                        </a>
-
-                        <a class="nav-btn button is-light is-outlined is-link" href="./pages/profile.html">
-                            Profile
-                        </a>
-
-                    </div>
-
-
-                    <div class="navbar-item nav-connexion">
-                        <div class="buttons">
-
-                            <a id="signup" class="nav-btn form-btn button is-light is-outlined" href="#">
-                                Sign up
-                            </a>
-
-                            <a id="signin" class="nav-btn form-btn button is-light is-outlined is-primary " href="#">
-                                Log in
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-
-            </nav>
-
-            <!--~ WELCOME BLOCK -->
-            <section class="welcome-block">
-                <h2>Welcome to the super Kanban !</h2>
-                <p>Please sign up if you want to create your Kanban.</p>
-                <p>This is the first version of the app made with
-                    O'Clock school, hope you'll enjoy it !</p>
-            </section>
-
-            <!--~ KANBAN BOARD -->
-            <div class="column add-list">
-                <h2 class="add-button">Ajouter une liste</h2>
-                <button class="button is-light is-outlined is-primary" id="addListButton">
-                    <span class="icon is-small">
-                        <i class="fas fa-plus"></i>
-                    </span>
-                </button>
+            <p class="subtitle">Stay organized</p>
+            <div class="notification is-hidden is-danger is-light">
+                <button class="delete"></button>
+                <p class="message-popup"></p>
             </div>
 
-            <div class="columns" id="zone-list">
-                <div class="column is-full">
-                    <div class="board-lists columns">
-                        <!--! TEMPLATE LIST -->
-                        <template id="template-list">
+        </header>
+    </a>
 
-                            <div class="column is-one-third panel block-to-clone">
-                                <div class="column panel my-list" data-list-id="" data-order-id="" draggable="true">
-                                    <div class="panel-heading">
-                                        <div class="columns">
+    <div class="container">
 
-                                            <div class="column heading-list">
-                                                <!-- LIST NAME -->
-                                                <h2 class="has-text-light list-title"></h2>
+        <!-- Animation here https://tobiasahlin.com/moving-letters/#9 -->
+        <h1 class="ml9">
+            <span class="text-wrapper welcome-message">
+                <!-- <span class="letters">Hello Yumi</span> -->
+            </span>
+        </h1>
 
-                                                <form action="" method="POST" class="is-hidden edit-list-form">
+        <nav class="navbar-end" role="navigation" aria-label="main navigation">
 
-                                                    <!--~ INPUTS to get user id and order id-->
-                                                    <input type="hidden" name="list_user" value="" class="list-user">
-                                                    <input type="hidden" name="list_order" value="" class="list-order">
+            <div class="navbar">
 
-                                                    <div class="field has-addons">
-                                                        <div class="control">
+                <div class="nav-home">
+                    <a class="nav-btn button is-light is-outlined " href="/">
+                        Home
+                    </a>
 
-                                                            <!--~ INPUTS to fetch name of list -->
-                                                            <input type="text" class="input is-small new-list"
-                                                                name="list_name" value="" placeholder="Nouveau titre">
-                                                            <input type="text" class="input is-small new-description"
-                                                                name="list_description" value=""
-                                                                placeholder="Description">
+                    <a class="nav-btn button is-light is-outlined is-link" href="./pages/profile.html">
+                        Profile
+                    </a>
 
-                                                        </div>
-                                                        <div class="control">
-                                                            <button
-                                                                class="new-list-btn button is-small is-success">Valider</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-
-                                            <div class="column is-narrow list-btn">
-                                                <button class="button is-light is-outlined is-link addCardButton">
-                                                    <a href="#">
-                                                        <span class="icon is-small has-text-light">
-                                                            <i class="fas fa-plus"></i>
-                                                        </span>
-                                                    </a>
-                                                </button>
-                                            </div>
-
-                                            <div class="column is-narrow list-btn">
-                                                <button class="button is-light is-outlined is-danger deleteListButton">
-                                                    <a href="#" class="is-pulled-right">
-                                                        <span class="icon is-small has-text-light">
-                                                            <i class="fas fa-minus"></i>
-                                                        </span>
-                                                    </a>
-                                                </button>
-
-                                            </div>
-                                        </div>
-                                        <!-- LIST DESCRIPTION -->
-                                        <p class="list-description"></p>
-                                    </div>
-                                    <div class="panel-block is-block has-background-light">
-                                    </div>
-                                </div>
-                            </div>
-
-                        </template>
-                        <!--! TEMPLATE LIST -->
-
-                        <!--! TEMPLATE CARD -->
-                        <template id="template-card">
-                            <!-- card -->
-                            <div class="card-block-to-clone">
-
-                                <div class="box my-card has-background-white has-text-dark" data-card-id=""
-                                    draggable="true">
-                                    <div class="columns">
-                                        <!--~ HERE the card name -->
-                                        <div class="column card-info"></div>
-
-                                        <!--~ INPUTS to get user id and order id-->
-                                        <input type="hidden" name="card_user" value="" class="card-user">
-
-                                        <input type="hidden" name="card_order" value="" class="card-order">
-                                        <input type="hidden" name="list_id" value="" class="card-list-id">
-
-                                        <div class="column is-narrow">
-                                            <a href="#" class="edit-card">
-                                                <span class="icon is-small has-text-link">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </span>
-                                            </a>
-                                            <a href="#" class="remove-card">
-                                                <span class="icon is-small has-text-danger">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <!--~ HERE the card description -->
-                                    <p class="column card-description"></p>
-
-                                    <!--~ HERE the card tag -->
-                                    <div class="tag-box">
-
-                                        <form id="container-new-tag">
-                                            <input type="text" name="new_tag" id="new-tag" placeholder="New Tag"
-                                                required>
-                                            <input type="color" name="color_tag" id="new-tag-color" value="#54BAB9">
-                                        </form>
-
-                                        <!--! TEMPLATE TAG -->
-                                        <template id="template-tag">
-
-                                            <span class="tag tag-element" data-tag-id="">
-
-                                                <p class="tag-name" data-tag-id=""></p>
-                                                <button class="delete btn-delete-tag is-small"></button>
-                                            </span>
-
-                                        </template>
-                                        <!--! TEMPLATE TAG -->
-                                    </div>
-                                </div>
-
-                            </div>
+                </div>
 
 
+                <div class="navbar-item nav-connexion">
+                    <div class="buttons">
 
+                        <a id="signup" class="nav-btn form-btn button is-light is-outlined" href="#">
+                            Sign up
+                        </a>
 
-                            <!--/ card -->
-                        </template>
-                        <!--! TEMPLATE CARD -->
+                        <a id="signin" class="nav-btn form-btn button is-light is-outlined is-primary " href="#">
+                            Log in
+                        </a>
+
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+
+        </nav>
+
+        <!--~ WELCOME BLOCK -->
+        <section class="welcome-block">
+            <h2>Welcome to the super Kanban !</h2>
+            <p>Please sign up if you want to create your Kanban.</p>
+            <p>This is the first version of the app made with
+                O'Clock school, hope you'll enjoy it !</p>
+        </section>
 
 
-    <!--~ LIST MODAL -->
-    <div class="modal" id="addListModal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-
-            <form action="" id="form-list">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Ajouter une liste</p>
-
-                    <button class="delete close" type="button" aria-label="close"></button>
-
-                </header>
-                <section class="modal-card-body">
-                    <div class="field">
-                        <div class="control">
-
-                            <!--~ INPUTS fetch info to create list-->
-                            <label class="label">Nom de la liste</label>
-                            <input type="text" class="input list-id" name="list_name" value=""
-                                placeholder="Nom de la liste" required>
-                            <label class="label">Description (facultatif)</label>
-                            <input type="text" class="input list-id" name="list_description" value=""
-                                placeholder="Description de la liste">
-
-                            <input type="hidden" class="input list-id" name="list_user" value="1">
-                            <input type="hidden" class="input list-id" name="list_order" value="">
-                            <input type="hidden" class="input card-id" name="card_id" value="">
-
-                        </div>
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button close" type="button">Cancel</button>
-                    <button id="save-list" class="button is-success">Save changes</button>
-
-
-                </footer>
-            </form>
-        </div>
-    </div>
-
-    <!--~ DELETE LIST MODAL -->
-
-    <div class="modal" id="removeModal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <form action="" method="POST" class="form-delete">
-                <header class="modal-card-head column">
-
-                    <p class="modal-card-title">
-                        Etes-vous sur de vouloir la suppression cet élément ? <button class="delete close" type="button"
-                            aria-label="close"></button></p>
-                    <main>
-                        <p class="modal-card-title">Tout suppression est définitive ! </p>
-                    </main>
-
-                    <input type="hidden" class="input list-id" name="list_id" value="">
-                    <input type="hidden" class="input card-id" name="card_id" value="">
-                </header>
-                <footer class="modal-card-foot">
-                    <button class="button is-success confirm-delete">Valider</button>
-                    <button class="button close" type="button">Annuler</button>
-                </footer>
-            </form>
-        </div>
-    </div>
-
-    <!--~ ADD CARD MODAL -->
-    <div class="modal" id="addCardModal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-
-            <form action="" id="form-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Ajouter une carte</p>
-
-
-                    <button class="delete closeCard" type="button" aria-label="close"></button>
-
-
-                </header>
-                <section class="modal-card-body">
-                    <div class="field">
-
-                        <div class="control">
-
-                            <!--~INPUTS CREATE CARD -->
-                            <label class="label">Nom de la carte</label>
-                            <input type="text" class="input" name="card_title" value="" placeholder="Nom de la carte"
-                                required>
-
-                            <label class="label">Description</label>
-                            <input type="text" class="input" name="card_description" value=""
-                                placeholder="Description de la carte" required>
-
-                            <label for="card-color" class="label">Couleur (facultatif)</label>
-                            <input type="color" id="card-color" class="input card-color" name="card_color"
-                                value="#7FB5FF">
-
-                            <input type="hidden" class="input card-list-id" name="list_id" value="">
-                            <input type="hidden" name="card_user" value="1" class="card-user">
-
-                        </div>
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button closeCard" type="button">Cancel</button>
-                    <button id="save-card" class="button is-success">Save changes</button>
-
-
-                </footer>
-            </form>
-        </div>
-    </div>
-
-    <!--~ EDIT CARD MODAL -->
-    <div class="modal" id="editCardModal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-
-            <form action="" id="form-edit-card">
+        <!--~ FORM MODAL -->
+        <div class="modal" id="signup-form-modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
                 <header class="modal-card-head has-background-dark">
-                    <p class="modal-card-title has-text-light">Editer une carte</p>
-
-
-                    <button class="delete closeCard" type="button" aria-label="close"></button>
-
-
+                    <p class="modal-card-title has-text-light">Sign Up</p>
+                    <button class="delete close-form" aria-label="close"></button>
                 </header>
-                <section class="modal-card-body">
-                    <div class="field">
-                        <label class="label">Nom</label>
-                        <div class="control">
+                <!--^ FORM SIGN UP -->
+                <form action="" method="POST">
+                    <section class="modal-card-body">
 
-                            <input type="text" class="input card-edit" name="card_edit" value=""
-                                placeholder="Nom de la carte">
-                            <label class="label">Description</label>
-                            <input type="text" class="input" name="card_description" value=""
-                                placeholder="Description de la carte">
-
-                            <label for="card-color" class="label">Color (option)</label>
-                            <input type="color" id="card-color-edit" class="input card-color" name="card_color"
-                                value="#7FB5FF">
-
-                            <!-- HIDDEN INPUTS -->
-                            <input type="hidden" class="input card-id" name="card_id" value="">
-                            <input type="hidden" class="input card-order" name="card_order" value="">
-                            <input type="hidden" class="input card-user" name="card_user" value="">
-                            <input type="hidden" class="input list-id" name="list_id" value="">
-
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input class="input" type="email" name="email" placeholder="Text input">
+                            </div>
                         </div>
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button closeCard" type="button">Cancel</button>
-                    <button id="save-edit-card" class="button is-success">Save changes</button>
 
-
-                </footer>
-            </form>
-        </div>
-    </div>
-
-    <!--~ FORM MODAL -->
-    <div class="modal" id="signup-form-modal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head has-background-dark">
-                <p class="modal-card-title has-text-light">Sign Up</p>
-                <button class="delete close-form" aria-label="close"></button>
-            </header>
-            <!--^ FORM SIGN UP -->
-            <form method="POST">
-                <section class="modal-card-body">
-
-                    <div class="field">
-                        <label class="label">Email</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="Text input">
+                        <div class="field">
+                            <label class="label">Password</label>
+                            <div class="control">
+                                <input class="input" type="password" name="password" placeholder="Password">
+                            </div>
+                            <!-- <p class="help is-success">This username is available</p> -->
                         </div>
-                    </div>
 
-                    <div class="field">
-                        <label class="label">Password</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="Password">
+                        <div class="field">
+                            <label class="label">Please confirm your password :</label>
+                            <div class="control">
+                                <input class="input" type="password" name="passwordConfirm" placeholder="Confirm your password">
+                            </div>
+                            <!-- <p class="help is-danger">This email is invalid</p> -->
                         </div>
-                        <!-- <p class="help is-success">This username is available</p> -->
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Please confirm your password :</label>
-                        <div class="control">
-                            <input class="input" type="email" placeholder="Confirm your password">
-                        </div>
-                        <!-- <p class="help is-danger">This email is invalid</p> -->
-                    </div>
 
 
-                </section>
+                    </section>
 
-                <footer class="modal-card-foot has-background-dark">
+                    <footer class="modal-card-foot has-background-dark">
 
-                    <button class="button close-form is-light is-outlined">Cancel</button>
+                        <button class="button close-form is-light is-outlined">Cancel</button>
 
-                    <button type="submit" class="button is-dark is-outlined is-success">Submit</button>
+                        <button id="save-user" class="button is-dark is-outlined is-success">Submit</button>
 
-                </footer>
+                    </footer>
 
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
 
-    <footer id="footer">
+    <footer id="footer" class="home-footer">
         YumiCode©️ 2022 #nevergoingback
     </footer>
 

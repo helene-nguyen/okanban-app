@@ -8,12 +8,13 @@ const app = {
   init: function() {
     app.addListenerToAction();
     // animationLetters.defineAnimation();
-    formModule.init()
   },
   //^_______________________ METHODS
 
   addListenerToAction() {
-    //#_______________________  LIST
+    if (true) {
+      //todo if user ? yes so do listeners
+      //#_______________________  LIST
 
     //~show modal list
     document.getElementById("addListButton").addEventListener("click", listModule.showAddListModal);
@@ -50,6 +51,15 @@ const app = {
 
     //~valid form card
     document.querySelector("#form-card").addEventListener("submit", cardModule.handleAddCardForm);
+    }
+    
+
+    //~show signup modal home page
+    const signUpElement = document.querySelector('#signup');
+    const signInElement = document.querySelector('#signin');
+
+    if(signUpElement && signInElement)
+    formModule.init();
 
   },
 

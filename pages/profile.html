@@ -10,10 +10,10 @@
 
     <!-- Bulma CSS Framework-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
-    
+
     <!--~ CSS -->
     <link rel="stylesheet" href="../assets/css/style.css">
-    
+
     <!--~ Chargement de mon fichier JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="../assets/js/app.js" defer type="module"></script>
@@ -30,15 +30,8 @@
         </a>
     </header>
 
-    <section class="section ">
+    <section class="section">
         <div class="container">
-
-            <!-- Animation here https://tobiasahlin.com/moving-letters/#9 -->
-            <h1 class="ml9">
-                <span class="text-wrapper welcome-message">
-                    <!-- <span class="letters">Hello Yumi</span> -->
-                </span>
-            </h1>
 
             <nav class="navbar-end" role="navigation" aria-label="main navigation">
 
@@ -49,14 +42,10 @@
                             Home
                         </a>
 
-                        <a class="nav-btn button is-light is-outlined is-link" href="./pages/profile.html">
-                            Profile
-                        </a>
-
                     </div>
 
 
-                    <div class="navbar-item nav-connexion">
+                    <div class="navbar-item nav-logout">
                         <div class="buttons">
 
                             <a id="signout" class="nav-btn form-btn button is-light is-outlined is-danger " href="#">
@@ -68,6 +57,12 @@
                 </div>
 
             </nav>
+
+            <!--~ WELCOME BLOCK -->
+            <section class="welcome-profile">
+                <h2>Welcome User !</h2>
+                <p>Let's make a super Kanban !</p>
+            </section>
 
             <!--~ KANBAN BOARD -->
             <div class="column add-list">
@@ -246,7 +241,7 @@
                             <label class="label">Description (facultatif)</label>
                             <input type="text" class="input list-id" name="list_description" value=""
                                 placeholder="Description de la liste">
-
+                            <!-- TODO replace card user -->
                             <input type="hidden" class="input list-id" name="list_user" value="1">
                             <input type="hidden" class="input list-id" name="list_order" value="">
                             <input type="hidden" class="input card-id" name="card_id" value="">
@@ -323,17 +318,18 @@
                                 value="#7FB5FF">
 
                             <input type="hidden" class="input card-list-id" name="list_id" value="">
+                            <!-- TODO replace card user -->
                             <input type="hidden" name="card_user" value="1" class="card-user">
 
                         </div>
                     </div>
                 </section>
+                
                 <footer class="modal-card-foot">
                     <button class="button closeCard" type="button">Cancel</button>
                     <button id="save-card" class="button is-success">Save changes</button>
-
-
                 </footer>
+
             </form>
         </div>
     </div>
