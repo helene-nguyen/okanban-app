@@ -102,6 +102,11 @@ a {
   margin: 0 0.5em;
 }
 
+#notification-signin, 
+#notification-signup {
+  margin: 0 0 1em 0;
+}
+
 /************* NAVBAR ***************/
 
 .welcome-block,

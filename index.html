@@ -104,10 +104,15 @@
                 <form action="" method="POST">
                     <section class="modal-card-body">
 
+                        <!--! notification -->
+                        <p id="notification-signup" class="button is-light is-outlined is-danger">
+                            message
+                        </p>
+
                         <div class="field">
                             <label class="label">Email</label>
                             <div class="control">
-                                <input class="input" type="email" name="email" placeholder="Text input">
+                                <input class="input" type="email" name="email" placeholder="email">
                             </div>
                         </div>
 
@@ -116,13 +121,14 @@
                             <div class="control">
                                 <input class="input" type="password" name="password" placeholder="Password">
                             </div>
-                            <!-- <p class="help is-success">This username is available</p> -->
+                            <p class="help">Must contains min 6 characteres.</p>
                         </div>
 
                         <div class="field">
                             <label class="label">Please confirm your password :</label>
                             <div class="control">
-                                <input class="input" type="password" name="passwordConfirm" placeholder="Confirm your password">
+                                <input class="input" type="password" name="passwordConfirm"
+                                    placeholder="Confirm your password">
                             </div>
                             <!-- <p class="help is-danger">This email is invalid</p> -->
                         </div>
@@ -132,15 +138,65 @@
 
                     <footer class="modal-card-foot has-background-dark">
 
-                        <button class="button close-form is-light is-outlined">Cancel</button>
+                        <button class="button close-form is-light is-outlined" type="button">Cancel</button>
 
-                        <button id="save-user" class="button is-dark is-outlined is-success">Submit</button>
+                        <button id="signup-btn" class="button is-dark is-outlined is-success">Submit</button>
 
                     </footer>
 
                 </form>
             </div>
         </div>
+
+        <!--~ FORM MODAL -->
+        <div class="modal" id="signin-form-modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head has-background-dark">
+                    <p class="modal-card-title has-text-light">Sign Up</p>
+                    <button class="delete close-form" aria-label="close"></button>
+                </header>
+                <!--^ FORM SIGN UP -->
+                <form action="" method="POST">
+                    <section class="modal-card-body">
+
+                        <!--! notification -->
+                        <p id="notification-signin" class="button is-light is-outlined is-danger">
+                            message
+                        </p>
+
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input class="input" type="email" name="email" placeholder="email">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Password</label>
+                            <div class="control">
+                                <input class="input" type="password" name="password" placeholder="Password">
+                            </div>
+                            <!-- <p class="help is-danger">This username is available</p> -->
+                        </div>
+
+
+                    </section>
+
+                    <footer class="modal-card-foot has-background-dark">
+
+                        <button class="button close-form is-light is-outlined" type="button">Cancel</button>
+
+                        <button id="signin-btn" class="button is-dark is-outlined is-success">Submit</button>
+
+                    </footer>
+
+                </form>
+            </div>
+        </div>
+
+
+
     </div>
 
 

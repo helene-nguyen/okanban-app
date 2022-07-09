@@ -1,7 +1,7 @@
 //~---------------- ENDPOINT
 // export const url = 'http://helene-nguyen-server.eddi.cloud';
-export const url = 'https://okanban-api.herokuapp.com';
-// export const url = 'http://localhost:4110'
+// export const url = 'https://okanban-api.herokuapp.com';
+export const url = 'http://localhost:4110'
 
 //~ -------------- All data lists
 export const allLists = '/lists';
@@ -13,4 +13,4 @@ export const allCards = '/cards';
 export const allTags = '/tags';
 
 //~ -------------- Data user
-export const userData = 'users';
+export const userData = '/users';
