@@ -79,7 +79,7 @@ const app = {
     const signUpElement = document.querySelector('#signup');
     const signInElement = document.querySelector('#signin');
 
-    if (signUpElement && signInElement) formModule.init();
+    if (signInElement) formModule.init();
   }
 };
 
