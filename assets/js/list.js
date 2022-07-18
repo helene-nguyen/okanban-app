@@ -1,16 +1,25 @@
-import { cardModule } from './index.js';
-import { url, allLists } from './index.js';
+import { cardModule, url, allLists } from './index.js';
 import { dragList, displayNotification } from './index.js';
+import { getCookie } from './index.js';
 
 const listModule = {
   //*FETCH ALL LISTS
   async fetchListsFromAPI() {
+    const token = getCookie('access_token');
+
+    console.log('token: ', token);
+    //! SEND TO HEADER FOR API
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
     //display all lists created
-    const response = await fetch(`${url}${allLists}`);
-    console.log("response: ", response);
+    const response = await fetch(`${url}${allLists}`, options);
 
     // const message = await response.json();
-      // console.log("lists: ", message);
+    // console.log("lists: ", message);
 
     if (response.ok && response.status === 200) {
       const lists = await response.json();

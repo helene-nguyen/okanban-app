@@ -1,5 +1,5 @@
 //~IMPORT MODULES
-import { listModule, cardModule, userModule, formModule } from './index.js';
+import { listModule, cardModule, userModule, formModule, getCookie } from './index.js';
 // import { animationLetters } from "./index.js";
 
 //~APPLICATION
@@ -12,10 +12,22 @@ const app = {
   //^_______________________ METHODS
 
   addListenerToAction() {
-    if (false) {
-      //todo if user ? yes so do listeners
-      //#_______________________  LIST
+    const userConnected = getCookie('access_token');
+    const profile = document.getElementById('profile');
+    const home = document.getElementById('home');
 
+    if (userConnected && home) {
+      //display none
+      formModule.targetNavbarConnexion.style.display = 'none';
+      formModule.targetWelcomeBlock.style.display = 'none';
+      //display block
+      formModule.targetWelcomeUser.style.display = 'block';
+      formModule.targetWelcomeTitle.textContent = 'Go to the Super Kanban !';
+      formModule.targetNavbarHome.style.display = 'block';
+    }
+
+    if (userConnected && profile) {
+      //#_______________________  LIST
       //~show modal list
       document.getElementById('addListButton').addEventListener('click', listModule.showAddListModal);
 
@@ -51,6 +63,16 @@ const app = {
 
       //~valid form card
       document.querySelector('#form-card').addEventListener('submit', cardModule.handleAddCardForm);
+
+      //~Do signout
+      formModule.targetSubmitSignOutBtn.addEventListener('click', formModule.doSignOut);
+
+      //display block
+      formModule.targetAddListBtn.style.display = 'flex';
+      formModule.targetSignOutElement.style.display = 'block';
+
+      //display message
+      formModule.targetProfileMessageBlock.textContent = `Let's make a super Kanban !`
     }
 
     //~show signup modal home page
@@ -58,12 +80,8 @@ const app = {
     const signInElement = document.querySelector('#signin');
 
     if (signUpElement && signInElement) formModule.init();
-  },
-
-  userListenerToAction() {
-    //get current user
   }
 };
- 
+
 //~LAUNCH THE APP
 app.init();

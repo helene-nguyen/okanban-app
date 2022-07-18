@@ -30,9 +30,11 @@ const dragList = {
       event.stopPropagation();
     //target the list we want to drag
     const draggedList = event.currentTarget;
+    console.log("draggedList: ", draggedList);
 
     //the + symbol make it a Number
     dragList.dragStartIndex = +this.closest(".my-list").getAttribute("data-order-id");
+    console.log("dragList.dragStartIndex: ", dragList.dragStartIndex);
 
     // event.dataTransfer.dropEffect = "move";
     //when we drag the element, we want to make it disappear
@@ -72,6 +74,7 @@ const dragList = {
     //avoid to select the card
     event.stopPropagation();
     const dragEndIndex = +this.querySelector(".my-list").getAttribute("data-order-id");
+    console.log("dragEndIndex: ", dragEndIndex);
 
     dragList.swapItems(dragList.dragStartIndex, dragEndIndex, event);
 
@@ -88,14 +91,20 @@ const dragList = {
      */
   swapItems(fromIndex, toIndex, event) {
     const itemOne = document.querySelector(`[data-order-id='${fromIndex}']`);
+    console.log("itemOne: ", itemOne);
     itemOne.classList.remove("hide-element");
     const itemTwo = document.querySelector(`[data-order-id='${toIndex}']`);
+    console.log("itemTwo: ", itemTwo);
     const targetEndBlock = event.target.closest(".block-to-clone");
+    console.log("targetEndBlock: ", targetEndBlock);
     const targetStartBlock = itemOne.parentNode;
+    console.log("targetStartBlock: ", targetStartBlock);
 
     const listIdStart = targetStartBlock.querySelector(".my-list").getAttribute("data-list-id");
+    console.log("listIdStart: ", listIdStart);
 
     const listIdEnd = targetEndBlock.querySelector(".my-list").getAttribute("data-list-id");
+    console.log("listIdEnd: ", listIdEnd);
     //! Be careful here
     //start block is where you drag the item
     //end block is where you want to drop the item
@@ -104,7 +113,9 @@ const dragList = {
 
     //swap the position
     itemOne.setAttribute("data-order-id", `${toIndex}`);
+    console.log("toIndex: ", toIndex);
     itemTwo.setAttribute("data-order-id", `${fromIndex}`);
+    console.log("fromIndex: ", fromIndex);
 
     dragList.updateList(listIdStart, toIndex);
     dragList.updateList(listIdEnd, fromIndex);

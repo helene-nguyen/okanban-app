@@ -7,6 +7,7 @@ import { formModule } from "./form.js";
 
 //api
 import { url, allLists, allCards, allTags, userData } from "./services/api.okanban.js";
+import { getCookie } from "./services/getCookie.js";
 //drag and drop
 import { dragList } from "./drag_drop/list.js";
 //animation letters
@@ -14,5 +15,6 @@ import { animationLetters, converter, displayNotification } from "./utils.js";
 
 //~Export modules
 export { listModule, cardModule, tagModule, userModule, formModule };
-export { url, allLists, allCards, allTags, userData};
+export { url, allLists, allCards, allTags, userData };
+export { getCookie };
 export { dragList, animationLetters, converter, displayNotification };

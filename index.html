@@ -23,9 +23,12 @@
     <!--~ Chargement de mon fichier JS -->
     <script src="./assets/js/app.js" defer type="module"></script>
 
+    <!--~ COOKIE -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
 </head>
 
-<body>
+<body id="home">
     <a href="/">
         <header id="header">
 
@@ -55,14 +58,9 @@
             <div class="navbar">
 
                 <div class="nav-home">
-                    <a class="nav-btn button is-light is-outlined " href="/">
-                        Home
-                    </a>
-
                     <a class="nav-btn button is-light is-outlined is-link" href="./pages/profile.html">
-                        Profile
+                        My Super Kanban
                     </a>
-
                 </div>
 
 
@@ -91,6 +89,10 @@
                 O'Clock school, hope you'll enjoy it !</p>
         </section>
 
+        <section class="welcome-user">
+            <h2 id="welcome-new-user"></h2>
+        </section>
+
 
         <!--~ FORM MODAL -->
         <div class="modal" id="signup-form-modal">
@@ -106,20 +108,19 @@
 
                         <!--! notification -->
                         <p id="notification-signup" class="button is-light is-outlined is-danger">
-                            message
                         </p>
 
                         <div class="field">
                             <label class="label">Email</label>
                             <div class="control">
-                                <input class="input" type="email" name="email" placeholder="email">
+                                <input class="input input-mail" type="email" name="email" placeholder="email">
                             </div>
                         </div>
 
                         <div class="field">
                             <label class="label">Password</label>
                             <div class="control">
-                                <input class="input" type="password" name="password" placeholder="Password">
+                                <input class="input input-pwd" type="password" name="password" placeholder="Password">
                             </div>
                             <p class="help">Must contains min 6 characteres.</p>
                         </div>
@@ -127,7 +128,7 @@
                         <div class="field">
                             <label class="label">Please confirm your password :</label>
                             <div class="control">
-                                <input class="input" type="password" name="passwordConfirm"
+                                <input class="input input-pwd" type="password" name="passwordConfirm"
                                     placeholder="Confirm your password">
                             </div>
                             <!-- <p class="help is-danger">This email is invalid</p> -->
@@ -153,7 +154,7 @@
             <div class="modal-background"></div>
             <div class="modal-card">
                 <header class="modal-card-head has-background-dark">
-                    <p class="modal-card-title has-text-light">Sign Up</p>
+                    <p class="modal-card-title has-text-light">Sign In</p>
                     <button class="delete close-form" aria-label="close"></button>
                 </header>
                 <!--^ FORM SIGN UP -->
@@ -168,14 +169,14 @@
                         <div class="field">
                             <label class="label">Email</label>
                             <div class="control">
-                                <input class="input" type="email" name="email" placeholder="email">
+                                <input class="input input-mail" type="email" name="email" placeholder="email">
                             </div>
                         </div>
 
                         <div class="field">
                             <label class="label">Password</label>
                             <div class="control">
-                                <input class="input" type="password" name="password" placeholder="Password">
+                                <input class="input input-pwd" type="password" name="password" placeholder="Password">
                             </div>
                             <!-- <p class="help is-danger">This username is available</p> -->
                         </div>

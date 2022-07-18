@@ -19,7 +19,7 @@
     <script src="../assets/js/app.js" defer type="module"></script>
 </head>
 
-<body>
+<body id="profile">
     <!-- HEADER -->
     <header id="profile-header">
         <a href="/">
@@ -47,12 +47,15 @@
 
                     <div class="navbar-item nav-logout">
                         <div class="buttons">
+                            
+                            <form method="GET">
+                                <a id="signout" class="nav-btn form-btn button is-light is-outlined is-danger "
+                                    href="/">
+                                    Log out
+                                </a>
+                            </form>
 
-                            <a id="signout" class="nav-btn form-btn button is-light is-outlined is-danger " href="#">
-                                Log out
-                            </a>
-
-                        </div>
+                            </div>
                     </div>
                 </div>
 
@@ -60,8 +63,8 @@
 
             <!--~ WELCOME BLOCK -->
             <section class="welcome-profile">
-                <h2>Welcome User !</h2>
-                <p>Let's make a super Kanban !</p>
+ 
+                <h2 class="message-profile">You are not connected !</h2>
             </section>
 
             <!--~ KANBAN BOARD -->
@@ -224,8 +227,8 @@
         <div class="modal-card">
 
             <form action="" id="form-list">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Ajouter une liste</p>
+                <header class="modal-card-head has-background-dark">
+                    <p class="modal-card-title has-text-light">Ajouter une liste</p>
 
                     <button class="delete close" type="button" aria-label="close"></button>
 
@@ -249,9 +252,9 @@
                         </div>
                     </div>
                 </section>
-                <footer class="modal-card-foot">
-                    <button class="button close" type="button">Cancel</button>
-                    <button id="save-list" class="button is-success">Save changes</button>
+                <footer class="modal-card-foot has-background-dark">
+                    <button class="button close is-light is-outlined" type="button">Cancel</button>
+                    <button id="save-list" class="button is-dark is-outlined is-success">Save changes</button>
 
 
                 </footer>
@@ -265,9 +268,9 @@
         <div class="modal-background"></div>
         <div class="modal-card">
             <form action="" method="POST" class="form-delete">
-                <header class="modal-card-head column">
+                <header class="modal-card-head has-background-dark column">
 
-                    <p class="modal-card-title">
+                    <p class="modal-card-title has-text-light">
                         Etes-vous sur de vouloir la suppression cet élément ? <button class="delete close" type="button"
                             aria-label="close"></button></p>
                     <main>
@@ -278,8 +281,8 @@
                     <input type="hidden" class="input card-id" name="card_id" value="">
                 </header>
                 <footer class="modal-card-foot">
+                    <button class="button close is-dark is-outlined " type="button">Annuler</button>
                     <button class="button is-success confirm-delete">Valider</button>
-                    <button class="button close" type="button">Annuler</button>
                 </footer>
             </form>
         </div>
@@ -291,8 +294,8 @@
         <div class="modal-card">
 
             <form action="" id="form-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Ajouter une carte</p>
+                <header class="modal-card-head has-background-dark">
+                    <p class="modal-card-title has-text-light">Ajouter une carte</p>
 
 
                     <button class="delete closeCard" type="button" aria-label="close"></button>
@@ -324,10 +327,10 @@
                         </div>
                     </div>
                 </section>
-                
-                <footer class="modal-card-foot">
-                    <button class="button closeCard" type="button">Cancel</button>
-                    <button id="save-card" class="button is-success">Save changes</button>
+
+                <footer class="modal-card-foot has-background-dark">
+                    <button class="button closeCard is-light is-outlined" type="button">Cancel</button>
+                    <button id="save-card" class="button is-dark is-outlined is-success">Save changes</button>
                 </footer>
 
             </form>
@@ -372,9 +375,9 @@
                         </div>
                     </div>
                 </section>
-                <footer class="modal-card-foot">
-                    <button class="button closeCard" type="button">Cancel</button>
-                    <button id="save-edit-card" class="button is-success">Save changes</button>
+                <footer class="modal-card-foot has-background-dark">
+                    <button class="button closeCard is-light is-outlined" type="button">Cancel</button>
+                    <button id="save-edit-card" class="button is-dark is-outlined is-success">Save changes</button>
 
 
                 </footer>
