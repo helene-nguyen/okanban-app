@@ -1,5 +1,5 @@
 //~IMPORT MODULES
-import { url, userData, getCookie } from './index.js';
+import { url, userData, getCookie, deleteCookie } from './index.js';
 
 //~APPLICATION
 const formModule = {
@@ -210,9 +210,10 @@ const formModule = {
   async doSignOut(event) {
     event.preventDefault();
     
-    const deployPath = "/okanban-app"
     const token = getCookie('refresh_token');
-
+    deleteCookie('access_token');
+    deleteCookie('refresh_token');
+    
     //! SEND TO HEADER FOR API
     const options = {
       method: 'GET',
@@ -220,14 +221,9 @@ const formModule = {
         Authorization: `Bearer ${token}`
       }
     };
-
+    
     const response = await fetch(`${url}${userData}/signout`, options);
-
-    function deleteCookie(name) {
-      document.cookie = name + `=; Path=${deployPath}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-    }
-    deleteCookie('access_token');
-    deleteCookie('refresh_token');
+    
 
     if (response.ok) {
       //    const message = await response.json();
