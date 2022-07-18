@@ -7,7 +7,6 @@ const listModule = {
   async fetchListsFromAPI() {
     const token = getCookie('access_token');
 
-    console.log('token: ', token);
     //! SEND TO HEADER FOR API
     const options = {
       method: 'GET',
@@ -15,15 +14,12 @@ const listModule = {
         Authorization: `Bearer ${token}`
       }
     };
+    
     //display all lists created
     const response = await fetch(`${url}${allLists}`, options);
 
-    // const message = await response.json();
-    // console.log("lists: ", message);
-
     if (response.ok && response.status === 200) {
       const lists = await response.json();
-      // console.log("lists: ", lists);
 
       for (const list of lists) {
         listModule.makeListInDOM(list.id, list.title, list.description, list.user_id, list.order);

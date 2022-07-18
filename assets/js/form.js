@@ -33,7 +33,6 @@ const formModule = {
   },
   //^METHODS
   addListenerToActionSignUp() {
-
     //~ Display signup modal
     this.targetSignUpElement.addEventListener('click', this.displaySignUpModal);
 
@@ -126,7 +125,6 @@ const formModule = {
 
     if (response.ok) {
       this.message = await response.json();
-      console.log('this.message: ', this.message);
 
       //! COOKIE
       document.cookie = `access_token=${this.message.accessToken};expires=${new Date(Date.now() + 86400000).toUTCString}`;
@@ -139,7 +137,6 @@ const formModule = {
 
       //refresh page
       location.reload();
-
     }
     //Empty value input
     formModule.emptyValue();
@@ -214,7 +211,6 @@ const formModule = {
     event.preventDefault();
 
     const token = getCookie('refresh_token');
-    console.log("token in sign out : ", token);
 
     //! SEND TO HEADER FOR API
     const options = {
@@ -227,18 +223,15 @@ const formModule = {
     const response = await fetch(`${url}${userData}/signout`, options);
 
     const message = await response.json();
-    console.log('message: ', message);
 
     function deleteCookie(name) {
-      document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
     deleteCookie('access_token');
     deleteCookie('refresh_token');
 
-    if (response.ok) {     
-      
-      console.log('Cookie deleted');
-      
+    if (response.ok) {
+      //
     }
     location.reload();
   }
