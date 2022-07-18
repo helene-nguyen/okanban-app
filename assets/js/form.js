@@ -209,7 +209,8 @@ const formModule = {
   //& SIGN OUT
   async doSignOut(event) {
     event.preventDefault();
-
+    
+    const deployPath = "/okanban-app"
     const token = getCookie('refresh_token');
 
     //! SEND TO HEADER FOR API
@@ -222,16 +223,14 @@ const formModule = {
 
     const response = await fetch(`${url}${userData}/signout`, options);
 
-    const message = await response.json();
-
     function deleteCookie(name) {
-      document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      document.cookie = name + `=; Path=${deployPath}; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
     }
     deleteCookie('access_token');
     deleteCookie('refresh_token');
 
     if (response.ok) {
-      //
+      //    const message = await response.json();
     }
     location.reload();
   }
