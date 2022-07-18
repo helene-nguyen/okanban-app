@@ -1,12 +1,22 @@
 //~import modules
 import { dragCard } from './drag_drop/card.js';
-import { listModule, tagModule, url, allCards, allLists, converter } from './index.js';
+import { listModule, tagModule, url, allCards, allLists, converter, getCookie } from './index.js';
 import { displayNotification } from './utils.js';
 
 const cardModule = {
   //*FETCH ALL CARDS BY LIST ID
   async fetchAllCards() {
-    const response = await fetch(`${url}${allCards}`);
+    const token = getCookie('access_token');
+
+    //! SEND TO HEADER FOR API
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    const response = await fetch(`${url}${allCards}`, options);
 
     if (response.ok) {
       const cards = await response.json();
