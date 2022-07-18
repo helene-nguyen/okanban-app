@@ -29,15 +29,15 @@ const formModule = {
   targetProfileMessageBlock: document.querySelector('.message-profile'),
   //^INITIALISATION
   init() {
-    this.addListenerToActionSignUp();
+    this.addListenerToAction();
   },
   //^METHODS
-  addListenerToActionSignUp() {
+  addListenerToAction() {
     //~ Display signup modal
-    this.targetSignUpElement.addEventListener('click', this.displaySignUpModal);
+    // this.targetSignUpElement.addEventListener('click', this.displaySignUpModal);
 
-    //~ Do signup
-    this.targetSignUpModalFormElement.addEventListener('submit', this.doSignUp);
+    // //~ Do signup
+    // this.targetSignUpModalFormElement.addEventListener('submit', this.doSignUp);
 
     //~ Display signin modal
     this.targetSignInElement.addEventListener('click', this.displaySignInModal);
